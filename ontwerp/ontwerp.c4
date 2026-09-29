@@ -1,0 +1,143 @@
+// Tutorial:
+// https://likec4.dev/tutorial/
+
+specification {
+  element actor
+  element system
+  element component
+
+  tag ui {
+    color #33B074
+  }
+  tag version1 {
+    color #D6409F
+  }
+  tag warn
+}
+
+model {
+  customer = actor 'Klein energieverbruikers' {
+    description ''
+    style {
+      color muted
+    }
+  }
+
+  meterdata = actor 'Meterdata' {
+    description 'Kwartierwaarden per meter die gekoppeld is aan klant'
+    style {
+      color muted
+    }
+  }
+
+  weerdata = actor 'Weerdata' {
+    description 'Weerdata van de komende 24 uur'
+    style {
+      color muted
+    }
+  }
+
+  saas = system 'Energiegelijktijdigheid systeem' {
+    #version1
+
+    component webapp 'Web app' {
+      #ui #warn
+      description '{interface tool die gekozen moet worden}'
+      style {
+        shape browser
+      }
+    }
+
+    component ingestService 'Ingest service' {
+      description '
+        Binnenkomend data moet gekoppeld worden aan juiste klant
+      '
+    }
+
+    component database 'Database' {
+      description '
+        Meetdate per deelnemer, koppeltabel, voorspellings en adviezen
+      '
+      style {
+        shape storage
+      }
+    }
+
+    component rekenservice 'Reken service' {
+      description '
+        Berekenen gelijktijdigheid op kwartiersbasis 
+      '
+    }
+
+    component backendAPI 'Backend API' {
+      description '
+        API die communiceert met de database vanuit de backend
+      '
+      style {
+        size small
+      }
+    }
+
+    component frontendAPI 'Frontend API' {
+      description '
+        API die communiceert met de database vanuit de frontend
+      '
+      style {
+        size small
+      }
+    }
+
+
+
+    component MLservice 'ML service' {
+      description '
+        Voorspellen en adviseren op basis van gedragspatronen
+      '
+    }
+
+
+    // UI requests data from the Backend
+    //ui -> backend 'fetches via HTTPS'
+  }
+
+  // Customer uses the UI
+  customer -> webapp 'opens in browser'
+  customer -> saas 'enjoys our product'
+
+  weerdata -> saas 'Geeft weerdata aan oplossing'
+  weerdata -> MLservice 'Geeft weerdata aan oplossing'
+
+  meterdata -> saas 'Geeft meterdata aan oplossing'
+  meterdata -> ingestService 'Geeft meterdata aan oplossing'
+
+  webapp -> frontendAPI 'Leest data vanuit database'
+  frontendAPI -> database 'Lezen en schrijven naar database vanuit frontend'
+
+  backendAPI -> database 'Lezen en schrijven naar database vanuit backend'
+
+  ingestService -> backendAPI 'Schrijven van data naar database'
+  MLservice -> backendAPI 'Lezen van data van database'
+  rekenservice -> backendAPI 'Leest data van database om gelijktijdigheid te berekenen en schrijft deze terug naar database'
+}
+
+
+views {
+
+  view index {
+    title 'Landscape view'
+
+    include *
+  }
+
+  view saas of saas {
+    include *
+
+    style * {
+      opacity 25%
+    }
+    style customer {
+      color muted
+    }
+  }
+
+}
