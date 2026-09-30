@@ -288,6 +288,65 @@ views {
     style * {
       opacity 25%
     }
+
+        // Klikbare doorverwijzing naar niveau 3 per service
+    include webapp with {
+      navigateTo webappDetail
+    }
+    include ingestService with {
+      navigateTo ingestDetail
+    }
+    include database with {
+      navigateTo databaseDetail
+    }
+    include rekenservice with {
+      navigateTo rekenDetail
+    }
+    include backendAPI with {
+      navigateTo backendApiDetail
+    }
+    include frontendAPI with {
+      navigateTo frontendApiDetail
+    }
+
+    style * {
+      opacity 25%
+    }
+    style customer {
+      color muted
+    }
+  }
+
+  // Niveau 3: alleen de componenten van één service
+  view webappDetail of webapp {
+    title 'Web app componenten'
+    include webapp.*
+  }
+
+  view ingestDetail of ingestService {
+    title 'Ingest service componenten'
+    include ingestService.*
+  }
+
+  view databaseDetail of database {
+    title 'Database componenten'
+    include database.*
+  }
+
+  view rekenDetail of rekenservice {
+    title 'Reken service componenten'
+    include rekenservice.*
+  }
+
+  view backendApiDetail of backendAPI {
+    title 'Backend API componenten'
+    include backendAPI.*
+  }
+
+  view frontendApiDetail of frontendAPI {
+    title 'Frontend API componenten'
+    include frontendAPI.*
+  }
     style customer {
       color muted
     }
