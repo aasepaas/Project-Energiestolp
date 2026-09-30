@@ -346,7 +346,7 @@ views {
   view frontendApiDetail of frontendAPI {
     title 'Frontend API componenten'
     include frontendAPI.*
-  }
+  
     style customer {
       color muted
     }
@@ -357,5 +357,5 @@ views {
     include saas.**
     include customer, meterdata, weerdata, beheerder
   }
-
 }
+
