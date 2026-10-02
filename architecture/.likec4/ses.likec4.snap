@@ -13,11 +13,11 @@
     nodeSep: 205,
     rankSep: 200,
   },
-  hash: 'Ux9G7soyE7H2hiqewoLcR98WbauRpGaDJnEropaynms',
+  hash: 'ZE8O-6i-ofXZhfWQ4POkBom1mQRgA0TOoID5o15QIk0',
   bounds: {
     x: -62,
     y: -66,
-    width: 1703,
+    width: 2060,
     height: 2346,
   },
   nodes: [
@@ -30,7 +30,7 @@
       outEdges: [
         's12u5w',
       ],
-      title: 'Klein energieverbruikers',
+      title: 'Small energy consumers',
       modelRef: 'customer',
       shape: 'person',
       color: 'muted',
@@ -53,75 +53,8 @@
         width: 317,
         height: 65,
       },
-      drifts: null,
-    },
-    {
-      id: 'admin',
-      parent: null,
-      level: 0,
-      children: [],
-      inEdges: [],
-      outEdges: [
-        '1agwk72',
-      ],
-      title: 'Systeembeheerder',
-      modelRef: 'admin',
-      shape: 'person',
-      color: 'muted',
-      style: {
-        opacity: 15,
-        size: 'md',
-      },
-      description: {
-        txt: 'Administrator who imports data and manages the system',
-      },
-      tags: [],
-      kind: 'actor',
-      x: 1010,
-      y: -41,
-      width: 341,
-      height: 180,
-      labelBBox: {
-        x: 18,
-        y: 56,
-        width: 306,
-        height: 65,
-      },
-      drifts: null,
-    },
-    {
-      id: 'meterData',
-      parent: null,
-      level: 0,
-      children: [],
-      inEdges: [],
-      outEdges: [
-        '1akhu5h',
-      ],
-      title: 'Meterdata',
-      modelRef: 'meterData',
-      shape: 'rectangle',
-      color: 'muted',
-      style: {
-        opacity: 15,
-        size: 'md',
-      },
-      description: {
-        txt: 'CSV export with quarter-hourly readings per meter, delivered a few times per year',
-      },
-      tags: [],
-      kind: 'actor',
-      x: 12,
-      y: 2078,
-      width: 332,
-      height: 180,
-      labelBBox: {
-        x: 17,
-        y: 56,
-        width: 297,
-        height: 65,
-      },
-      drifts: null,
+      navigateTo: null,
+      links: null,
     },
     {
       id: 'weatherData',
@@ -130,9 +63,9 @@
       children: [],
       inEdges: [],
       outEdges: [
-        'i4toaw',
+        '8fmned',
       ],
-      title: 'Weerdata',
+      title: 'Weather data',
       modelRef: 'weatherData',
       shape: 'rectangle',
       color: 'muted',
@@ -155,7 +88,80 @@
         width: 289,
         height: 65,
       },
-      drifts: null,
+      navigateTo: null,
+      links: null,
+    },
+    {
+      id: 'meterData',
+      parent: null,
+      level: 0,
+      children: [],
+      inEdges: [],
+      outEdges: [
+        'gou2am',
+      ],
+      title: 'Meter data',
+      modelRef: 'meterData',
+      shape: 'rectangle',
+      color: 'muted',
+      style: {
+        opacity: 15,
+        size: 'md',
+      },
+      description: {
+        txt: 'CSV export with quarter-hourly readings per meter, delivered a few times per year',
+      },
+      tags: [],
+      kind: 'actor',
+      x: 1646,
+      y: -44,
+      width: 332,
+      height: 180,
+      labelBBox: {
+        x: 17,
+        y: 56,
+        width: 297,
+        height: 65,
+      },
+      navigateTo: null,
+      links: null,
+    },
+    {
+      id: 'admin',
+      parent: null,
+      level: 0,
+      children: [],
+      inEdges: [
+        'gou2am',
+      ],
+      outEdges: [
+        '1uzxhpb',
+      ],
+      title: 'System administrator',
+      modelRef: 'admin',
+      shape: 'person',
+      color: 'muted',
+      style: {
+        opacity: 15,
+        size: 'md',
+      },
+      description: {
+        txt: 'Administrator who imports data and manages the system',
+      },
+      tags: [],
+      kind: 'actor',
+      x: 1010,
+      y: -41,
+      width: 341,
+      height: 180,
+      labelBBox: {
+        x: 18,
+        y: 56,
+        width: 306,
+        height: 65,
+      },
+      navigateTo: null,
+      links: null,
     },
     {
       id: 'ses',
@@ -172,9 +178,8 @@
       ],
       inEdges: [
         's12u5w',
-        '1agwk72',
-        '1akhu5h',
-        'i4toaw',
+        '1uzxhpb',
+        '8fmned',
       ],
       outEdges: [],
       title: 'Smart Energie Stolp',
@@ -203,7 +208,8 @@
         width: 135,
         height: 15,
       },
-      drifts: null,
+      navigateTo: null,
+      links: null,
     },
     {
       id: 'ses.webapp',
@@ -212,7 +218,7 @@
       children: [],
       inEdges: [
         's12u5w',
-        '1agwk72',
+        '1uzxhpb',
       ],
       outEdges: [
         'soyyp9',
@@ -245,7 +251,7 @@
         width: 284,
         height: 83,
       },
-      drifts: null,
+      links: null,
     },
     {
       id: 'ses.frontendAPI',
@@ -282,7 +288,7 @@
         width: 237,
         height: 39,
       },
-      drifts: null,
+      links: null,
     },
     {
       id: 'ses.ingestService',
@@ -290,12 +296,11 @@
       level: 1,
       children: [],
       inEdges: [
-        '1akhu5h',
         'tf2y90',
       ],
       outEdges: [
         '4jc7qh',
-        'bokdkv',
+        '1mq7wo1',
       ],
       title: 'Ingest service',
       modelRef: 'ses.ingestService',
@@ -321,7 +326,7 @@
         width: 293,
         height: 65,
       },
-      drifts: null,
+      links: null,
     },
     {
       id: 'ses.calculationService',
@@ -329,13 +334,13 @@
       level: 1,
       children: [],
       inEdges: [
-        'bokdkv',
+        '1mq7wo1',
       ],
       outEdges: [
-        '12yoirg',
-        '6omtrw',
+        '1ns8ns2',
+        '99nn5u',
       ],
-      title: 'Reken service',
+      title: 'Calculation service',
       modelRef: 'ses.calculationService',
       shape: 'rectangle',
       color: 'primary',
@@ -359,7 +364,7 @@
         width: 269,
         height: 47,
       },
-      drifts: null,
+      links: null,
     },
     {
       id: 'ses.mlService',
@@ -367,11 +372,11 @@
       level: 1,
       children: [],
       inEdges: [
-        'i4toaw',
-        '6omtrw',
+        '8fmned',
+        '99nn5u',
       ],
       outEdges: [
-        '1ac0rii',
+        'n595wq',
       ],
       title: 'ML service',
       modelRef: 'ses.mlService',
@@ -397,7 +402,7 @@
         width: 293,
         height: 65,
       },
-      drifts: null,
+      links: null,
     },
     {
       id: 'ses.backendAPI',
@@ -406,8 +411,8 @@
       children: [],
       inEdges: [
         '4jc7qh',
-        '12yoirg',
-        '1ac0rii',
+        '1ns8ns2',
+        'n595wq',
       ],
       outEdges: [
         '1xytwqb',
@@ -434,9 +439,9 @@
         x: 12,
         y: 40,
         width: 231,
-        height: 53,
+        height: 54,
       },
-      drifts: null,
+      links: null,
     },
     {
       id: 'ses.database',
@@ -472,7 +477,7 @@
         width: 297,
         height: 65,
       },
-      drifts: null,
+      links: null,
     },
   ],
   edges: [
@@ -481,14 +486,16 @@
       parent: null,
       source: 'customer',
       target: 'ses.webapp',
-      label: '[...]',
+      label: 'views own data and advice',
       relations: [
-        '16kukro',
-        '1yi1fp7',
+        '1ni6f1x',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
+      tags: [
+        'level2',
+      ],
       points: [
         [
           504,
@@ -510,7 +517,7 @@
       labelBBox: {
         x: 593,
         y: 222,
-        width: 25,
+        width: 171,
         height: 18,
       },
       controlPoints: [
@@ -523,23 +530,24 @@
           y: 265,
         },
       ],
-      drifts: null,
       isLabelCustomized: false,
+      navigateTo: null,
     },
     {
-      id: '1agwk72',
+      id: '1uzxhpb',
       parent: null,
       source: 'admin',
       target: 'ses.webapp',
-      label: '[...]',
+      label: 'imports meter data and manages settings',
       relations: [
-        '1ahawwc',
-        '17ggsbh',
-        '11fdsm7',
+        '1u7w6hy',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
+      tags: [
+        'level2',
+      ],
       points: [
         [
           1086,
@@ -561,7 +569,7 @@
       labelBBox: {
         x: 1004,
         y: 225,
-        width: 25,
+        width: 262,
         height: 18,
       },
       controlPoints: [
@@ -574,70 +582,24 @@
           y: 267,
         },
       ],
-      drifts: null,
       isLabelCustomized: false,
+      navigateTo: null,
     },
     {
-      id: '1akhu5h',
-      parent: null,
-      source: 'meterData',
-      target: 'ses.ingestService',
-      label: 'provides CSV export',
-      relations: [
-        '1pjgtou',
-      ],
-      color: 'gray',
-      line: 'dashed',
-      head: 'normal',
-      points: [
-        [
-          177,
-          2077,
-        ],
-        [
-          180,
-          2010,
-        ],
-        [
-          186,
-          1926,
-        ],
-        [
-          187,
-          1862,
-        ],
-      ],
-      labelBBox: {
-        x: 181,
-        y: 1987,
-        width: 132,
-        height: 18,
-      },
-      controlPoints: [
-        {
-          x: 181,
-          y: 1987,
-        },
-        {
-          x: 182,
-          y: 1942,
-        },
-      ],
-      drifts: null,
-      isLabelCustomized: false,
-    },
-    {
-      id: 'i4toaw',
+      id: '8fmned',
       parent: null,
       source: 'weatherData',
       target: 'ses.mlService',
       label: 'provides weather data over HTTPS',
       relations: [
-        '1iozxnk',
+        '1pk31wt',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
+      tags: [
+        'level2',
+      ],
       points: [
         [
           1381,
@@ -684,8 +646,8 @@
           y: 1943,
         },
       ],
-      drifts: null,
       isLabelCustomized: false,
+      navigateTo: null,
     },
     {
       id: 'soyyp9',
@@ -694,11 +656,14 @@
       target: 'ses.frontendAPI',
       label: 'sends requests over HTTPS',
       relations: [
-        '1g8g11b',
+        '1q64c9i',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
+      tags: [
+        'level2',
+      ],
       points: [
         [
           788,
@@ -745,8 +710,8 @@
           y: 611,
         },
       ],
-      drifts: null,
       isLabelCustomized: false,
+      navigateTo: null,
     },
     {
       id: 'tf2y90',
@@ -755,11 +720,14 @@
       target: 'ses.ingestService',
       label: 'uploads CSV file',
       relations: [
-        'fezwdr',
+        'sks3su',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
+      tags: [
+        'level2',
+      ],
       points: [
         [
           537,
@@ -787,23 +755,23 @@
         },
       ],
       isLabelCustomized: false,
+      navigateTo: null,
     },
     {
       id: 'exzjix',
       parent: 'ses',
       source: 'ses.frontendAPI',
       target: 'ses.database',
-      label: '[...]',
+      label: 'reads participant data, writes settings \nand feedback',
       relations: [
-        '1sl8x1w',
-        '1mkzw0z',
-        '1jcesl9',
-        'b86vgc',
-        '7rim94',
+        '3u21hl',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
+      tags: [
+        'level2',
+      ],
       points: [
         [
           797,
@@ -825,8 +793,8 @@
       labelBBox: {
         x: 798,
         y: 849,
-        width: 25,
-        height: 18,
+        width: 235,
+        height: 35,
       },
       controlPoints: [
         {
@@ -839,26 +807,23 @@
         },
       ],
       isLabelCustomized: true,
-      drifts: null,
+      navigateTo: null,
     },
     {
       id: '1xytwqb',
       parent: 'ses',
       source: 'ses.backendAPI',
       target: 'ses.database',
-      label: '[...]',
+      label: 'reads and writes readings, links, \nresults and advice',
       relations: [
-        'hvck6y',
-        '1fclrgf',
-        '1kcvtmw',
-        '15gzwfh',
-        '6lipcl',
-        '12qnrga',
-        '13i5umk',
+        'i0fzwp',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
+      tags: [
+        'level2',
+      ],
       points: [
         [
           795,
@@ -880,8 +845,8 @@
       labelBBox: {
         x: 798,
         y: 1185,
-        width: 25,
-        height: 18,
+        width: 204,
+        height: 34,
       },
       controlPoints: [
         {
@@ -894,22 +859,23 @@
         },
       ],
       isLabelCustomized: true,
-      drifts: null,
+      navigateTo: null,
     },
     {
       id: '4jc7qh',
       parent: 'ses',
       source: 'ses.ingestService',
       target: 'ses.backendAPI',
-      label: '[...]',
+      label: 'reads meter links, writes readings and \nimport records',
       relations: [
-        '1owveio',
-        '1ish77t',
-        'x1whzl',
+        '1hdizdg',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
+      tags: [
+        'level2',
+      ],
       points: [
         [
           265,
@@ -955,8 +921,8 @@
       labelBBox: {
         x: 466,
         y: 1552,
-        width: 25,
-        height: 18,
+        width: 240,
+        height: 35,
       },
       controlPoints: [
         {
@@ -968,21 +934,24 @@
           y: 1492,
         },
       ],
-      drifts: null,
       isLabelCustomized: false,
+      navigateTo: null,
     },
     {
-      id: '12yoirg',
+      id: '1ns8ns2',
       parent: 'ses',
       source: 'ses.calculationService',
       target: 'ses.backendAPI',
       label: 'reads readings, writes simultaneity',
       relations: [
-        '14y66ri',
+        '1d5qh19',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
+      tags: [
+        'level2',
+      ],
       points: [
         [
           790,
@@ -1041,25 +1010,24 @@
           y: 1492,
         },
       ],
-      drifts: null,
       isLabelCustomized: false,
+      navigateTo: null,
     },
     {
-      id: '1ac0rii',
+      id: 'n595wq',
       parent: 'ses',
       source: 'ses.mlService',
       target: 'ses.backendAPI',
-      label: '[...]',
+      label: 'reads and writes forecasts, advice and \ntraining data',
       relations: [
-        'bcfv8z',
-        'jgkrhp',
-        'w2maj7',
-        '2cu0cf',
-        'knwvb0',
+        '1bmgihn',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
+      tags: [
+        'level2',
+      ],
       points: [
         [
           1243,
@@ -1081,8 +1049,8 @@
       labelBBox: {
         x: 1122,
         y: 1552,
-        width: 25,
-        height: 18,
+        width: 243,
+        height: 35,
       },
       controlPoints: [
         {
@@ -1094,21 +1062,24 @@
           y: 1492,
         },
       ],
-      drifts: null,
       isLabelCustomized: false,
+      navigateTo: null,
     },
     {
-      id: 'bokdkv',
+      id: '1mq7wo1',
       parent: 'ses',
       source: 'ses.ingestService',
       target: 'ses.calculationService',
       label: 'reports new data',
       relations: [
-        'jqb22f',
+        'b2bd19',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
+      tags: [
+        'level2',
+      ],
       points: [
         [
           342,
@@ -1156,20 +1127,23 @@
         },
       ],
       isLabelCustomized: true,
-      drifts: null,
+      navigateTo: null,
     },
     {
-      id: '6omtrw',
+      id: '99nn5u',
       parent: 'ses',
       source: 'ses.calculationService',
       target: 'ses.mlService',
       label: 'reports new results',
       relations: [
-        '1ji2jy4',
+        'aulz6k',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
+      tags: [
+        'level2',
+      ],
       points: [
         [
           935,
@@ -1205,7 +1179,49 @@
         },
       ],
       isLabelCustomized: true,
-      drifts: null,
+      navigateTo: null,
+    },
+    {
+      id: 'gou2am',
+      parent: null,
+      source: 'meterData',
+      target: 'admin',
+      label: 'is delivered as CSV export to',
+      relations: [
+        '46nq6r',
+      ],
+      color: 'gray',
+      line: 'dashed',
+      head: 'normal',
+      points: [
+        [
+          1553,
+          46,
+        ],
+        [
+          1437,
+          47,
+        ],
+      ],
+      labelBBox: {
+        x: 1412,
+        y: 62,
+        width: 185,
+        height: 18,
+      },
+      controlPoints: [
+        {
+          x: 1553,
+          y: 46,
+        },
+        {
+          x: 1437,
+          y: 47,
+        },
+      ],
+      isLabelCustomized: true,
+      navigateTo: null,
+      tags: null,
     },
   ],
   _layout: 'manual',
