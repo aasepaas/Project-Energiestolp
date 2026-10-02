@@ -1,1291 +1,644 @@
 {
-  "_type": "element",
-  "tags": null,
-  "links": null,
-  "viewOf": "ses.mlService",
-  "_stage": "layouted",
-  "sourcePath": "ses_v0.1_en.c4",
-  "description": null,
-  "title": "3.7 - ML service",
-  "id": "mlDetail",
-  "autoLayout": {
-    "direction": "TB"
+  _type: 'element',
+  tags: null,
+  links: null,
+  viewOf: 'ses.mlService',
+  _stage: 'layouted',
+  sourcePath: 'ses_v0.1_en.c4',
+  description: null,
+  title: '3.7 - ML service',
+  id: 'mlDetail',
+  autoLayout: {
+    direction: 'TB',
   },
-  "hash": "egUrnBSIhus-LlZUPgQx9DMsO7c_Xa8Xi4innJI99x4",
-  "bounds": {
-    "x": 0,
-    "y": 0,
-    "width": 1408,
-    "height": 2425
+  hash: 'QoEeKH4w2IjJT8Z7EkQSN-wvBvY6TGvKCvICFsBvyls',
+  bounds: {
+    x: -668,
+    y: 249,
+    width: 2258,
+    height: 748,
   },
-  "nodes": [
+  nodes: [
     {
-      "id": "weatherData",
-      "parent": null,
-      "level": 0,
-      "children": [],
-      "inEdges": [],
-      "outEdges": [
-        "eli3a0"
+      id: 'ses.mlService.effectMeasurement',
+      parent: null,
+      level: 0,
+      children: [],
+      inEdges: [],
+      outEdges: [
+        '1oemb1x',
       ],
-      "title": "Weather data",
-      "modelRef": "weatherData",
-      "shape": "rectangle",
-      "color": "muted",
-      "style": {
-        "opacity": 15,
-        "size": "md"
+      title: 'Effectmeting',
+      modelRef: 'ses.mlService.effectMeasurement',
+      shape: 'rectangle',
+      color: 'primary',
+      style: {
+        opacity: 15,
+        size: 'md',
       },
-      "description": {
-        "txt": "Weather forecast for the next 48 hours and historical weather archive"
+      description: {
+        txt: 'Werkelijk verbruik vs. P50-voorspelling: advies opgevolgd ja/nee en gemeten winst',
       },
-      "tags": [],
-      "kind": "actor",
-      "x": 0,
-      "y": 230,
-      "width": 325,
-      "height": 180,
-      "labelBBox": {
-        "x": 18,
-        "y": 56,
-        "width": 289,
-        "height": 65
-      }
+      tags: [],
+      kind: 'component',
+      x: -27,
+      y: 269,
+      width: 323,
+      height: 180,
+      labelBBox: {
+        x: 18,
+        y: 56,
+        width: 288,
+        height: 65,
+      },
+      navigateTo: null,
+      links: null,
     },
     {
-      "id": "ses.calculationService",
-      "parent": null,
-      "level": 0,
-      "children": [],
-      "inEdges": [],
-      "outEdges": [
-        "q5ab5"
+      id: 'ses.mlService.weatherForecast',
+      parent: null,
+      level: 0,
+      children: [],
+      inEdges: [],
+      outEdges: [
+        'f1vu2l',
       ],
-      "title": "Calculation service",
-      "modelRef": "ses.calculationService",
-      "shape": "rectangle",
-      "color": "primary",
-      "style": {
-        "opacity": 15,
-        "size": "md"
+      title: 'Weersverwachting',
+      modelRef: 'ses.mlService.weatherForecast',
+      shape: 'rectangle',
+      color: 'primary',
+      style: {
+        opacity: 15,
+        size: 'md',
       },
-      "description": {
-        "txt": "Calculates simultaneity per quarter hour"
+      description: {
+        txt: 'Haalt instraling, bewolking en temperatuur op voor de komende 48 uur',
       },
-      "tags": [],
-      "kind": "container",
-      "navigateTo": "calculationDetail",
-      "x": 1047,
-      "y": 0,
-      "width": 320,
-      "height": 180,
-      "labelBBox": {
-        "x": 25,
-        "y": 65,
-        "width": 269,
-        "height": 47
-      }
+      tags: [],
+      kind: 'component',
+      x: -648,
+      y: 797,
+      width: 341,
+      height: 180,
+      labelBBox: {
+        x: 18,
+        y: 56,
+        width: 305,
+        height: 65,
+      },
+      navigateTo: null,
+      links: null,
     },
     {
-      "id": "ses.mlService",
-      "parent": null,
-      "level": 0,
-      "children": [
-        "ses.mlService.weatherForecast",
-        "ses.mlService.effectMeasurement",
-        "ses.mlService.retraining",
-        "ses.mlService.modelRegistry",
-        "ses.mlService.forecasting",
-        "ses.mlService.optimization",
-        "ses.mlService.ranking",
-        "ses.mlService.dataAccess"
+      id: 'ses.mlService.retraining',
+      parent: null,
+      level: 0,
+      children: [],
+      inEdges: [
+        '1oemb1x',
       ],
-      "inEdges": [
-        "eli3a0",
-        "q5ab5"
+      outEdges: [
+        '9js3ko',
       ],
-      "outEdges": [
-        "1csjucw"
-      ],
-      "title": "ML service",
-      "modelRef": "ses.mlService",
-      "shape": "rectangle",
-      "color": "primary",
-      "style": {
-        "opacity": 15,
-        "size": "md"
+      title: 'Hertrainen',
+      modelRef: 'ses.mlService.retraining',
+      shape: 'rectangle',
+      color: 'primary',
+      style: {
+        opacity: 15,
+        size: 'md',
       },
-      "description": {
-        "txt": "Forecasts generation and consumption and generates personal advice"
+      description: {
+        txt: 'Hertraint voorspellers, clusters en acceptatiemodel op de nieuwe data',
       },
-      "tags": [],
-      "kind": "container",
-      "depth": 1,
-      "x": 465,
-      "y": 320,
-      "width": 868,
-      "height": 1830,
-      "labelBBox": {
-        "x": 6,
-        "y": 0,
-        "width": 71,
-        "height": 15
-      }
+      tags: [],
+      kind: 'component',
+      x: 574,
+      y: 269,
+      width: 320,
+      height: 180,
+      labelBBox: {
+        x: 40,
+        y: 56,
+        width: 240,
+        height: 65,
+      },
+      navigateTo: null,
+      links: null,
     },
     {
-      "id": "ses.mlService.weatherForecast",
-      "parent": "ses.mlService",
-      "level": 1,
-      "children": [],
-      "inEdges": [
-        "eli3a0"
+      id: 'ses.mlService.modelRegistry',
+      parent: null,
+      level: 0,
+      children: [],
+      inEdges: [
+        '9js3ko',
       ],
-      "outEdges": [
-        "1nke5n6"
+      outEdges: [
+        '1mx70th',
+        'oz1v1o',
       ],
-      "title": "Weather forecast",
-      "modelRef": "ses.mlService.weatherForecast",
-      "shape": "rectangle",
-      "color": "primary",
-      "style": {
-        "opacity": 15,
-        "size": "md"
+      title: 'Modelregister',
+      modelRef: 'ses.mlService.modelRegistry',
+      shape: 'storage',
+      color: 'primary',
+      style: {
+        opacity: 15,
+        size: 'md',
       },
-      "description": {
-        "txt": "Fetches irradiance, cloud cover and temperature for the next 48 hours"
+      description: {
+        txt: 'MLflow: modelversies en testscores, nieuw model alleen live als het beter scoort',
       },
-      "tags": [],
-      "kind": "component",
-      "x": 505,
-      "y": 381,
-      "width": 320,
-      "height": 180,
-      "labelBBox": {
-        "x": 39,
-        "y": 56,
-        "width": 242,
-        "height": 65
-      }
+      tags: [],
+      kind: 'component',
+      x: 1206,
+      y: 269,
+      width: 325,
+      height: 180,
+      labelBBox: {
+        x: 18,
+        y: 56,
+        width: 289,
+        height: 65,
+      },
+      navigateTo: null,
+      links: null,
     },
     {
-      "id": "ses.mlService.effectMeasurement",
-      "parent": "ses.mlService",
-      "level": 1,
-      "children": [],
-      "inEdges": [
-        "q5ab5"
+      id: 'ses.mlService.forecasting',
+      parent: null,
+      level: 0,
+      children: [],
+      inEdges: [
+        '1mx70th',
+        'f1vu2l',
       ],
-      "outEdges": [
-        "9tswsg",
-        "co8xyb"
+      outEdges: [
+        '1hdxpqf',
       ],
-      "title": "Effect measurement",
-      "modelRef": "ses.mlService.effectMeasurement",
-      "shape": "rectangle",
-      "color": "primary",
-      "style": {
-        "opacity": 15,
-        "size": "md"
+      title: 'Voorspellen',
+      modelRef: 'ses.mlService.forecasting',
+      shape: 'rectangle',
+      color: 'primary',
+      style: {
+        opacity: 15,
+        size: 'md',
       },
-      "description": {
-        "txt": "Compares actual consumption with the P50 forecast to measure whether advice was followed"
+      description: {
+        txt: 'Opwek en verbruik per kwartier, P10-P90 (LightGBM-kwantielregressie)',
       },
-      "tags": [],
-      "kind": "component",
-      "x": 920,
-      "y": 381,
-      "width": 329,
-      "height": 180,
-      "labelBBox": {
-        "x": 18,
-        "y": 47,
-        "width": 293,
-        "height": 83
-      }
+      tags: [],
+      kind: 'component',
+      x: -27,
+      y: 797,
+      width: 320,
+      height: 180,
+      labelBBox: {
+        x: 21,
+        y: 56,
+        width: 278,
+        height: 65,
+      },
+      navigateTo: null,
+      links: null,
     },
     {
-      "id": "ses.mlService.retraining",
-      "parent": "ses.mlService",
-      "level": 1,
-      "children": [],
-      "inEdges": [
-        "9tswsg"
+      id: 'ses.mlService.optimization',
+      parent: null,
+      level: 0,
+      children: [],
+      inEdges: [
+        '1hdxpqf',
       ],
-      "outEdges": [
-        "d99k7b",
-        "1ihx9gp"
+      outEdges: [
+        '1pztqjy',
       ],
-      "title": "Retraining",
-      "modelRef": "ses.mlService.retraining",
-      "shape": "rectangle",
-      "color": "primary",
-      "style": {
-        "opacity": 15,
-        "size": "md"
+      title: 'Optimaliseren',
+      modelRef: 'ses.mlService.optimization',
+      shape: 'rectangle',
+      color: 'primary',
+      style: {
+        opacity: 15,
+        size: 'md',
       },
-      "description": {
-        "txt": "Retrains the forecasters, clusters and acceptance model on new data"
+      description: {
+        txt: 'Plant verschuifbare apparaten naar onbenut overschot (P10) binnen comfortgrenzen (MILP)',
       },
-      "tags": [],
-      "kind": "component",
-      "x": 696,
-      "y": 644,
-      "width": 320,
-      "height": 180,
-      "labelBBox": {
-        "x": 33,
-        "y": 56,
-        "width": 252,
-        "height": 65
-      }
+      tags: [],
+      kind: 'component',
+      x: 574,
+      y: 797,
+      width: 352,
+      height: 180,
+      labelBBox: {
+        x: 18,
+        y: 56,
+        width: 317,
+        height: 65,
+      },
+      navigateTo: null,
+      links: null,
     },
     {
-      "id": "ses.mlService.modelRegistry",
-      "parent": "ses.mlService",
-      "level": 1,
-      "children": [],
-      "inEdges": [
-        "d99k7b"
+      id: 'ses.mlService.ranking',
+      parent: null,
+      level: 0,
+      children: [],
+      inEdges: [
+        'oz1v1o',
+        '1pztqjy',
       ],
-      "outEdges": [
-        "1itaqtn",
-        "1wbokkm"
-      ],
-      "title": "Model registry",
-      "modelRef": "ses.mlService.modelRegistry",
-      "shape": "storage",
-      "color": "primary",
-      "style": {
-        "opacity": 15,
-        "size": "md"
+      outEdges: [],
+      title: 'Rangschikken',
+      modelRef: 'ses.mlService.ranking',
+      shape: 'rectangle',
+      color: 'primary',
+      style: {
+        opacity: 15,
+        size: 'md',
       },
-      "description": {
-        "txt": "MLflow registry with model versions and test scores; a new model goes live only if it scores better"
+      description: {
+        txt: 'Winst x kans op opvolgen (Thompson sampling), kiest de top 3 adviezen',
       },
-      "tags": [],
-      "kind": "component",
-      "x": 629,
-      "y": 923,
-      "width": 334,
-      "height": 180,
-      "labelBBox": {
-        "x": 18,
-        "y": 47,
-        "width": 298,
-        "height": 83
-      }
+      tags: [],
+      kind: 'component',
+      x: 1206,
+      y: 797,
+      width: 364,
+      height: 180,
+      labelBBox: {
+        x: 18,
+        y: 56,
+        width: 328,
+        height: 65,
+      },
+      navigateTo: null,
+      links: null,
     },
-    {
-      "id": "ses.mlService.forecasting",
-      "parent": "ses.mlService",
-      "level": 1,
-      "children": [],
-      "inEdges": [
-        "1itaqtn",
-        "1nke5n6"
-      ],
-      "outEdges": [
-        "117nm8g",
-        "vu0y05"
-      ],
-      "title": "Forecasting",
-      "modelRef": "ses.mlService.forecasting",
-      "shape": "rectangle",
-      "color": "primary",
-      "style": {
-        "opacity": 15,
-        "size": "md"
-      },
-      "description": {
-        "txt": "Forecasts generation and consumption per quarter hour with P10 to P90 bands (LightGBM)"
-      },
-      "tags": [],
-      "kind": "component",
-      "x": 505,
-      "y": 1186,
-      "width": 356,
-      "height": 180,
-      "labelBBox": {
-        "x": 17,
-        "y": 56,
-        "width": 321,
-        "height": 65
-      }
-    },
-    {
-      "id": "ses.mlService.optimization",
-      "parent": "ses.mlService",
-      "level": 1,
-      "children": [],
-      "inEdges": [
-        "117nm8g"
-      ],
-      "outEdges": [
-        "1s4s471",
-        "1nx8mwv"
-      ],
-      "title": "Optimization",
-      "modelRef": "ses.mlService.optimization",
-      "shape": "rectangle",
-      "color": "primary",
-      "style": {
-        "opacity": 15,
-        "size": "md"
-      },
-      "description": {
-        "txt": "Schedules flexible appliances into unused surplus within comfort limits (MILP)"
-      },
-      "tags": [],
-      "kind": "component",
-      "x": 586,
-      "y": 1449,
-      "width": 320,
-      "height": 180,
-      "labelBBox": {
-        "x": 18,
-        "y": 56,
-        "width": 283,
-        "height": 65
-      }
-    },
-    {
-      "id": "ses.mlService.ranking",
-      "parent": "ses.mlService",
-      "level": 1,
-      "children": [],
-      "inEdges": [
-        "1wbokkm",
-        "1s4s471"
-      ],
-      "outEdges": [
-        "1etb63s"
-      ],
-      "title": "Ranking",
-      "modelRef": "ses.mlService.ranking",
-      "shape": "rectangle",
-      "color": "primary",
-      "style": {
-        "opacity": 15,
-        "size": "md"
-      },
-      "description": {
-        "txt": "Ranks advice by expected gain times chance of being followed and selects the top 3"
-      },
-      "tags": [],
-      "kind": "component",
-      "x": 853,
-      "y": 1712,
-      "width": 356,
-      "height": 180,
-      "labelBBox": {
-        "x": 17,
-        "y": 56,
-        "width": 321,
-        "height": 65
-      }
-    },
-    {
-      "id": "ses.mlService.dataAccess",
-      "parent": "ses.mlService",
-      "level": 1,
-      "children": [],
-      "inEdges": [
-        "co8xyb",
-        "1ihx9gp",
-        "vu0y05",
-        "1nx8mwv",
-        "1etb63s"
-      ],
-      "outEdges": [
-        "1csjucw"
-      ],
-      "title": "Data access",
-      "modelRef": "ses.mlService.dataAccess",
-      "shape": "rectangle",
-      "color": "primary",
-      "style": {
-        "opacity": 15,
-        "size": "sm"
-      },
-      "description": {
-        "txt": "Single gateway from the ML service to the backend API"
-      },
-      "tags": [],
-      "kind": "component",
-      "x": 905,
-      "y": 1974,
-      "width": 251,
-      "height": 135,
-      "labelBBox": {
-        "x": 12,
-        "y": 40,
-        "width": 227,
-        "height": 54
-      }
-    },
-    {
-      "id": "ses.backendAPI",
-      "parent": null,
-      "level": 0,
-      "children": [],
-      "inEdges": [
-        "1csjucw"
-      ],
-      "outEdges": [],
-      "title": "Backend API",
-      "modelRef": "ses.backendAPI",
-      "shape": "rectangle",
-      "color": "primary",
-      "style": {
-        "opacity": 15,
-        "size": "sm"
-      },
-      "description": {
-        "txt": "API between the backend services and the database"
-      },
-      "tags": [],
-      "kind": "container",
-      "navigateTo": "backendApiDetail",
-      "x": 905,
-      "y": 2290,
-      "width": 255,
-      "height": 135,
-      "labelBBox": {
-        "x": 12,
-        "y": 40,
-        "width": 231,
-        "height": 54
-      }
-    }
   ],
-  "edges": [
+  edges: [
     {
-      "id": "eli3a0",
-      "source": "weatherData",
-      "target": "ses.mlService.weatherForecast",
-      "label": "provides weather data over HTTPS",
-      "points": [
+      id: '1oemb1x',
+      source: 'ses.mlService.effectMeasurement',
+      target: 'ses.mlService.retraining',
+      label: 'levert opgevolgd ja/nee en gemeten winst',
+      points: [
         [
-          325,
-          369
+          328,
+          358,
         ],
         [
-          385,
-          387
+          421,
+          360,
         ],
         [
-          445,
-          405
+          530,
+          359,
         ],
         [
-          505,
-          423
-        ]
+          625,
+          362,
+        ],
       ],
-      "labelBBox": {
-        "x": 421,
-        "y": 387,
-        "width": 224,
-        "height": 18
+      labelBBox: {
+        x: 294,
+        y: 380,
+        width: 262,
+        height: 18,
       },
-      "parent": null,
-      "relations": [
-        "xjsklh"
+      parent: null,
+      relations: [
+        '5kr0ai',
       ],
-      "color": "gray",
-      "line": "dashed",
-      "head": "normal",
-      "tags": [
-        "level3"
-      ]
+      color: 'gray',
+      line: 'dashed',
+      head: 'normal',
+      isLabelCustomized: true,
+      controlPoints: [
+        {
+          x: 408,
+          y: 359,
+        },
+        {
+          x: 463,
+          y: 359,
+        },
+      ],
+      navigateTo: null,
+      tags: null,
     },
     {
-      "id": "q5ab5",
-      "source": "ses.calculationService",
-      "target": "ses.mlService.effectMeasurement",
-      "label": "reports new results",
-      "points": [
+      id: '9js3ko',
+      source: 'ses.mlService.retraining',
+      target: 'ses.mlService.modelRegistry',
+      label: 'registreert nieuwe modellen',
+      points: [
         [
-          1178,
-          180
+          882,
+          356,
         ],
         [
-          1157,
-          247
+          949,
+          353,
         ],
         [
-          1135,
-          314
+          1031,
+          354,
         ],
         [
-          1113,
-          381
-        ]
+          1100,
+          353,
+        ],
       ],
-      "labelBBox": {
-        "x": 1152,
-        "y": 272,
-        "width": 133,
-        "height": 18
+      labelBBox: {
+        x: 966,
+        y: 373,
+        width: 176,
+        height: 18,
       },
-      "parent": null,
-      "relations": [
-        "5nah6o"
+      parent: null,
+      relations: [
+        'hdg4yg',
       ],
-      "color": "gray",
-      "line": "dashed",
-      "head": "normal",
-      "tags": [
-        "level3"
-      ]
+      color: 'gray',
+      line: 'dashed',
+      head: 'normal',
+      isLabelCustomized: true,
+      controlPoints: [
+        {
+          x: 1019,
+          y: 359,
+        },
+        {
+          x: 1082,
+          y: 359,
+        },
+      ],
+      navigateTo: null,
+      tags: null,
     },
     {
-      "id": "9tswsg",
-      "source": "ses.mlService.effectMeasurement",
-      "target": "ses.mlService.retraining",
-      "label": "provides measured effect of advice",
-      "points": [
+      id: '1mx70th',
+      source: 'ses.mlService.modelRegistry',
+      target: 'ses.mlService.forecasting',
+      label: 'getrainde modellen',
+      points: [
         [
-          920,
-          526
+          1050,
+          491,
         ],
         [
-          892,
-          542
+          957,
+          534,
         ],
         [
-          867,
-          564
+          854,
+          580,
         ],
         [
-          851,
-          591
+          769,
+          620,
         ],
         [
-          843,
-          604
+          708,
+          648,
         ],
         [
-          839,
-          619
+          643,
+          679,
         ],
         [
-          838,
-          634
-        ]
+          582,
+          706,
+        ],
       ],
-      "labelBBox": {
-        "x": 852,
-        "y": 592,
-        "width": 221,
-        "height": 18
+      labelBBox: {
+        x: 841,
+        y: 585,
+        width: 123,
+        height: 18,
       },
-      "parent": "ses.mlService",
-      "relations": [
-        "1sem939"
+      parent: null,
+      relations: [
+        '48fxtq',
       ],
-      "color": "gray",
-      "line": "dashed",
-      "head": "normal"
+      color: 'gray',
+      line: 'dashed',
+      head: 'normal',
+      isLabelCustomized: false,
+      controlPoints: [
+        {
+          x: 841,
+          y: 585,
+        },
+        {
+          x: 658,
+          y: 663,
+        },
+      ],
+      navigateTo: null,
+      tags: null,
     },
     {
-      "id": "co8xyb",
-      "source": "ses.mlService.effectMeasurement",
-      "target": "ses.mlService.dataAccess",
-      "label": "reads given advice and readings",
-      "points": [
+      id: 'oz1v1o',
+      source: 'ses.mlService.modelRegistry',
+      target: 'ses.mlService.ranking',
+      label: 'getrainde modellen',
+      points: [
         [
-          1085,
-          561
+          1379,
+          403,
         ],
         [
-          1085,
-          611
+          1409,
+          500,
         ],
         [
-          1085,
-          676
+          1479,
+          721,
         ],
         [
-          1085,
-          733
-        ],
-        [
-          1085,
-          733
-        ],
-        [
-          1085,
-          733
-        ],
-        [
-          1085,
-          1146
-        ],
-        [
-          1085,
-          1249
-        ],
-        [
-          1080,
-          1296
-        ],
-        [
-          1155,
-          1366
-        ],
-        [
-          1194,
-          1403
-        ],
-        [
-          1239,
-          1354
-        ],
-        [
-          1272,
-          1396
-        ],
-        [
-          1407,
-          1570
-        ],
-        [
-          1320,
-          1683
-        ],
-        [
-          1249,
-          1892
-        ],
-        [
-          1235,
-          1933
-        ],
-        [
-          1201,
-          1964
-        ],
-        [
-          1165,
-          1987
-        ]
-      ],
-      "labelBBox": {
-        "x": 1156,
-        "y": 1266,
-        "width": 206,
-        "height": 18
-      },
-      "parent": "ses.mlService",
-      "relations": [
-        "1pz72u2"
-      ],
-      "color": "gray",
-      "line": "dashed",
-      "head": "normal"
-    },
-    {
-      "id": "d99k7b",
-      "source": "ses.mlService.retraining",
-      "target": "ses.mlService.modelRegistry",
-      "label": "registers new models",
-      "points": [
-        [
-          836,
-          824
-        ],
-        [
-          830,
-          852
-        ],
-        [
+          1511,
           824,
-          883
         ],
-        [
-          817,
-          912
-        ]
       ],
-      "labelBBox": {
-        "x": 830,
-        "y": 863,
-        "width": 136,
-        "height": 18
+      labelBBox: {
+        x: 1377,
+        y: 588,
+        width: 123,
+        height: 18,
       },
-      "parent": "ses.mlService",
-      "relations": [
-        "32g4rn"
+      parent: null,
+      relations: [
+        '1b6c9va',
       ],
-      "color": "gray",
-      "line": "dashed",
-      "head": "normal"
+      color: 'gray',
+      line: 'dashed',
+      head: 'normal',
+      isLabelCustomized: false,
+      controlPoints: [
+        {
+          x: 1377,
+          y: 588,
+        },
+        {
+          x: 1380,
+          y: 658,
+        },
+      ],
+      navigateTo: null,
+      tags: null,
     },
     {
-      "id": "1ihx9gp",
-      "source": "ses.mlService.retraining",
-      "target": "ses.mlService.dataAccess",
-      "label": "reads training data",
-      "points": [
+      id: 'f1vu2l',
+      source: 'ses.mlService.weatherForecast',
+      target: 'ses.mlService.forecasting',
+      label: 'levert weerfeatures',
+      points: [
         [
-          959,
-          824
+          -435,
+          885,
         ],
         [
-          966,
-          833
-        ],
-        [
-          973,
-          843
-        ],
-        [
-          978,
-          854
-        ],
-        [
-          1078,
-          1060
-        ],
-        [
-          892,
-          1186
-        ],
-        [
-          1035,
-          1366
-        ],
-        [
-          1059,
-          1397
-        ],
-        [
-          1091,
-          1368
-        ],
-        [
-          1119,
-          1396
-        ],
-        [
-          1223,
-          1502
-        ],
-        [
-          1204,
-          1565
-        ],
-        [
-          1229,
-          1712
-        ],
-        [
-          1242,
-          1791
-        ],
-        [
-          1263,
-          1820
-        ],
-        [
-          1229,
-          1892
-        ],
-        [
-          1214,
-          1922
-        ],
-        [
-          1190,
-          1947
-        ],
-        [
-          1164,
-          1968
-        ]
-      ],
-      "labelBBox": {
-        "x": 1140,
-        "y": 1397,
-        "width": 120,
-        "height": 18
-      },
-      "parent": "ses.mlService",
-      "relations": [
-        "53rnjn"
-      ],
-      "color": "gray",
-      "line": "dashed",
-      "head": "normal"
-    },
-    {
-      "id": "1itaqtn",
-      "source": "ses.mlService.modelRegistry",
-      "target": "ses.mlService.forecasting",
-      "label": "provides trained models",
-      "points": [
-        [
-          757,
-          1104
-        ],
-        [
-          747,
-          1128
-        ],
-        [
-          735,
-          1153
-        ],
-        [
-          725,
-          1177
-        ]
-      ],
-      "labelBBox": {
-        "x": 744,
-        "y": 1134,
-        "width": 153,
-        "height": 18
-      },
-      "parent": "ses.mlService",
-      "relations": [
-        "m75uac"
-      ],
-      "color": "gray",
-      "line": "dashed",
-      "head": "normal"
-    },
-    {
-      "id": "1wbokkm",
-      "source": "ses.mlService.modelRegistry",
-      "target": "ses.mlService.ranking",
-      "label": "provides trained models",
-      "points": [
-        [
+          -352,
           889,
-          1104
         ],
         [
-          896,
-          1113
+          -161,
+          898,
         ],
         [
-          903,
-          1123
+          -71,
+          901,
         ],
-        [
-          908,
-          1133
-        ],
-        [
-          965,
-          1249
-        ],
-        [
-          935,
-          1292
-        ],
-        [
-          958,
-          1419
-        ],
-        [
-          976,
-          1515
-        ],
-        [
-          997,
-          1625
-        ],
-        [
-          1011,
-          1702
-        ]
       ],
-      "labelBBox": {
-        "x": 959,
-        "y": 1397,
-        "width": 153,
-        "height": 18
+      labelBBox: {
+        x: -195,
+        y: 887,
+        width: 123,
+        height: 18,
       },
-      "parent": "ses.mlService",
-      "relations": [
-        "v2pipq"
+      parent: null,
+      relations: [
+        '9qfqsc',
       ],
-      "color": "gray",
-      "line": "dashed",
-      "head": "normal"
+      color: 'gray',
+      line: 'dashed',
+      head: 'normal',
+      isLabelCustomized: false,
+      controlPoints: [
+        {
+          x: -195,
+          y: 887,
+        },
+        {
+          x: -139,
+          y: 887,
+        },
+      ],
+      navigateTo: null,
+      tags: null,
     },
     {
-      "id": "1nke5n6",
-      "source": "ses.mlService.weatherForecast",
-      "target": "ses.mlService.forecasting",
-      "label": "provides weather features",
-      "points": [
+      id: '1hdxpqf',
+      source: 'ses.mlService.forecasting',
+      target: 'ses.mlService.optimization',
+      label: 'levert voorspeld overschot (P10)',
+      points: [
         [
-          641,
-          561
+          291,
+          879,
         ],
         [
-          611,
-          684
+          367,
+          877,
         ],
         [
-          569,
-          913
+          456,
+          875,
         ],
         [
-          609,
-          1103
+          532,
+          874,
         ],
-        [
-          614,
-          1128
-        ],
-        [
-          622,
-          1153
-        ],
-        [
-          632,
-          1177
-        ]
       ],
-      "labelBBox": {
-        "x": 596,
-        "y": 863,
-        "width": 165,
-        "height": 18
+      labelBBox: {
+        x: 338,
+        y: 903,
+        width: 206,
+        height: 18,
       },
-      "parent": "ses.mlService",
-      "relations": [
-        "1gyk40e"
+      parent: null,
+      relations: [
+        '1yshhwe',
       ],
-      "color": "gray",
-      "line": "dashed",
-      "head": "normal"
+      color: 'gray',
+      line: 'dashed',
+      head: 'normal',
+      isLabelCustomized: true,
+      controlPoints: [
+        {
+          x: 405,
+          y: 887,
+        },
+        {
+          x: 462,
+          y: 887,
+        },
+      ],
+      navigateTo: null,
+      tags: null,
     },
     {
-      "id": "117nm8g",
-      "source": "ses.mlService.forecasting",
-      "target": "ses.mlService.optimization",
-      "label": "provides forecast surplus (P10)",
-      "points": [
+      id: '1pztqjy',
+      source: 'ses.mlService.optimization',
+      target: 'ses.mlService.ranking',
+      label: 'levert mogelijke adviezen',
+      points: [
         [
-          700,
-          1366
+          932,
+          885,
         ],
         [
-          704,
-          1384
+          1018,
+          887,
         ],
         [
-          708,
-          1402
+          1121,
+          887,
         ],
         [
-          712,
-          1419
+          1210,
+          888,
         ],
-        [
-          714,
-          1426
-        ],
-        [
-          715,
-          1432
-        ],
-        [
-          717,
-          1439
-        ]
       ],
-      "labelBBox": {
-        "x": 713,
-        "y": 1397,
-        "width": 198,
-        "height": 18
+      labelBBox: {
+        x: 953,
+        y: 914,
+        width: 161,
+        height: 18,
       },
-      "parent": "ses.mlService",
-      "relations": [
-        "unv8z1"
+      parent: null,
+      relations: [
+        '5ygzxy',
       ],
-      "color": "gray",
-      "line": "dashed",
-      "head": "normal"
+      color: 'gray',
+      line: 'dashed',
+      head: 'normal',
+      isLabelCustomized: true,
+      controlPoints: [
+        {
+          x: 1038,
+          y: 887,
+        },
+        {
+          x: 1094,
+          y: 887,
+        },
+      ],
+      navigateTo: null,
+      tags: null,
     },
-    {
-      "id": "vu0y05",
-      "source": "ses.mlService.forecasting",
-      "target": "ses.mlService.dataAccess",
-      "label": "reads history, writes forecasts",
-      "points": [
-        [
-          611,
-          1366
-        ],
-        [
-          594,
-          1392
-        ],
-        [
-          577,
-          1420
-        ],
-        [
-          566,
-          1449
-        ],
-        [
-          494,
-          1632
-        ],
-        [
-          469,
-          1718
-        ],
-        [
-          562,
-          1892
-        ],
-        [
-          579,
-          1923
-        ],
-        [
-          591,
-          1928
-        ],
-        [
-          623,
-          1945
-        ],
-        [
-          708,
-          1988
-        ],
-        [
-          813,
-          2012
-        ],
-        [
-          895,
-          2026
-        ]
-      ],
-      "labelBBox": {
-        "x": 504,
-        "y": 1660,
-        "width": 189,
-        "height": 18
-      },
-      "parent": "ses.mlService",
-      "relations": [
-        "l6fala"
-      ],
-      "color": "gray",
-      "line": "dashed",
-      "head": "normal"
-    },
-    {
-      "id": "1s4s471",
-      "source": "ses.mlService.optimization",
-      "target": "ses.mlService.ranking",
-      "label": "provides candidate advice",
-      "points": [
-        [
-          756,
-          1629
-        ],
-        [
-          762,
-          1648
-        ],
-        [
-          770,
-          1667
-        ],
-        [
-          783,
-          1682
-        ],
-        [
-          793,
-          1694
-        ],
-        [
-          816,
-          1709
-        ],
-        [
-          843,
-          1723
-        ]
-      ],
-      "labelBBox": {
-        "x": 784,
-        "y": 1660,
-        "width": 166,
-        "height": 18
-      },
-      "parent": "ses.mlService",
-      "relations": [
-        "7uq943"
-      ],
-      "color": "gray",
-      "line": "dashed",
-      "head": "normal"
-    },
-    {
-      "id": "1nx8mwv",
-      "source": "ses.mlService.optimization",
-      "target": "ses.mlService.dataAccess",
-      "label": "reads comfort limits and appliances",
-      "points": [
-        [
-          757,
-          1629
-        ],
-        [
-          755,
-          1648
-        ],
-        [
-          749,
-          1667
-        ],
-        [
-          737,
-          1682
-        ],
-        [
-          698,
-          1727
-        ],
-        [
-          644,
-          1666
-        ],
-        [
-          607,
-          1712
-        ],
-        [
-          557,
-          1774
-        ],
-        [
-          561,
-          1827
-        ],
-        [
-          607,
-          1892
-        ],
-        [
-          672,
-          1983
-        ],
-        [
-          797,
-          2019
-        ],
-        [
-          895,
-          2033
-        ]
-      ],
-      "labelBBox": {
-        "x": 608,
-        "y": 1791,
-        "width": 223,
-        "height": 18
-      },
-      "parent": "ses.mlService",
-      "relations": [
-        "11jgh4b"
-      ],
-      "color": "gray",
-      "line": "dashed",
-      "head": "normal"
-    },
-    {
-      "id": "1etb63s",
-      "source": "ses.mlService.ranking",
-      "target": "ses.mlService.dataAccess",
-      "label": "writes top 3 advice",
-      "points": [
-        [
-          1031,
-          1892
-        ],
-        [
-          1031,
-          1915
-        ],
-        [
-          1031,
-          1941
-        ],
-        [
-          1031,
-          1964
-        ]
-      ],
-      "labelBBox": {
-        "x": 1032,
-        "y": 1923,
-        "width": 120,
-        "height": 18
-      },
-      "parent": "ses.mlService",
-      "relations": [
-        "u26skd"
-      ],
-      "color": "gray",
-      "line": "dashed",
-      "head": "normal"
-    },
-    {
-      "id": "1csjucw",
-      "source": "ses.mlService.dataAccess",
-      "target": "ses.backendAPI",
-      "label": "reads and writes forecasts, advice and \ntraining data",
-      "points": [
-        [
-          1031,
-          2109
-        ],
-        [
-          1031,
-          2169
-        ],
-        [
-          1032,
-          2230
-        ],
-        [
-          1032,
-          2290
-        ]
-      ],
-      "labelBBox": {
-        "x": 1037,
-        "y": 2190,
-        "width": 371,
-        "height": 18
-      },
-      "parent": null,
-      "relations": [
-        "1knadft"
-      ],
-      "color": "gray",
-      "line": "dashed",
-      "head": "normal",
-      "tags": [
-        "level3"
-      ]
-    }
-  ]
+  ],
+  _layout: 'manual',
 }

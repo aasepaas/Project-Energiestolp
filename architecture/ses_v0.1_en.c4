@@ -495,6 +495,9 @@ views {
     include ses.**
     include customer, admin, meterData, weatherData
     exclude * -> * where tag is #level1 or tag is #level2
+    style ses.** {
+      size small
+    }
     autoLayout TopBottom 60 40
   }
 }
