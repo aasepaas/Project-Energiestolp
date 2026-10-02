@@ -56,7 +56,7 @@
       drifts: null,
     },
     {
-      id: 'beheerder',
+      id: 'admin',
       parent: null,
       level: 0,
       children: [],
@@ -65,7 +65,7 @@
         '1agwk72',
       ],
       title: 'Systeembeheerder',
-      modelRef: 'beheerder',
+      modelRef: 'admin',
       shape: 'person',
       color: 'muted',
       style: {
@@ -90,7 +90,7 @@
       drifts: null,
     },
     {
-      id: 'meterdata',
+      id: 'meterData',
       parent: null,
       level: 0,
       children: [],
@@ -99,7 +99,7 @@
         '1akhu5h',
       ],
       title: 'Meterdata',
-      modelRef: 'meterdata',
+      modelRef: 'meterData',
       shape: 'rectangle',
       color: 'muted',
       style: {
@@ -124,7 +124,7 @@
       drifts: null,
     },
     {
-      id: 'weerdata',
+      id: 'weatherData',
       parent: null,
       level: 0,
       children: [],
@@ -133,7 +133,7 @@
         'i4toaw',
       ],
       title: 'Weerdata',
-      modelRef: 'weerdata',
+      modelRef: 'weatherData',
       shape: 'rectangle',
       color: 'muted',
       style: {
@@ -165,8 +165,8 @@
         'ses.webapp',
         'ses.frontendAPI',
         'ses.ingestService',
-        'ses.rekenservice',
-        'ses.MLservice',
+        'ses.calculationService',
+        'ses.mlService',
         'ses.backendAPI',
         'ses.database',
       ],
@@ -324,7 +324,7 @@
       drifts: null,
     },
     {
-      id: 'ses.rekenservice',
+      id: 'ses.calculationService',
       parent: 'ses',
       level: 1,
       children: [],
@@ -336,7 +336,7 @@
         '6omtrw',
       ],
       title: 'Reken service',
-      modelRef: 'ses.rekenservice',
+      modelRef: 'ses.calculationService',
       shape: 'rectangle',
       color: 'primary',
       style: {
@@ -348,7 +348,7 @@
       },
       tags: [],
       kind: 'container',
-      navigateTo: 'rekenDetail',
+      navigateTo: 'calculationDetail',
       x: 633,
       y: 1671,
       width: 320,
@@ -362,7 +362,7 @@
       drifts: null,
     },
     {
-      id: 'ses.MLservice',
+      id: 'ses.mlService',
       parent: 'ses',
       level: 1,
       children: [],
@@ -374,7 +374,7 @@
         '1ac0rii',
       ],
       title: 'ML service',
-      modelRef: 'ses.MLservice',
+      modelRef: 'ses.mlService',
       shape: 'rectangle',
       color: 'primary',
       style: {
@@ -529,7 +529,7 @@
     {
       id: '1agwk72',
       parent: null,
-      source: 'beheerder',
+      source: 'admin',
       target: 'ses.webapp',
       label: '[...]',
       relations: [
@@ -580,7 +580,7 @@
     {
       id: '1akhu5h',
       parent: null,
-      source: 'meterdata',
+      source: 'meterData',
       target: 'ses.ingestService',
       label: 'provides CSV export',
       relations: [
@@ -629,8 +629,8 @@
     {
       id: 'i4toaw',
       parent: null,
-      source: 'weerdata',
-      target: 'ses.MLservice',
+      source: 'weatherData',
+      target: 'ses.mlService',
       label: 'provides weather data over HTTPS',
       relations: [
         '1iozxnk',
@@ -974,7 +974,7 @@
     {
       id: '12yoirg',
       parent: 'ses',
-      source: 'ses.rekenservice',
+      source: 'ses.calculationService',
       target: 'ses.backendAPI',
       label: 'reads readings, writes simultaneity',
       relations: [
@@ -1047,7 +1047,7 @@
     {
       id: '1ac0rii',
       parent: 'ses',
-      source: 'ses.MLservice',
+      source: 'ses.mlService',
       target: 'ses.backendAPI',
       label: '[...]',
       relations: [
@@ -1101,7 +1101,7 @@
       id: 'bokdkv',
       parent: 'ses',
       source: 'ses.ingestService',
-      target: 'ses.rekenservice',
+      target: 'ses.calculationService',
       label: 'reports new data',
       relations: [
         'jqb22f',
@@ -1161,8 +1161,8 @@
     {
       id: '6omtrw',
       parent: 'ses',
-      source: 'ses.rekenservice',
-      target: 'ses.MLservice',
+      source: 'ses.calculationService',
+      target: 'ses.mlService',
       label: 'reports new results',
       relations: [
         '1ji2jy4',

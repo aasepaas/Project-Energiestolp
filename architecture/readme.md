@@ -15,8 +15,8 @@ Views:
 
 - `index`: 1 - Context
 - `ses`: 2 - Containers
-- `webappDetail`, `ingestDetail`, `databaseDetail`, `rekenDetail`, `backendApiDetail`, `frontendApiDetail`, `mlComponents`: 3.1 tot en met 3.7, componenten per container
-- `componenten`: 3 - Componenten, alle componenten in één view
+- `webappDetail`, `ingestDetail`, `databaseDetail`, `calculationDetail`, `backendApiDetail`, `frontendApiDetail`, `mlDetail`: 3.1 tot en met 3.7, componenten per container
+- `components`: 3 - Components, alle componenten in één view
 
 context niveau:
 <img width="1406" height="628" alt="index" src="https://github.com/user-attachments/assets/6afe30b4-45c3-47d1-8ec8-5931794f611b" />
