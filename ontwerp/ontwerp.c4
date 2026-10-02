@@ -47,7 +47,7 @@ model {
     }
   }
 
-  saas = system 'Energiegelijktijdigheid systeem' {
+  saas = system '2 - Containers' {
     #version1
 
     service webapp 'Web app' {
@@ -277,7 +277,7 @@ model {
 views {
 
   view index {
-    title 'Context niveau'
+    title '1 - Context'
 
     include *
   }
@@ -319,32 +319,32 @@ views {
 
   // Niveau 3: alleen de componenten van één service
   view webappDetail of webapp {
-    title 'Web app componenten'
+    title '3.1 - Web app'
     include webapp.*
   }
-
+    
   view ingestDetail of ingestService {
-    title 'Ingest service componenten'
+    title '3.2 - Ingest service'
     include ingestService.*
   }
 
   view databaseDetail of database {
-    title 'Database componenten'
+    title '3.3 - Database'
     include database.*
   }
 
   view rekenDetail of rekenservice {
-    title 'Reken service componenten'
+    title '3.4 - Reken service'
     include rekenservice.*
   }
 
   view backendApiDetail of backendAPI {
-    title 'Backend API componenten'
+    title '3.5 - Backend API'
     include backendAPI.*
   }
 
   view frontendApiDetail of frontendAPI {
-    title 'Frontend API componenten'
+    title '3.6 - Frontend API'
     include frontendAPI.*
   
     style customer {
@@ -353,7 +353,7 @@ views {
   }
 
   view componenten {
-    title 'Alle componenten'
+    title '3 - Componenten'
     include saas.**
     include customer, meterdata, weerdata, beheerder
   }
