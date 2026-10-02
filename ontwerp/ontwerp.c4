@@ -242,12 +242,73 @@ model {
       querySender -> database
     }
 
-    service MLservice 'ML service' {
-      description '
-        Voorspellen en adviseren op basis van gedragspatronen
-      '
+    container MLservice 'ML service' {
+      description 'Voorspellen en adviseren op basis van gedragspatronen'
+
+      // ── Na elke export, enkele keren per jaar ──
+
+      component effectmeting 'Effectmeting' {
+        description 'Werkelijk verbruik vs. P50-voorspelling: advies opgevolgd ja/nee en gemeten winst'
+      }
+
+      component hertrainen 'Hertrainen' {
+        description 'Hertraint voorspellers, clusters en acceptatiemodel op de nieuwe data'
+      }
+
+      component modelregister 'Modelregister' {
+        description 'MLflow: modelversies en testscores, nieuw model alleen live als het beter scoort'
+        style {
+          shape storage
+        }
+      }
+
+      // ── Elke avond, automatisch ──
+
+      component weersverwachting 'Weersverwachting' {
+        description 'Haalt instraling, bewolking en temperatuur op voor de komende 48 uur'
+      }
+
+      component voorspellen 'Voorspellen' {
+        description 'Opwek en verbruik per kwartier, P10-P90 (LightGBM-kwantielregressie)'
+      }
+
+      component optimaliseren 'Optimaliseren' {
+        description 'Plant verschuifbare apparaten naar onbenut overschot (P10) binnen comfortgrenzen (MILP)'
+      }
+
+      component rangschikken 'Rangschikken' {
+        description 'Winst x kans op opvolgen (Thompson sampling), kiest de top 3 adviezen'
+      }
+
+      // Na elke export
+      effectmeting -> hertrainen 'levert opgevolgd ja/nee en gemeten winst'
+      hertrainen -> modelregister 'registreert nieuwe modellen'
+
+      // Elke avond
+      weersverwachting -> voorspellen 'levert weerfeatures'
+      voorspellen -> optimaliseren 'levert voorspeld overschot (P10)'
+      optimaliseren -> rangschikken 'levert mogelijke adviezen'
+
+      // Getrainde modellen: van het export-ritme naar het avond-ritme
+      modelregister -> voorspellen 'getrainde modellen'
+      modelregister -> rangschikken 'getrainde modellen'
     }
   }
+
+  // ── Relaties met de omgeving ──
+
+  weerdata -> saas.MLservice.weersverwachting 'levert weerdata via HTTPS'
+
+  // Import meterdata start het export-ritme
+  saas.ingestService -> saas.MLservice.effectmeting 'meldt nieuwe export'
+
+  // Lezen en schrijven via de Backend API
+  saas.MLservice.effectmeting -> saas.backendAPI 'leest gegeven adviezen en meetdata'
+  saas.MLservice.hertrainen -> saas.backendAPI 'leest trainingsdata'
+  saas.MLservice.voorspellen -> saas.backendAPI 'leest historie, schrijft voorspellingen'
+  saas.MLservice.optimaliseren -> saas.backendAPI 'leest comfortgrenzen en apparaten'
+  saas.MLservice.rangschikken -> saas.backendAPI 'schrijft top 3 adviezen voor het deelnemersportaal'
+
 
   // Customer uses the UI
   customer -> webapp 'opens in browser'
@@ -351,6 +412,11 @@ views {
     style customer {
       color muted
     }
+  }
+
+  view mlComponents of MLservice {
+    title '3.7 - ML service'
+    include MLservice.*
   }
 
   view componenten {
