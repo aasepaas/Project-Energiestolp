@@ -1,0 +1,889 @@
+{
+  "_type": "element",
+  "tags": null,
+  "links": null,
+  "viewOf": "ses.webapp",
+  "_stage": "layouted",
+  "sourcePath": "ses_v0.1_en.c4",
+  "description": null,
+  "title": "3.1 - Web app",
+  "id": "webappDetail",
+  "autoLayout": {
+    "direction": "TB"
+  },
+  "hash": "oi9fu1y6oSgy4jAe5lDdU02Ln2EJHUK3wLNDRHX91nY",
+  "bounds": {
+    "x": 0,
+    "y": 0,
+    "width": 1873,
+    "height": 1664
+  },
+  "nodes": [
+    {
+      "id": "customer",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "1s6dt9m"
+      ],
+      "title": "Small energy consumers",
+      "modelRef": "customer",
+      "shape": "person",
+      "color": "muted",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Participants of the energy community who view their own data and advice"
+      },
+      "tags": [],
+      "kind": "actor",
+      "x": 603,
+      "y": 0,
+      "width": 352,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 56,
+        "width": 317,
+        "height": 65
+      }
+    },
+    {
+      "id": "admin",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "120nhhd"
+      ],
+      "title": "System administrator",
+      "modelRef": "admin",
+      "shape": "person",
+      "color": "muted",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Administrator who imports data and manages the system"
+      },
+      "tags": [],
+      "kind": "actor",
+      "x": 1532,
+      "y": 230,
+      "width": 341,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 56,
+        "width": 306,
+        "height": 65
+      }
+    },
+    {
+      "id": "ses.webapp",
+      "parent": null,
+      "level": 0,
+      "children": [
+        "ses.webapp.loginPage",
+        "ses.webapp.authentication",
+        "ses.webapp.dataImport",
+        "ses.webapp.dataView",
+        "ses.webapp.settings",
+        "ses.webapp.apiClient"
+      ],
+      "inEdges": [
+        "1s6dt9m",
+        "120nhhd"
+      ],
+      "outEdges": [
+        "b9xygy"
+      ],
+      "title": "Web app",
+      "modelRef": "ses.webapp",
+      "shape": "browser",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "User interface for participants and administrators (front-end framework still to be chosen)"
+      },
+      "tags": [
+        "ui",
+        "warn"
+      ],
+      "kind": "container",
+      "depth": 1,
+      "x": 0,
+      "y": 320,
+      "width": 1392,
+      "height": 1069,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 55,
+        "height": 15
+      }
+    },
+    {
+      "id": "ses.webapp.loginPage",
+      "parent": "ses.webapp",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1s6dt9m",
+        "120nhhd"
+      ],
+      "outEdges": [
+        "swstoa"
+      ],
+      "title": "Login page",
+      "modelRef": "ses.webapp.loginPage",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Login page for all users"
+      },
+      "tags": [],
+      "kind": "component",
+      "x": 924,
+      "y": 381,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 80,
+        "y": 65,
+        "width": 160,
+        "height": 47
+      }
+    },
+    {
+      "id": "ses.webapp.authentication",
+      "parent": "ses.webapp",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "swstoa"
+      ],
+      "outEdges": [
+        "14r5upz",
+        "t6xd3r",
+        "lu65in",
+        "xd20ej"
+      ],
+      "title": "Authentication",
+      "modelRef": "ses.webapp.authentication",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Manages sessions and permissions per role"
+      },
+      "tags": [],
+      "kind": "component",
+      "x": 918,
+      "y": 644,
+      "width": 332,
+      "height": 180,
+      "labelBBox": {
+        "x": 17,
+        "y": 65,
+        "width": 297,
+        "height": 47
+      }
+    },
+    {
+      "id": "ses.webapp.dataImport",
+      "parent": "ses.webapp",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "14r5upz"
+      ],
+      "outEdges": [
+        "fwk6li"
+      ],
+      "title": "Data import",
+      "modelRef": "ses.webapp.dataImport",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Lets the administrator upload new meter data through the frontend API"
+      },
+      "tags": [],
+      "kind": "component",
+      "x": 40,
+      "y": 907,
+      "width": 341,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 56,
+        "width": 305,
+        "height": 65
+      }
+    },
+    {
+      "id": "ses.webapp.dataView",
+      "parent": "ses.webapp",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "t6xd3r"
+      ],
+      "outEdges": [
+        "1qx1xyu"
+      ],
+      "title": "Data view",
+      "modelRef": "ses.webapp.dataView",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Shows participants their own consumption, generation and advice"
+      },
+      "tags": [],
+      "kind": "component",
+      "x": 422,
+      "y": 907,
+      "width": 324,
+      "height": 180,
+      "labelBBox": {
+        "x": 17,
+        "y": 56,
+        "width": 288,
+        "height": 65
+      }
+    },
+    {
+      "id": "ses.webapp.settings",
+      "parent": "ses.webapp",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "lu65in"
+      ],
+      "outEdges": [
+        "1bf5l8u"
+      ],
+      "title": "Settings",
+      "modelRef": "ses.webapp.settings",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Lets the administrator manage system settings"
+      },
+      "tags": [],
+      "kind": "component",
+      "x": 786,
+      "y": 907,
+      "width": 350,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 65,
+        "width": 314,
+        "height": 47
+      }
+    },
+    {
+      "id": "ses.webapp.apiClient",
+      "parent": "ses.webapp",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "xd20ej",
+        "fwk6li",
+        "1qx1xyu",
+        "1bf5l8u"
+      ],
+      "outEdges": [
+        "b9xygy"
+      ],
+      "title": "API client",
+      "modelRef": "ses.webapp.apiClient",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Sends all requests from the web app to the frontend API"
+      },
+      "tags": [],
+      "kind": "component",
+      "x": 424,
+      "y": 1169,
+      "width": 325,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 56,
+        "width": 289,
+        "height": 65
+      }
+    },
+    {
+      "id": "ses.frontendAPI",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "b9xygy"
+      ],
+      "outEdges": [],
+      "title": "Frontend API",
+      "modelRef": "ses.frontendAPI",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Single entry point for the web app: database queries and data uploads"
+      },
+      "tags": [],
+      "kind": "container",
+      "navigateTo": "frontendApiDetail",
+      "x": 448,
+      "y": 1529,
+      "width": 262,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 40,
+        "width": 239,
+        "height": 53
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "1s6dt9m",
+      "source": "customer",
+      "target": "ses.webapp.loginPage",
+      "label": "logs in to view own data and advice",
+      "points": [
+        [
+          851,
+          180
+        ],
+        [
+          905,
+          247
+        ],
+        [
+          958,
+          314
+        ],
+        [
+          1012,
+          381
+        ]
+      ],
+      "labelBBox": {
+        "x": 938,
+        "y": 272,
+        "width": 245,
+        "height": 18
+      },
+      "parent": null,
+      "relations": [
+        "14e1dth"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "tags": [
+        "level3"
+      ]
+    },
+    {
+      "id": "120nhhd",
+      "source": "admin",
+      "target": "ses.webapp.loginPage",
+      "label": "logs in to import data and manage \nsettings",
+      "points": [
+        [
+          1532,
+          362
+        ],
+        [
+          1436,
+          385
+        ],
+        [
+          1340,
+          409
+        ],
+        [
+          1244,
+          432
+        ]
+      ],
+      "labelBBox": {
+        "x": 1394,
+        "y": 388,
+        "width": 301,
+        "height": 18
+      },
+      "parent": null,
+      "relations": [
+        "yup74t"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "tags": [
+        "level3"
+      ]
+    },
+    {
+      "id": "swstoa",
+      "source": "ses.webapp.loginPage",
+      "target": "ses.webapp.authentication",
+      "label": "submits credentials",
+      "points": [
+        [
+          1084,
+          561
+        ],
+        [
+          1084,
+          584
+        ],
+        [
+          1084,
+          609
+        ],
+        [
+          1084,
+          633
+        ]
+      ],
+      "labelBBox": {
+        "x": 1085,
+        "y": 592,
+        "width": 124,
+        "height": 18
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "xdwtec"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal"
+    },
+    {
+      "id": "14r5upz",
+      "source": "ses.webapp.authentication",
+      "target": "ses.webapp.dataImport",
+      "label": "grants access for administrators",
+      "points": [
+        [
+          917,
+          765
+        ],
+        [
+          809,
+          786
+        ],
+        [
+          666,
+          817
+        ],
+        [
+          542,
+          854
+        ],
+        [
+          478,
+          873
+        ],
+        [
+          463,
+          881
+        ],
+        [
+          402,
+          907
+        ],
+        [
+          398,
+          908
+        ],
+        [
+          394,
+          910
+        ],
+        [
+          390,
+          911
+        ]
+      ],
+      "labelBBox": {
+        "x": 543,
+        "y": 855,
+        "width": 202,
+        "height": 18
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "c7no12"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal"
+    },
+    {
+      "id": "t6xd3r",
+      "source": "ses.webapp.authentication",
+      "target": "ses.webapp.dataView",
+      "label": "grants access for participants",
+      "points": [
+        [
+          917,
+          796
+        ],
+        [
+          876,
+          813
+        ],
+        [
+          832,
+          833
+        ],
+        [
+          793,
+          854
+        ],
+        [
+          766,
+          868
+        ],
+        [
+          740,
+          884
+        ],
+        [
+          714,
+          901
+        ]
+      ],
+      "labelBBox": {
+        "x": 794,
+        "y": 855,
+        "width": 186,
+        "height": 18
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "123148n"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal"
+    },
+    {
+      "id": "lu65in",
+      "source": "ses.webapp.authentication",
+      "target": "ses.webapp.settings",
+      "label": "grants access for administrators",
+      "points": [
+        [
+          1017,
+          823
+        ],
+        [
+          1011,
+          833
+        ],
+        [
+          1005,
+          844
+        ],
+        [
+          1000,
+          854
+        ],
+        [
+          994,
+          867
+        ],
+        [
+          988,
+          882
+        ],
+        [
+          983,
+          897
+        ]
+      ],
+      "labelBBox": {
+        "x": 1001,
+        "y": 855,
+        "width": 202,
+        "height": 18
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "dreqom"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal"
+    },
+    {
+      "id": "xd20ej",
+      "source": "ses.webapp.authentication",
+      "target": "ses.webapp.apiClient",
+      "label": "verifies user and role",
+      "points": [
+        [
+          1193,
+          824
+        ],
+        [
+          1200,
+          833
+        ],
+        [
+          1206,
+          843
+        ],
+        [
+          1211,
+          854
+        ],
+        [
+          1242,
+          926
+        ],
+        [
+          1377,
+          854
+        ],
+        [
+          1156,
+          1087
+        ],
+        [
+          1053,
+          1194
+        ],
+        [
+          886,
+          1235
+        ],
+        [
+          759,
+          1250
+        ]
+      ],
+      "labelBBox": {
+        "x": 1281,
+        "y": 986,
+        "width": 134,
+        "height": 18
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "m03o5g"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal"
+    },
+    {
+      "id": "fwk6li",
+      "source": "ses.webapp.dataImport",
+      "target": "ses.webapp.apiClient",
+      "label": "uploads CSV file",
+      "points": [
+        [
+          339,
+          1086
+        ],
+        [
+          375,
+          1111
+        ],
+        [
+          414,
+          1139
+        ],
+        [
+          450,
+          1164
+        ]
+      ],
+      "labelBBox": {
+        "x": 411,
+        "y": 1118,
+        "width": 108,
+        "height": 18
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "1vprm58"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal"
+    },
+    {
+      "id": "1qx1xyu",
+      "source": "ses.webapp.dataView",
+      "target": "ses.webapp.apiClient",
+      "label": "requests own data and advice",
+      "points": [
+        [
+          585,
+          1086
+        ],
+        [
+          585,
+          1110
+        ],
+        [
+          585,
+          1135
+        ],
+        [
+          585,
+          1159
+        ]
+      ],
+      "labelBBox": {
+        "x": 586,
+        "y": 1118,
+        "width": 190,
+        "height": 18
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "n6ooum"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal"
+    },
+    {
+      "id": "1bf5l8u",
+      "source": "ses.webapp.settings",
+      "target": "ses.webapp.apiClient",
+      "label": "reads and saves settings",
+      "points": [
+        [
+          857,
+          1086
+        ],
+        [
+          835,
+          1105
+        ],
+        [
+          811,
+          1123
+        ],
+        [
+          788,
+          1139
+        ],
+        [
+          776,
+          1148
+        ],
+        [
+          764,
+          1156
+        ],
+        [
+          751,
+          1164
+        ]
+      ],
+      "labelBBox": {
+        "x": 818,
+        "y": 1118,
+        "width": 159,
+        "height": 18
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "8vg1xx"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal"
+    },
+    {
+      "id": "b9xygy",
+      "source": "ses.webapp.apiClient",
+      "target": "ses.frontendAPI",
+      "label": "sends requests and uploads over HTTPS",
+      "points": [
+        [
+          584,
+          1349
+        ],
+        [
+          583,
+          1409
+        ],
+        [
+          582,
+          1469
+        ],
+        [
+          580,
+          1529
+        ]
+      ],
+      "labelBBox": {
+        "x": 588,
+        "y": 1430,
+        "width": 259,
+        "height": 18
+      },
+      "parent": null,
+      "relations": [
+        "kjsgce"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "tags": [
+        "level3"
+      ]
+    }
+  ]
+}

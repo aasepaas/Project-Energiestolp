@@ -1,0 +1,640 @@
+{
+  "_type": "element",
+  "tags": null,
+  "links": null,
+  "viewOf": "ses.frontendAPI",
+  "_stage": "layouted",
+  "sourcePath": "ses_v0.1_en.c4",
+  "description": null,
+  "title": "3.6 - Frontend API",
+  "id": "frontendApiDetail",
+  "autoLayout": {
+    "direction": "TB"
+  },
+  "hash": "Ga99E3-jDn0poLXvgYWr3OE6TYJQ5oXYLFb_jyFeJUs",
+  "bounds": {
+    "x": 0,
+    "y": 0,
+    "width": 1695,
+    "height": 1486
+  },
+  "nodes": [
+    {
+      "id": "ses.webapp",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "1ejf8yz"
+      ],
+      "title": "Web app",
+      "modelRef": "ses.webapp",
+      "shape": "browser",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "User interface for participants and administrators (front-end framework still to be chosen)"
+      },
+      "tags": [
+        "ui",
+        "warn"
+      ],
+      "kind": "container",
+      "navigateTo": "webappDetail",
+      "x": 533,
+      "y": 0,
+      "width": 328,
+      "height": 180,
+      "labelBBox": {
+        "x": 22,
+        "y": 47,
+        "width": 284,
+        "height": 83
+      }
+    },
+    {
+      "id": "ses.frontendAPI",
+      "parent": null,
+      "level": 0,
+      "children": [
+        "ses.frontendAPI.apiEndpoints",
+        "ses.frontendAPI.authentication",
+        "ses.frontendAPI.queryBuilder",
+        "ses.frontendAPI.uploadHandler",
+        "ses.frontendAPI.queryExecutor"
+      ],
+      "inEdges": [
+        "1ejf8yz"
+      ],
+      "outEdges": [
+        "1medkoq",
+        "16ubtp2"
+      ],
+      "title": "Frontend API",
+      "modelRef": "ses.frontendAPI",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Single entry point for the web app: database queries and data uploads"
+      },
+      "tags": [],
+      "kind": "container",
+      "depth": 1,
+      "x": 0,
+      "y": 320,
+      "width": 1160,
+      "height": 846,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 87,
+        "height": 15
+      }
+    },
+    {
+      "id": "ses.frontendAPI.apiEndpoints",
+      "parent": "ses.frontendAPI",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1ejf8yz"
+      ],
+      "outEdges": [
+        "1fpqt5u",
+        "mbpwo9",
+        "1do3995"
+      ],
+      "title": "API endpoints",
+      "modelRef": "ses.frontendAPI.apiEndpoints",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Receives requests, routes them and returns the result"
+      },
+      "tags": [],
+      "kind": "component",
+      "x": 422,
+      "y": 381,
+      "width": 331,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 56,
+        "width": 295,
+        "height": 65
+      }
+    },
+    {
+      "id": "ses.frontendAPI.authentication",
+      "parent": "ses.frontendAPI",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1fpqt5u"
+      ],
+      "outEdges": [],
+      "title": "Authentication",
+      "modelRef": "ses.frontendAPI.authentication",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Checks who makes the request and whether it is allowed"
+      },
+      "tags": [],
+      "kind": "component",
+      "x": 40,
+      "y": 644,
+      "width": 347,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 56,
+        "width": 312,
+        "height": 65
+      }
+    },
+    {
+      "id": "ses.frontendAPI.queryBuilder",
+      "parent": "ses.frontendAPI",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "mbpwo9"
+      ],
+      "outEdges": [
+        "4i8x58"
+      ],
+      "title": "Query builder",
+      "modelRef": "ses.frontendAPI.queryBuilder",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Translates a request into a valid database query"
+      },
+      "tags": [],
+      "kind": "component",
+      "x": 428,
+      "y": 644,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 56,
+        "width": 283,
+        "height": 65
+      }
+    },
+    {
+      "id": "ses.frontendAPI.uploadHandler",
+      "parent": "ses.frontendAPI",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1do3995"
+      ],
+      "outEdges": [
+        "16ubtp2"
+      ],
+      "title": "Upload handler",
+      "modelRef": "ses.frontendAPI.uploadHandler",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Accepts CSV uploads from administrators, checks file type and size and forwards them to the ingest service"
+      },
+      "tags": [],
+      "kind": "component",
+      "x": 788,
+      "y": 644,
+      "width": 331,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 47,
+        "width": 295,
+        "height": 83
+      }
+    },
+    {
+      "id": "ses.frontendAPI.queryExecutor",
+      "parent": "ses.frontendAPI",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "4i8x58"
+      ],
+      "outEdges": [
+        "1medkoq"
+      ],
+      "title": "Query executor",
+      "modelRef": "ses.frontendAPI.queryExecutor",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Sends the query to the database and returns the result"
+      },
+      "tags": [],
+      "kind": "component",
+      "x": 420,
+      "y": 946,
+      "width": 336,
+      "height": 180,
+      "labelBBox": {
+        "x": 17,
+        "y": 56,
+        "width": 301,
+        "height": 65
+      }
+    },
+    {
+      "id": "ses.ingestService",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "16ubtp2"
+      ],
+      "outEdges": [],
+      "title": "Ingest service",
+      "modelRef": "ses.ingestService",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Imports meter data and links every meter to the right participant"
+      },
+      "tags": [],
+      "kind": "container",
+      "navigateTo": "ingestDetail",
+      "x": 1366,
+      "y": 1306,
+      "width": 329,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 56,
+        "width": 293,
+        "height": 65
+      }
+    },
+    {
+      "id": "ses.database",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "1medkoq"
+      ],
+      "outEdges": [],
+      "title": "Database",
+      "modelRef": "ses.database",
+      "shape": "storage",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "PostgreSQL with TimescaleDB for readings, links, forecasts and advice"
+      },
+      "tags": [],
+      "kind": "container",
+      "navigateTo": "databaseDetail",
+      "x": 994,
+      "y": 1306,
+      "width": 333,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 56,
+        "width": 297,
+        "height": 65
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "1ejf8yz",
+      "source": "ses.webapp",
+      "target": "ses.frontendAPI.apiEndpoints",
+      "label": "sends requests and uploads over HTTPS",
+      "points": [
+        [
+          671,
+          180
+        ],
+        [
+          652,
+          247
+        ],
+        [
+          633,
+          314
+        ],
+        [
+          613,
+          381
+        ]
+      ],
+      "labelBBox": {
+        "x": 648,
+        "y": 272,
+        "width": 259,
+        "height": 18
+      },
+      "parent": null,
+      "relations": [
+        "kjsgce"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "tags": [
+        "level3"
+      ]
+    },
+    {
+      "id": "1fpqt5u",
+      "source": "ses.frontendAPI.apiEndpoints",
+      "target": "ses.frontendAPI.authentication",
+      "label": "verifies caller and permissions",
+      "points": [
+        [
+          430,
+          561
+        ],
+        [
+          414,
+          571
+        ],
+        [
+          399,
+          581
+        ],
+        [
+          384,
+          591
+        ],
+        [
+          364,
+          606
+        ],
+        [
+          343,
+          622
+        ],
+        [
+          323,
+          638
+        ]
+      ],
+      "labelBBox": {
+        "x": 385,
+        "y": 592,
+        "width": 192,
+        "height": 18
+      },
+      "parent": "ses.frontendAPI",
+      "relations": [
+        "mpid1q"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal"
+    },
+    {
+      "id": "mbpwo9",
+      "source": "ses.frontendAPI.apiEndpoints",
+      "target": "ses.frontendAPI.queryBuilder",
+      "label": "passes validated request",
+      "points": [
+        [
+          588,
+          561
+        ],
+        [
+          588,
+          584
+        ],
+        [
+          588,
+          610
+        ],
+        [
+          588,
+          634
+        ]
+      ],
+      "labelBBox": {
+        "x": 589,
+        "y": 592,
+        "width": 159,
+        "height": 18
+      },
+      "parent": "ses.frontendAPI",
+      "relations": [
+        "ttqqrq"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal"
+    },
+    {
+      "id": "1do3995",
+      "source": "ses.frontendAPI.apiEndpoints",
+      "target": "ses.frontendAPI.uploadHandler",
+      "label": "passes authorised upload",
+      "points": [
+        [
+          716,
+          561
+        ],
+        [
+          730,
+          571
+        ],
+        [
+          745,
+          582
+        ],
+        [
+          759,
+          591
+        ],
+        [
+          780,
+          606
+        ],
+        [
+          802,
+          623
+        ],
+        [
+          824,
+          638
+        ]
+      ],
+      "labelBBox": {
+        "x": 786,
+        "y": 592,
+        "width": 164,
+        "height": 18
+      },
+      "parent": "ses.frontendAPI",
+      "relations": [
+        "1csbihk"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal"
+    },
+    {
+      "id": "4i8x58",
+      "source": "ses.frontendAPI.queryBuilder",
+      "target": "ses.frontendAPI.queryExecutor",
+      "label": "passes query",
+      "points": [
+        [
+          588,
+          824
+        ],
+        [
+          588,
+          859
+        ],
+        [
+          588,
+          900
+        ],
+        [
+          588,
+          936
+        ]
+      ],
+      "labelBBox": {
+        "x": 589,
+        "y": 855,
+        "width": 87,
+        "height": 18
+      },
+      "parent": "ses.frontendAPI",
+      "relations": [
+        "1pfabqa"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal"
+    },
+    {
+      "id": "1medkoq",
+      "source": "ses.frontendAPI.queryExecutor",
+      "target": "ses.database",
+      "label": "reads participant data, writes settings \nand feedback",
+      "points": [
+        [
+          731,
+          1126
+        ],
+        [
+          827,
+          1186
+        ],
+        [
+          922,
+          1246
+        ],
+        [
+          1017,
+          1306
+        ]
+      ],
+      "labelBBox": {
+        "x": 880,
+        "y": 1207,
+        "width": 371,
+        "height": 18
+      },
+      "parent": null,
+      "relations": [
+        "1gzlo2p"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "tags": [
+        "level3"
+      ]
+    },
+    {
+      "id": "16ubtp2",
+      "source": "ses.frontendAPI.uploadHandler",
+      "target": "ses.ingestService",
+      "label": "forwards uploaded CSV file",
+      "points": [
+        [
+          1032,
+          824
+        ],
+        [
+          1172,
+          985
+        ],
+        [
+          1312,
+          1145
+        ],
+        [
+          1452,
+          1306
+        ]
+      ],
+      "labelBBox": {
+        "x": 1248,
+        "y": 1056,
+        "width": 182,
+        "height": 18
+      },
+      "parent": null,
+      "relations": [
+        "1gdwgf0"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "tags": [
+        "level3"
+      ]
+    }
+  ]
+}

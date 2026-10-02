@@ -18,6 +18,14 @@ Views:
 - `webappDetail`, `ingestDetail`, `databaseDetail`, `calculationDetail`, `backendApiDetail`, `frontendApiDetail`, `mlDetail`: 3.1 tot en met 3.7, componenten per container
 - `components`: 3 - Components, alle componenten in één view
 
+Layouts synchroniseren:
+
+De views 3.1 tot en met 3.7 hebben dezelfde layout als de containers in `3 - Components`. Pas je het model of de layout van `3 - Components` aan, draai dan:
+
+python architecture/sync_component_layouts.py
+
+Dit schrijft de layouts opnieuw naar `.likec4/<view-id>.likec4.snap`.
+
 context niveau:
 <img width="1406" height="628" alt="index" src="https://github.com/user-attachments/assets/6afe30b4-45c3-47d1-8ec8-5931794f611b" />
 
