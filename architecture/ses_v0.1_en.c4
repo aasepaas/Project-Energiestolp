@@ -1,5 +1,8 @@
 // Smart Energie Stolp (SES): C4 model, levels 1 to 3
 // Docs: https://likec4.dev/
+//
+// Modelling rule: between two elements there is exactly one relationship,
+// and every view only shows the relationships of its own C4 level.
 
 specification {
   element actor
@@ -14,13 +17,18 @@ specification {
     color #D6409F
   }
   tag warn
+
+  // Relationship levels, used to show each level in its own view
+  tag level1
+  tag level2
+  tag level3
 }
 
 model {
 
   // ═══════════════ Level 1: actors and external sources ═══════════════
 
-  customer = actor 'Klein energieverbruikers' {
+  customer = actor 'Small energy consumers' {
     description 'Participants of the energy community who view their own data and advice'
     style {
       shape person
@@ -28,7 +36,7 @@ model {
     }
   }
 
-  beheerder = actor 'Systeembeheerder' {
+  admin = actor 'System administrator' {
     description 'Administrator who imports data and manages the system'
     style {
       shape person
@@ -36,14 +44,14 @@ model {
     }
   }
 
-  meterdata = actor 'Meterdata' {
+  meterData = actor 'Meter data' {
     description 'CSV export with quarter-hourly readings per meter, delivered a few times per year'
     style {
       color muted
     }
   }
 
-  weerdata = actor 'Weerdata' {
+  weatherData = actor 'Weather data' {
     description 'Weather forecast for the next 48 hours and historical weather archive'
     style {
       color muted
@@ -64,29 +72,32 @@ model {
         shape browser
       }
 
-      component inlogpagina 'Inlogpagina' {
+      component loginPage 'Login page' {
         description 'Login page for all users'
       }
-      component authenticatie 'Authenticatie' {
+      component authentication 'Authentication' {
         description 'Manages sessions and permissions per role'
       }
-      component dataImport 'Data-import' {
-        description 'Lets the administrator upload new meter data for the ingest service'
+      component dataImport 'Data import' {
+        description 'Lets the administrator upload new meter data to the ingest service'
       }
-      component dataInzien 'Data inzien' {
+      component dataView 'Data view' {
         description 'Shows participants their own consumption, generation and advice'
       }
-      component instellingen 'Instellingen' {
+      component settings 'Settings' {
         description 'Lets the administrator manage system settings'
       }
-      component apiClient 'API-client' {
+      component apiClient 'API client' {
         description 'Sends all requests from the web app to the frontend API'
       }
 
-      inlogpagina -> authenticatie 'submits credentials'
-      authenticatie -> apiClient 'verifies user and role'
-      dataInzien -> apiClient 'requests own data and advice'
-      instellingen -> apiClient 'reads and saves settings'
+      loginPage -> authentication 'submits credentials'
+      authentication -> apiClient 'verifies user and role'
+      authentication -> dataView 'grants access for participants'
+      authentication -> dataImport 'grants access for administrators'
+      authentication -> settings 'grants access for administrators'
+      dataView -> apiClient 'requests own data and advice'
+      settings -> apiClient 'reads and saves settings'
     }
 
     // ─────────── Frontend API ───────────
@@ -96,22 +107,22 @@ model {
         size small
       }
 
-      component apiEndpoints 'API-endpoints' {
+      component apiEndpoints 'API endpoints' {
         description 'Receives requests, routes them and returns the result'
       }
-      component authenticatie 'Authenticatie' {
+      component authentication 'Authentication' {
         description 'Checks who makes the request and whether it is allowed'
       }
-      component queryMaker 'Query maker' {
+      component queryBuilder 'Query builder' {
         description 'Translates a request into a valid database query'
       }
-      component querySender 'Query verstuurder' {
+      component queryExecutor 'Query executor' {
         description 'Sends the query to the database and returns the result'
       }
 
-      apiEndpoints -> authenticatie 'verifies caller and permissions'
-      apiEndpoints -> queryMaker 'passes validated request'
-      queryMaker -> querySender 'passes query'
+      apiEndpoints -> authentication 'verifies caller and permissions'
+      apiEndpoints -> queryBuilder 'passes validated request'
+      queryBuilder -> queryExecutor 'passes query'
     }
 
     // ─────────── Backend API ───────────
@@ -121,30 +132,30 @@ model {
         size small
       }
 
-      component apiEndpoints 'API-endpoints' {
+      component apiEndpoints 'API endpoints' {
         description 'Receives requests, routes them and returns the result'
       }
-      component authenticatie 'Authenticatie' {
+      component authentication 'Authentication' {
         description 'Checks which service makes the request and whether it is allowed'
       }
-      component queryMaker 'Query maker' {
+      component queryBuilder 'Query builder' {
         description 'Translates a request into a valid database query'
       }
-      component querySender 'Query verstuurder' {
+      component queryExecutor 'Query executor' {
         description 'Sends the query to the database and returns the result'
       }
 
-      apiEndpoints -> authenticatie 'verifies caller and permissions'
-      apiEndpoints -> queryMaker 'passes validated request'
-      queryMaker -> querySender 'passes query'
+      apiEndpoints -> authentication 'verifies caller and permissions'
+      apiEndpoints -> queryBuilder 'passes validated request'
+      queryBuilder -> queryExecutor 'passes query'
     }
 
     // ─────────── Ingest service ───────────
     container ingestService 'Ingest service' {
       description 'Imports meter data and links every meter to the right participant'
 
-      component ontvanger 'Bestandsontvanger' {
-        description 'Receives the meter data file and logs file name, hash and period'
+      component fileReceiver 'File receiver' {
+        description 'Receives the meter data file and records file name, hash and period'
       }
       component csvParser 'CSV parser' {
         description 'Parses decimal commas and merges date and time into a UTC timestamp'
@@ -152,55 +163,55 @@ model {
       component validator 'Validator' {
         description 'Detects duplicates, marks gaps (not as zero) and checks limits per meter'
       }
-      component meterKoppelaar 'Meterkoppelaar' {
+      component meterLinker 'Meter linker' {
         description 'Links meter_reference to participant_id using the client\'s linking tool'
       }
-      component writer 'Writer' {
-        description 'Writes validated readings to the database through the backend API'
+      component backendClient 'Backend client' {
+        description 'Reads meter links and writes readings and import records through the backend API'
       }
-      component importNotifier 'Importnotifier' {
+      component importNotifier 'Import notifier' {
         description 'Notifies the calculation service that new data has been imported'
         style {
           size small
         }
       }
 
-      ontvanger -> csvParser 'passes raw CSV'
+      fileReceiver -> csvParser 'passes raw CSV'
       csvParser -> validator 'passes parsed rows'
-      validator -> meterKoppelaar 'passes valid rows'
-      meterKoppelaar -> writer 'passes linked rows'
-      writer -> importNotifier 'reports completed import'
+      validator -> meterLinker 'passes valid rows'
+      meterLinker -> backendClient 'requests meter links and passes linked rows'
+      backendClient -> importNotifier 'reports completed import'
     }
 
-    // ─────────── Reken service ───────────
-    container rekenservice 'Reken service' {
+    // ─────────── Calculation service ───────────
+    container calculationService 'Calculation service' {
       description 'Calculates simultaneity per quarter hour'
 
-      component rekenTrigger 'Rekentrigger' {
+      component calculationTrigger 'Calculation trigger' {
         description 'Starts a recalculation for the changed period'
         style {
           size small
         }
       }
-      component gelijktijdigheid 'Gelijktijdigheidsberekening' {
+      component simultaneityCalculator 'Simultaneity calculator' {
         description 'Shared energy = min(surplus, consumption) per quarter hour'
       }
 
-      rekenTrigger -> gelijktijdigheid 'starts calculation'
+      calculationTrigger -> simultaneityCalculator 'starts calculation'
     }
 
     // ─────────── ML service ───────────
-    container MLservice 'ML service' {
+    container mlService 'ML service' {
       description 'Forecasts generation and consumption and generates personal advice'
 
       // After every export, a few times per year
-      component effectmeting 'Effectmeting' {
+      component effectMeasurement 'Effect measurement' {
         description 'Compares actual consumption with the P50 forecast to measure whether advice was followed'
       }
-      component hertrainen 'Hertrainen' {
+      component retraining 'Retraining' {
         description 'Retrains the forecasters, clusters and acceptance model on new data'
       }
-      component modelregister 'Modelregister' {
+      component modelRegistry 'Model registry' {
         description 'MLflow registry with model versions and test scores; a new model goes live only if it scores better'
         style {
           shape storage
@@ -208,26 +219,40 @@ model {
       }
 
       // Every evening, automatically
-      component weersverwachting 'Weersverwachting' {
+      component weatherForecast 'Weather forecast' {
         description 'Fetches irradiance, cloud cover and temperature for the next 48 hours'
       }
-      component voorspellen 'Voorspellen' {
+      component forecasting 'Forecasting' {
         description 'Forecasts generation and consumption per quarter hour with P10 to P90 bands (LightGBM)'
       }
-      component optimaliseren 'Optimaliseren' {
+      component optimization 'Optimization' {
         description 'Schedules flexible appliances into unused surplus within comfort limits (MILP)'
       }
-      component rangschikken 'Rangschikken' {
+      component ranking 'Ranking' {
         description 'Ranks advice by expected gain times chance of being followed and selects the top 3'
       }
 
-      effectmeting -> hertrainen 'provides measured effect of advice'
-      hertrainen -> modelregister 'registers new models'
-      weersverwachting -> voorspellen 'provides weather features'
-      voorspellen -> optimaliseren 'provides forecast surplus (P10)'
-      optimaliseren -> rangschikken 'provides candidate advice'
-      modelregister -> voorspellen 'provides trained models'
-      modelregister -> rangschikken 'provides trained models'
+      // Shared
+      component dataAccess 'Data access' {
+        description 'Single gateway from the ML service to the backend API'
+        style {
+          size small
+        }
+      }
+
+      effectMeasurement -> retraining 'provides measured effect of advice'
+      retraining -> modelRegistry 'registers new models'
+      weatherForecast -> forecasting 'provides weather features'
+      forecasting -> optimization 'provides forecast surplus (P10)'
+      optimization -> ranking 'provides candidate advice'
+      modelRegistry -> forecasting 'provides trained models'
+      modelRegistry -> ranking 'provides trained models'
+
+      effectMeasurement -> dataAccess 'reads given advice and readings'
+      retraining -> dataAccess 'reads training data'
+      forecasting -> dataAccess 'reads history, writes forecasts'
+      optimization -> dataAccess 'reads comfort limits and appliances'
+      ranking -> dataAccess 'writes top 3 advice'
     }
 
     // ─────────── Database ───────────
@@ -237,100 +262,167 @@ model {
         shape storage
       }
 
-      component tblMeetdata 'meetdata' {
+      component sqlInterface 'SQL interface' {
+        description 'PostgreSQL endpoint with a separate role per API; the frontend role only sees participant data'
+        style {
+          size small
+        }
+      }
+      component readings 'readings' {
         description 'Hypertable with meter_id, UTC timestamp, to_grid, from_grid, created_at and import_id'
         style {
           shape storage
         }
       }
-      component tblKoppel 'koppeltabel' {
+      component meterLinks 'meter_links' {
         description 'Links meter_id to participant_id'
         style {
           shape storage
         }
       }
-      component tblDeelnemer 'deelnemers' {
+      component participants 'participants' {
         description 'Pseudonym, connection type, comfort limits and appliances'
         style {
           shape storage
         }
       }
-      component tblResultaat 'gelijktijdigheid' {
+      component simultaneity 'simultaneity' {
         description 'Shared kWh per quarter hour and participant'
         style {
           shape storage
         }
       }
-      component tblVoorspelling 'voorspellingen' {
+      component forecasts 'forecasts' {
         description 'Forecast generation and consumption per quarter hour'
         style {
           shape storage
         }
       }
-      component tblAdvies 'adviezen' {
+      component advice 'advice' {
         description 'Given advice, feedback and measured effect'
         style {
           shape storage
         }
       }
-      component tblImportlog 'importlog' {
+      component importLog 'import_log' {
         description 'File, hash, period, row count and new meters per import'
         style {
           shape storage
         }
       }
+
+      sqlInterface -> readings 'stores and queries'
+      sqlInterface -> meterLinks 'stores and queries'
+      sqlInterface -> participants 'stores and queries'
+      sqlInterface -> simultaneity 'stores and queries'
+      sqlInterface -> forecasts 'stores and queries'
+      sqlInterface -> advice 'stores and queries'
+      sqlInterface -> importLog 'stores and queries'
     }
   }
 
-  // ═══════════════ Relationships between containers and with the outside ═══════════════
+  // ═══════════════ Relationships ═══════════════
+  // Every pair of elements has exactly one relationship. Each level is modelled
+  // explicitly and tagged, so a view only shows the relationships of its own level:
+  //   #level1  context:    actor -> system
+  //   #level2  containers: actor -> container, container -> container
+  //   #level3  components: crossing a container boundary at component level
 
-  // Users
-  customer -> ses.webapp.inlogpagina 'logs in'
-  customer -> ses.webapp.dataInzien 'views own data and advice'
-  beheerder -> ses.webapp.inlogpagina 'logs in'
-  beheerder -> ses.webapp.dataImport 'uploads meter data'
-  beheerder -> ses.webapp.instellingen 'manages settings'
+  // ─────────── Level 1: context ───────────
+  customer -> ses 'views own energy data and advice' {
+    #level1
+  }
+  admin -> ses 'imports meter data and manages the system' {
+    #level1
+  }
+  meterData -> ses 'provides quarter-hourly CSV exports' {
+    #level1
+  }
+  weatherData -> ses 'provides weather forecasts and history' {
+    #level1
+  }
 
-  // External sources
-  meterdata -> ses.ingestService.ontvanger 'provides CSV export'
-  weerdata -> ses.MLservice.weersverwachting 'provides weather data over HTTPS'
+  // ─────────── Level 2: containers ───────────
+  customer -> ses.webapp 'views own data and advice' {
+    #level2
+  }
+  admin -> ses.webapp 'imports meter data and manages settings' {
+    #level2
+  }
+  meterData -> ses.ingestService 'provides CSV export' {
+    #level2
+  }
+  weatherData -> ses.mlService 'provides weather data over HTTPS' {
+    #level2
+  }
+  ses.webapp -> ses.frontendAPI 'sends requests over HTTPS' {
+    #level2
+  }
+  ses.webapp -> ses.ingestService 'uploads CSV file' {
+    #level2
+  }
+  ses.ingestService -> ses.backendAPI 'reads meter links, writes readings and import records' {
+    #level2
+  }
+  ses.ingestService -> ses.calculationService 'reports new data' {
+    #level2
+  }
+  ses.calculationService -> ses.backendAPI 'reads readings, writes simultaneity' {
+    #level2
+  }
+  ses.calculationService -> ses.mlService 'reports new results' {
+    #level2
+  }
+  ses.mlService -> ses.backendAPI 'reads and writes forecasts, advice and training data' {
+    #level2
+  }
+  ses.frontendAPI -> ses.database 'reads participant data, writes settings and feedback' {
+    #level2
+  }
+  ses.backendAPI -> ses.database 'reads and writes readings, links, results and advice' {
+    #level2
+  }
 
-  // Web app
-  ses.webapp.apiClient -> ses.frontendAPI.apiEndpoints 'sends requests over HTTPS'
-  ses.webapp.dataImport -> ses.ingestService.ontvanger 'uploads CSV file'
-
-  // Ingest service
-  ses.ingestService.ontvanger -> ses.backendAPI.apiEndpoints 'registers import'
-  ses.ingestService.meterKoppelaar -> ses.backendAPI.apiEndpoints 'reads meter links'
-  ses.ingestService.writer -> ses.backendAPI.apiEndpoints 'writes validated readings'
-  ses.ingestService.importNotifier -> ses.rekenservice.rekenTrigger 'reports new data'
-
-  // Reken service
-  ses.rekenservice.gelijktijdigheid -> ses.backendAPI.apiEndpoints 'reads readings, writes simultaneity'
-  ses.rekenservice.gelijktijdigheid -> ses.MLservice.effectmeting 'reports new results'
-
-  // ML service
-  ses.MLservice.effectmeting -> ses.backendAPI.apiEndpoints 'reads given advice and readings'
-  ses.MLservice.hertrainen -> ses.backendAPI.apiEndpoints 'reads training data'
-  ses.MLservice.voorspellen -> ses.backendAPI.apiEndpoints 'reads history, writes forecasts'
-  ses.MLservice.optimaliseren -> ses.backendAPI.apiEndpoints 'reads comfort limits and appliances'
-  ses.MLservice.rangschikken -> ses.backendAPI.apiEndpoints 'writes top 3 advice'
-
-  // Frontend API to database
-  ses.frontendAPI.querySender -> ses.database.tblMeetdata 'reads own readings'
-  ses.frontendAPI.querySender -> ses.database.tblResultaat 'reads own simultaneity'
-  ses.frontendAPI.querySender -> ses.database.tblVoorspelling 'reads forecasts'
-  ses.frontendAPI.querySender -> ses.database.tblAdvies 'reads advice, writes feedback'
-  ses.frontendAPI.querySender -> ses.database.tblDeelnemer 'reads and writes settings'
-
-  // Backend API to database
-  ses.backendAPI.querySender -> ses.database.tblMeetdata 'upserts and reads readings'
-  ses.backendAPI.querySender -> ses.database.tblKoppel 'reads meter links'
-  ses.backendAPI.querySender -> ses.database.tblImportlog 'writes import records'
-  ses.backendAPI.querySender -> ses.database.tblResultaat 'reads and writes simultaneity'
-  ses.backendAPI.querySender -> ses.database.tblVoorspelling 'reads and writes forecasts'
-  ses.backendAPI.querySender -> ses.database.tblAdvies 'reads and writes advice'
-  ses.backendAPI.querySender -> ses.database.tblDeelnemer 'reads comfort limits and appliances'
+  // ─────────── Level 3: components across container boundaries ───────────
+  customer -> ses.webapp.loginPage 'logs in to view own data and advice' {
+    #level3
+  }
+  admin -> ses.webapp.loginPage 'logs in to import data and manage settings' {
+    #level3
+  }
+  meterData -> ses.ingestService.fileReceiver 'provides CSV export' {
+    #level3
+  }
+  weatherData -> ses.mlService.weatherForecast 'provides weather data over HTTPS' {
+    #level3
+  }
+  ses.webapp.apiClient -> ses.frontendAPI.apiEndpoints 'sends requests over HTTPS' {
+    #level3
+  }
+  ses.webapp.dataImport -> ses.ingestService.fileReceiver 'uploads CSV file' {
+    #level3
+  }
+  ses.ingestService.backendClient -> ses.backendAPI.apiEndpoints 'reads meter links, writes readings and import records' {
+    #level3
+  }
+  ses.ingestService.importNotifier -> ses.calculationService.calculationTrigger 'reports new data' {
+    #level3
+  }
+  ses.calculationService.simultaneityCalculator -> ses.backendAPI.apiEndpoints 'reads readings, writes simultaneity' {
+    #level3
+  }
+  ses.calculationService.simultaneityCalculator -> ses.mlService.effectMeasurement 'reports new results' {
+    #level3
+  }
+  ses.mlService.dataAccess -> ses.backendAPI.apiEndpoints 'reads and writes forecasts, advice and training data' {
+    #level3
+  }
+  ses.frontendAPI.queryExecutor -> ses.database.sqlInterface 'reads participant data, writes settings and feedback' {
+    #level3
+  }
+  ses.backendAPI.queryExecutor -> ses.database.sqlInterface 'reads and writes readings, links, results and advice' {
+    #level3
+  }
 }
 
 views {
@@ -339,6 +431,7 @@ views {
   view index {
     title '1 - Context'
     include *
+    exclude * -> * where tag is #level2 or tag is #level3
   }
 
   // ═══════════════ Level 2 ═══════════════
@@ -346,50 +439,60 @@ views {
   view ses of ses {
     title '2 - Containers'
     include *
+    exclude * -> * where tag is #level1 or tag is #level3
     autoLayout TopBottom 200 205
   }
 
   // ═══════════════ Level 3 ═══════════════
-  // include * shows the components plus every element outside the container they talk to
+  // include * shows the components plus every element outside the container they talk to;
+  // only level 3 relationships are shown
   view webappDetail of ses.webapp {
     title '3.1 - Web app'
     include *
+    exclude * -> * where tag is #level1 or tag is #level2
   }
 
   view ingestDetail of ses.ingestService {
     title '3.2 - Ingest service'
     include *
+    exclude * -> * where tag is #level1 or tag is #level2
   }
 
   view databaseDetail of ses.database {
     title '3.3 - Database'
     include *
+    exclude * -> * where tag is #level1 or tag is #level2
   }
 
-  view rekenDetail of ses.rekenservice {
-    title '3.4 - Reken service'
+  view calculationDetail of ses.calculationService {
+    title '3.4 - Calculation service'
     include *
+    exclude * -> * where tag is #level1 or tag is #level2
   }
 
   view backendApiDetail of ses.backendAPI {
     title '3.5 - Backend API'
     include *
+    exclude * -> * where tag is #level1 or tag is #level2
   }
 
   view frontendApiDetail of ses.frontendAPI {
     title '3.6 - Frontend API'
     include *
+    exclude * -> * where tag is #level1 or tag is #level2
   }
 
-  view mlComponents of ses.MLservice {
+  view mlDetail of ses.mlService {
     title '3.7 - ML service'
     include *
+    exclude * -> * where tag is #level1 or tag is #level2
   }
 
   // All components in one view
-  view componenten {
-    title '3 - Componenten'
+  view components {
+    title '3 - Components'
     include ses.**
-    include customer, beheerder, meterdata, weerdata
+    include customer, admin, meterData, weatherData
+    exclude * -> * where tag is #level1 or tag is #level2
   }
 }
