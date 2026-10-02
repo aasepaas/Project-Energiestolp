@@ -328,14 +328,14 @@ model {
   //   #level2  containers: actor -> container, container -> container
   //   #level3  components: crossing a container boundary at component level
 
+  // ─────────── Data delivery (shown in every view that contains both) ───────────
+  meterData -> admin 'is delivered as CSV export to'
+
   // ─────────── Level 1: context ───────────
   customer -> ses 'views own energy data and advice' {
     #level1
   }
   admin -> ses 'imports meter data and manages the system' {
-    #level1
-  }
-  meterData -> ses 'provides quarter-hourly CSV exports' {
     #level1
   }
   weatherData -> ses 'provides weather forecasts and history' {
@@ -347,9 +347,6 @@ model {
     #level2
   }
   admin -> ses.webapp 'imports meter data and manages settings' {
-    #level2
-  }
-  meterData -> ses.ingestService 'provides CSV export' {
     #level2
   }
   weatherData -> ses.mlService 'provides weather data over HTTPS' {
@@ -388,9 +385,6 @@ model {
     #level3
   }
   admin -> ses.webapp.loginPage 'logs in to import data and manage settings' {
-    #level3
-  }
-  meterData -> ses.ingestService.fileReceiver 'provides CSV export' {
     #level3
   }
   weatherData -> ses.mlService.weatherForecast 'provides weather data over HTTPS' {
@@ -439,6 +433,7 @@ views {
   view ses of ses {
     title '2 - Containers'
     include *
+    include meterData
     exclude * -> * where tag is #level1 or tag is #level3
     autoLayout TopBottom 200 205
   }
@@ -494,5 +489,9 @@ views {
     include ses.**
     include customer, admin, meterData, weatherData
     exclude * -> * where tag is #level1 or tag is #level2
+    style ses.** {
+      size small
+    }
+    autoLayout TopBottom 60 40
   }
 }
