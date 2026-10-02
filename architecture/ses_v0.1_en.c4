@@ -79,7 +79,7 @@ model {
         description 'Manages sessions and permissions per role'
       }
       component dataImport 'Data import' {
-        description 'Lets the administrator upload new meter data to the ingest service'
+        description 'Lets the administrator upload new meter data through the frontend API'
       }
       component dataView 'Data view' {
         description 'Shows participants their own consumption, generation and advice'
@@ -98,11 +98,12 @@ model {
       authentication -> settings 'grants access for administrators'
       dataView -> apiClient 'requests own data and advice'
       settings -> apiClient 'reads and saves settings'
+      dataImport -> apiClient 'uploads CSV file'
     }
 
     // ─────────── Frontend API ───────────
     container frontendAPI 'Frontend API' {
-      description 'API between the web app and the database'
+      description 'Single entry point for the web app: database queries and data uploads'
       style {
         size small
       }
@@ -120,9 +121,14 @@ model {
         description 'Sends the query to the database and returns the result'
       }
 
+      component uploadHandler 'Upload handler' {
+        description 'Accepts CSV uploads from administrators, checks file type and size and forwards them to the ingest service'
+      }
+
       apiEndpoints -> authentication 'verifies caller and permissions'
       apiEndpoints -> queryBuilder 'passes validated request'
       queryBuilder -> queryExecutor 'passes query'
+      apiEndpoints -> uploadHandler 'passes authorised upload'
     }
 
     // ─────────── Backend API ───────────
@@ -155,7 +161,7 @@ model {
       description 'Imports meter data and links every meter to the right participant'
 
       component fileReceiver 'File receiver' {
-        description 'Receives the meter data file and records file name, hash and period'
+        description 'Receives the meter data file from the frontend API and records file name, hash and period'
       }
       component csvParser 'CSV parser' {
         description 'Parses decimal commas and merges date and time into a UTC timestamp'
@@ -352,10 +358,10 @@ model {
   weatherData -> ses.mlService 'provides weather data over HTTPS' {
     #level2
   }
-  ses.webapp -> ses.frontendAPI 'sends requests over HTTPS' {
+  ses.webapp -> ses.frontendAPI 'sends requests and uploads over HTTPS' {
     #level2
   }
-  ses.webapp -> ses.ingestService 'uploads CSV file' {
+  ses.frontendAPI -> ses.ingestService 'forwards uploaded CSV file' {
     #level2
   }
   ses.ingestService -> ses.backendAPI 'reads meter links, writes readings and import records' {
@@ -390,10 +396,10 @@ model {
   weatherData -> ses.mlService.weatherForecast 'provides weather data over HTTPS' {
     #level3
   }
-  ses.webapp.apiClient -> ses.frontendAPI.apiEndpoints 'sends requests over HTTPS' {
+  ses.webapp.apiClient -> ses.frontendAPI.apiEndpoints 'sends requests and uploads over HTTPS' {
     #level3
   }
-  ses.webapp.dataImport -> ses.ingestService.fileReceiver 'uploads CSV file' {
+  ses.frontendAPI.uploadHandler -> ses.ingestService.fileReceiver 'forwards uploaded CSV file' {
     #level3
   }
   ses.ingestService.backendClient -> ses.backendAPI.apiEndpoints 'reads meter links, writes readings and import records' {
