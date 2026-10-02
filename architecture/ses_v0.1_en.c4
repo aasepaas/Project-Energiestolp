@@ -381,7 +381,7 @@ views {
     include *
   }
 
-  view mlComponents of ses.MLservice {
+  view mlDetail of ses.MLservice {
     title '3.7 - ML service'
     include *
   }
