@@ -315,7 +315,8 @@ views {
     style customer {
       color muted
     }
-  }
+  	autoLayout TopBottom 200 205
+	}
 
   // Niveau 3: alleen de componenten van één service
   view webappDetail of webapp {
