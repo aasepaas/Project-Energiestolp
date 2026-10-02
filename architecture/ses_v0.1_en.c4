@@ -1,13 +1,11 @@
-// Tutorial:
-// https://likec4.dev/tutorial/
+// Smart Energie Stolp (SES): C4 model, levels 1 to 3
+// Docs: https://likec4.dev/
 
 specification {
   element actor
   element system
-  element component
-  element service
   element container
-
+  element component
 
   tag ui {
     color #33B074
@@ -19,410 +17,379 @@ specification {
 }
 
 model {
+
+  // ═══════════════ Level 1: actors and external sources ═══════════════
+
   customer = actor 'Klein energieverbruikers' {
-    description ''
+    description 'Participants of the energy community who view their own data and advice'
     style {
+      shape person
       color muted
     }
   }
 
   beheerder = actor 'Systeembeheerder' {
-    description ''
+    description 'Administrator who imports data and manages the system'
     style {
+      shape person
       color muted
     }
   }
 
   meterdata = actor 'Meterdata' {
-    description 'Kwartierwaarden per meter die gekoppeld is aan klant'
+    description 'CSV export with quarter-hourly readings per meter, delivered a few times per year'
     style {
       color muted
     }
   }
 
   weerdata = actor 'Weerdata' {
-    description 'Weerdata van de komende 24 uur'
+    description 'Weather forecast for the next 48 hours and historical weather archive'
     style {
       color muted
     }
   }
 
-  saas = system '2 - Containers' {
-    #version1
+  // ═══════════════ Level 2 and 3: system, containers and components ═══════════════
 
-    service webapp 'Web app' {
+  ses = system 'Smart Energie Stolp' {
+    #version1
+    description 'Calculates, forecasts and improves the simultaneity of local energy generation and consumption'
+
+    // ─────────── Web app ───────────
+    container webapp 'Web app' {
       #ui #warn
-      description '{interface tool moet nog gekozen worden}'
+      description 'User interface for participants and administrators (front-end framework still to be chosen)'
       style {
         shape browser
       }
+
       component inlogpagina 'Inlogpagina' {
-        description 'Log in pagina voor gebruikers'
+        description 'Login page for all users'
       }
       component authenticatie 'Authenticatie' {
-        description 'Sessiebeheer en rechten per rol'
+        description 'Manages sessions and permissions per role'
       }
-      component ingestBestandenPagina 'Data-import' {
-        description 'Uploaden van nieuwe data door beheerder voor de ingest service'
+      component dataImport 'Data-import' {
+        description 'Lets the administrator upload new meter data for the ingest service'
       }
-      component inzienDataPagina 'Data inzien' {
-        description 'Inzien van eigen data meetdata door gebruikers'
-      }
-      component API-client 'API-client ' {
-        description 'Communicatie met de frontend API '
+      component dataInzien 'Data inzien' {
+        description 'Shows participants their own consumption, generation and advice'
       }
       component instellingen 'Instellingen' {
-        description 'Instellingen selecteren door beheerder'
+        description 'Lets the administrator manage system settings'
       }
-      API-client -> frontendAPI
-      API-client -> frontendAPI.API-endpoints
+      component apiClient 'API-client' {
+        description 'Sends all requests from the web app to the frontend API'
+      }
+
+      inlogpagina -> authenticatie 'submits credentials'
+      authenticatie -> apiClient 'verifies user and role'
+      dataInzien -> apiClient 'requests own data and advice'
+      instellingen -> apiClient 'reads and saves settings'
     }
 
-    service ingestService 'Ingest service' {
-      description '
-        Binnenkomend data moet gekoppeld worden aan juiste klant
-      '
+    // ─────────── Frontend API ───────────
+    container frontendAPI 'Frontend API' {
+      description 'API between the web app and the database'
+      style {
+        size small
+      }
+
+      component apiEndpoints 'API-endpoints' {
+        description 'Receives requests, routes them and returns the result'
+      }
+      component authenticatie 'Authenticatie' {
+        description 'Checks who makes the request and whether it is allowed'
+      }
+      component queryMaker 'Query maker' {
+        description 'Translates a request into a valid database query'
+      }
+      component querySender 'Query verstuurder' {
+        description 'Sends the query to the database and returns the result'
+      }
+
+      apiEndpoints -> authenticatie 'verifies caller and permissions'
+      apiEndpoints -> queryMaker 'passes validated request'
+      queryMaker -> querySender 'passes query'
+    }
+
+    // ─────────── Backend API ───────────
+    container backendAPI 'Backend API' {
+      description 'API between the backend services and the database'
+      style {
+        size small
+      }
+
+      component apiEndpoints 'API-endpoints' {
+        description 'Receives requests, routes them and returns the result'
+      }
+      component authenticatie 'Authenticatie' {
+        description 'Checks which service makes the request and whether it is allowed'
+      }
+      component queryMaker 'Query maker' {
+        description 'Translates a request into a valid database query'
+      }
+      component querySender 'Query verstuurder' {
+        description 'Sends the query to the database and returns the result'
+      }
+
+      apiEndpoints -> authenticatie 'verifies caller and permissions'
+      apiEndpoints -> queryMaker 'passes validated request'
+      queryMaker -> querySender 'passes query'
+    }
+
+    // ─────────── Ingest service ───────────
+    container ingestService 'Ingest service' {
+      description 'Imports meter data and links every meter to the right participant'
 
       component ontvanger 'Bestandsontvanger' {
-        description 'Ontvangt meterdata bestand, legt bestand, hash en periode vast in importlog'
+        description 'Receives the meter data file and logs file name, hash and period'
       }
-      component CSV-parser 'CSV parser' {
-        description 'Leest CSV-bestand en zet komma als decimaal, datum en tijd samengevoegd tot UTC-tijdstempel'
+      component csvParser 'CSV parser' {
+        description 'Parses decimal commas and merges date and time into a UTC timestamp'
       }
       component validator 'Validator' {
-        description 'Dubbelingen, gaten (niet als 0) en grenzen per meter'
+        description 'Detects duplicates, marks gaps (not as zero) and checks limits per meter'
       }
       component meterKoppelaar 'Meterkoppelaar' {
-        description 'Koppelt meter_reference aan deelnemer_id, met tool van opdrachtgever'
+        description 'Links meter_reference to participant_id using the client\'s linking tool'
       }
       component writer 'Writer' {
-        description 'Schrijft gevalideerde data naar database via backend API'
+        description 'Writes validated readings to the database through the backend API'
       }
       component importNotifier 'Importnotifier' {
-        description 'Stuurt notificatie naar ML service dat er nieuwe data is ingelezen en verwerkt'
+        description 'Notifies the calculation service that new data has been imported'
         style {
           size small
         }
       }
 
-      ontvanger -> CSV-parser 'geeft ruwe CSV door'
-      CSV-parser -> validator 'geeft rijen door'
-      validator -> meterKoppelaar 'geeft geldige rijen door'
-      meterKoppelaar -> writer 'geeft gekoppelde rijen door'
-      writer -> backendAPI 'schrijft naar database'
-      writer -> importNotifier 'maakt melding dat er nieuwe data is ingelezen'
-      importNotifier -> rekenTrigger 'meldt dat er nieuwe data is ingelezen'
-
-
-
+      ontvanger -> csvParser 'passes raw CSV'
+      csvParser -> validator 'passes parsed rows'
+      validator -> meterKoppelaar 'passes valid rows'
+      meterKoppelaar -> writer 'passes linked rows'
+      writer -> importNotifier 'reports completed import'
     }
 
-    service database 'Database' {
-      description '
-        Meetdata per deelnemer, koppeltabel, voorspellings en adviezen
-      '
+    // ─────────── Reken service ───────────
+    container rekenservice 'Reken service' {
+      description 'Calculates simultaneity per quarter hour'
+
+      component rekenTrigger 'Rekentrigger' {
+        description 'Starts a recalculation for the changed period'
+        style {
+          size small
+        }
+      }
+      component gelijktijdigheid 'Gelijktijdigheidsberekening' {
+        description 'Shared energy = min(surplus, consumption) per quarter hour'
+      }
+
+      rekenTrigger -> gelijktijdigheid 'starts calculation'
+    }
+
+    // ─────────── ML service ───────────
+    container MLservice 'ML service' {
+      description 'Forecasts generation and consumption and generates personal advice'
+
+      // After every export, a few times per year
+      component effectmeting 'Effectmeting' {
+        description 'Compares actual consumption with the P50 forecast to measure whether advice was followed'
+      }
+      component hertrainen 'Hertrainen' {
+        description 'Retrains the forecasters, clusters and acceptance model on new data'
+      }
+      component modelregister 'Modelregister' {
+        description 'MLflow registry with model versions and test scores; a new model goes live only if it scores better'
+        style {
+          shape storage
+        }
+      }
+
+      // Every evening, automatically
+      component weersverwachting 'Weersverwachting' {
+        description 'Fetches irradiance, cloud cover and temperature for the next 48 hours'
+      }
+      component voorspellen 'Voorspellen' {
+        description 'Forecasts generation and consumption per quarter hour with P10 to P90 bands (LightGBM)'
+      }
+      component optimaliseren 'Optimaliseren' {
+        description 'Schedules flexible appliances into unused surplus within comfort limits (MILP)'
+      }
+      component rangschikken 'Rangschikken' {
+        description 'Ranks advice by expected gain times chance of being followed and selects the top 3'
+      }
+
+      effectmeting -> hertrainen 'provides measured effect of advice'
+      hertrainen -> modelregister 'registers new models'
+      weersverwachting -> voorspellen 'provides weather features'
+      voorspellen -> optimaliseren 'provides forecast surplus (P10)'
+      optimaliseren -> rangschikken 'provides candidate advice'
+      modelregister -> voorspellen 'provides trained models'
+      modelregister -> rangschikken 'provides trained models'
+    }
+
+    // ─────────── Database ───────────
+    container database 'Database' {
+      description 'PostgreSQL with TimescaleDB for readings, links, forecasts and advice'
       style {
         shape storage
       }
 
       component tblMeetdata 'meetdata' {
-        description 'Hypertable: meter_id, tijdstempel UTC, to_grid, from_grid, created_at, import_id'
+        description 'Hypertable with meter_id, UTC timestamp, to_grid, from_grid, created_at and import_id'
         style {
           shape storage
         }
       }
       component tblKoppel 'koppeltabel' {
-        description 'meter_id, deelnemer_id'
+        description 'Links meter_id to participant_id'
         style {
           shape storage
         }
       }
       component tblDeelnemer 'deelnemers' {
-        description 'Pseudoniem, type aansluiting, comfortgrenzen en apparaten'
+        description 'Pseudonym, connection type, comfort limits and appliances'
         style {
           shape storage
         }
       }
       component tblResultaat 'gelijktijdigheid' {
-        description 'Gedeelde kWh per kwartier en deelnemer'
+        description 'Shared kWh per quarter hour and participant'
         style {
           shape storage
         }
       }
       component tblVoorspelling 'voorspellingen' {
-        description 'Voorspelde opwek en verbruik per kwartier'
+        description 'Forecast generation and consumption per quarter hour'
         style {
           shape storage
         }
       }
       component tblAdvies 'adviezen' {
-        description 'Gegeven adviezen, feedback en gemeten effect'
+        description 'Given advice, feedback and measured effect'
         style {
           shape storage
         }
       }
       component tblImportlog 'importlog' {
-        description 'Bestand, hash, periode, aantal rijen, nieuwe meters'
+        description 'File, hash, period, row count and new meters per import'
         style {
           shape storage
         }
       }
-    }
-
-    service rekenservice 'Reken service' {
-      description '
-        Berekenen gelijktijdigheid op kwartiersbasis 
-      '
-
-      component rekenTrigger 'Rekentrigger' {
-        description 'Start een herberekening voor de gewijzigde periode'
-        style {
-          size small
-        }
-      }
-
-      component gelijktijdigheid 'Gelijktijdigheidsberekening' {
-        description 'Gedeeld = min(overschot, afname) per kwartier'
-      }
-
-
-      rekenTrigger -> gelijktijdigheid 'start berekening gelijktijdigheid'
-      gelijktijdigheid -> backendAPI 'schrijft berekende gelijktijdigheid'
-      gelijktijdigheid -> MLservice 'meldt dat er nieuwe data is berekend'
-
-    }
-
-    service backendAPI 'Backend API' {
-      description '
-        API die communiceert met de database vanuit de backend
-      '
-      style {
-        size small
-      }
-      component API-endpoints 'API-endpoints' {
-        description 'Ontvangt verzoeken, stuurt ze door en geeft een resultaat terug'
-      }
-      component authenticatie 'Authenticatie' {
-        description 'Authenticeren wie het verzoek doet en of het mag'
-      }
-      component queryMaker 'Query maker' {
-        description 'Vertaalt verzoeken naar een geldige database query'
-      }
-      component querySender 'Query verstuurder' {
-        description 'Verstuurt de query naar de database en ontvangt het resultaat hiervan'
-      }
-      API-endpoints -> authenticatie
-      API-endpoints -> queryMaker
-      API-endpoints -> querySender
-      querySender -> database
-    }
-
-    service frontendAPI 'Frontend API' {
-      description '
-        API die communiceert met de database vanuit de frontend
-      '
-      style {
-        size small
-      }
-      component API-endpoints 'API-endpoints' {
-        description 'Ontvangt verzoeken, stuurt ze door en geeft een resultaat terug'
-      }
-      component authenticatie 'Authenticatie' {
-        description 'Authenticeren wie het verzoek doet en of het mag'
-      }
-      component queryMaker 'Query maker' {
-        description 'Vertaalt verzoeken naar een geldige database query'
-      }
-      component querySender 'Query verstuurder' {
-        description 'Verstuurt de query naar de database en ontvangt het resultaat hiervan'
-      }
-      API-endpoints -> authenticatie
-      API-endpoints -> queryMaker
-      API-endpoints -> querySender
-      querySender -> database
-    }
-
-    container MLservice 'ML service' {
-      description 'Voorspellen en adviseren op basis van gedragspatronen'
-
-      // ── Na elke export, enkele keren per jaar ──
-
-      component effectmeting 'Effectmeting' {
-        description 'Werkelijk verbruik vs. P50-voorspelling: advies opgevolgd ja/nee en gemeten winst'
-      }
-
-      component hertrainen 'Hertrainen' {
-        description 'Hertraint voorspellers, clusters en acceptatiemodel op de nieuwe data'
-      }
-
-      component modelregister 'Modelregister' {
-        description 'MLflow: modelversies en testscores, nieuw model alleen live als het beter scoort'
-        style {
-          shape storage
-        }
-      }
-
-      // ── Elke avond, automatisch ──
-
-      component weersverwachting 'Weersverwachting' {
-        description 'Haalt instraling, bewolking en temperatuur op voor de komende 48 uur'
-      }
-
-      component voorspellen 'Voorspellen' {
-        description 'Opwek en verbruik per kwartier, P10-P90 (LightGBM-kwantielregressie)'
-      }
-
-      component optimaliseren 'Optimaliseren' {
-        description 'Plant verschuifbare apparaten naar onbenut overschot (P10) binnen comfortgrenzen (MILP)'
-      }
-
-      component rangschikken 'Rangschikken' {
-        description 'Winst x kans op opvolgen (Thompson sampling), kiest de top 3 adviezen'
-      }
-
-      // Na elke export
-      effectmeting -> hertrainen 'levert opgevolgd ja/nee en gemeten winst'
-      hertrainen -> modelregister 'registreert nieuwe modellen'
-
-      // Elke avond
-      weersverwachting -> voorspellen 'levert weerfeatures'
-      voorspellen -> optimaliseren 'levert voorspeld overschot (P10)'
-      optimaliseren -> rangschikken 'levert mogelijke adviezen'
-
-      // Getrainde modellen: van het export-ritme naar het avond-ritme
-      modelregister -> voorspellen 'getrainde modellen'
-      modelregister -> rangschikken 'getrainde modellen'
     }
   }
 
-  // ── Relaties met de omgeving ──
+  // ═══════════════ Relationships between containers and with the outside ═══════════════
 
-  weerdata -> saas.MLservice.weersverwachting 'levert weerdata via HTTPS'
+  // Users
+  customer -> ses.webapp.inlogpagina 'logs in'
+  customer -> ses.webapp.dataInzien 'views own data and advice'
+  beheerder -> ses.webapp.inlogpagina 'logs in'
+  beheerder -> ses.webapp.dataImport 'uploads meter data'
+  beheerder -> ses.webapp.instellingen 'manages settings'
 
-  // Import meterdata start het export-ritme
-  saas.ingestService -> saas.MLservice.effectmeting 'meldt nieuwe export'
+  // External sources
+  meterdata -> ses.ingestService.ontvanger 'provides CSV export'
+  weerdata -> ses.MLservice.weersverwachting 'provides weather data over HTTPS'
 
-  // Lezen en schrijven via de Backend API
-  saas.MLservice.effectmeting -> saas.backendAPI 'leest gegeven adviezen en meetdata'
-  saas.MLservice.hertrainen -> saas.backendAPI 'leest trainingsdata'
-  saas.MLservice.voorspellen -> saas.backendAPI 'leest historie, schrijft voorspellingen'
-  saas.MLservice.optimaliseren -> saas.backendAPI 'leest comfortgrenzen en apparaten'
-  saas.MLservice.rangschikken -> saas.backendAPI 'schrijft top 3 adviezen voor het deelnemersportaal'
+  // Web app
+  ses.webapp.apiClient -> ses.frontendAPI.apiEndpoints 'sends requests over HTTPS'
+  ses.webapp.dataImport -> ses.ingestService.ontvanger 'uploads CSV file'
 
+  // Ingest service
+  ses.ingestService.ontvanger -> ses.backendAPI.apiEndpoints 'registers import'
+  ses.ingestService.meterKoppelaar -> ses.backendAPI.apiEndpoints 'reads meter links'
+  ses.ingestService.writer -> ses.backendAPI.apiEndpoints 'writes validated readings'
+  ses.ingestService.importNotifier -> ses.rekenservice.rekenTrigger 'reports new data'
 
-  // Customer uses the UI
-  customer -> webapp 'opens in browser'
-  customer -> saas 'enjoys our product'
+  // Reken service
+  ses.rekenservice.gelijktijdigheid -> ses.backendAPI.apiEndpoints 'reads readings, writes simultaneity'
+  ses.rekenservice.gelijktijdigheid -> ses.MLservice.effectmeting 'reports new results'
 
-  beheerder -> webapp 'Inzien en beheren software via'
-  beheerder -> saas 'Beheert software'
+  // ML service
+  ses.MLservice.effectmeting -> ses.backendAPI.apiEndpoints 'reads given advice and readings'
+  ses.MLservice.hertrainen -> ses.backendAPI.apiEndpoints 'reads training data'
+  ses.MLservice.voorspellen -> ses.backendAPI.apiEndpoints 'reads history, writes forecasts'
+  ses.MLservice.optimaliseren -> ses.backendAPI.apiEndpoints 'reads comfort limits and appliances'
+  ses.MLservice.rangschikken -> ses.backendAPI.apiEndpoints 'writes top 3 advice'
 
+  // Frontend API to database
+  ses.frontendAPI.querySender -> ses.database.tblMeetdata 'reads own readings'
+  ses.frontendAPI.querySender -> ses.database.tblResultaat 'reads own simultaneity'
+  ses.frontendAPI.querySender -> ses.database.tblVoorspelling 'reads forecasts'
+  ses.frontendAPI.querySender -> ses.database.tblAdvies 'reads advice, writes feedback'
+  ses.frontendAPI.querySender -> ses.database.tblDeelnemer 'reads and writes settings'
 
-  weerdata -> saas 'Geeft weerdata aan oplossing'
-  weerdata -> MLservice 'Geeft weerdata aan oplossing'
-
-  meterdata -> saas 'Geeft meterdata aan oplossing'
-  meterdata -> ingestService 'Geeft meterdata aan oplossing'
-
-  webapp -> frontendAPI 'Leest data vanuit database'
-  frontendAPI -> database 'Lezen en schrijven naar database vanuit frontend'
-
-  backendAPI -> database 'Lezen en schrijven naar database vanuit backend'
-
-  ingestService -> backendAPI 'Schrijven van data naar database'
-  MLservice -> backendAPI 'Lezen van data van database'
-  rekenservice -> backendAPI 'Leest data van database om gelijktijdigheid te berekenen en schrijft deze terug naar database'
+  // Backend API to database
+  ses.backendAPI.querySender -> ses.database.tblMeetdata 'upserts and reads readings'
+  ses.backendAPI.querySender -> ses.database.tblKoppel 'reads meter links'
+  ses.backendAPI.querySender -> ses.database.tblImportlog 'writes import records'
+  ses.backendAPI.querySender -> ses.database.tblResultaat 'reads and writes simultaneity'
+  ses.backendAPI.querySender -> ses.database.tblVoorspelling 'reads and writes forecasts'
+  ses.backendAPI.querySender -> ses.database.tblAdvies 'reads and writes advice'
+  ses.backendAPI.querySender -> ses.database.tblDeelnemer 'reads comfort limits and appliances'
 }
-
 
 views {
 
+  // ═══════════════ Level 1 ═══════════════
   view index {
     title '1 - Context'
-
     include *
   }
 
-  view saas of saas {
+  // ═══════════════ Level 2 ═══════════════
+  // Every container links to its own level 3 view (click to open)
+  view ses of ses {
+    title '2 - Containers'
     include *
+    autoLayout TopBottom 200 205
+  }
 
-    style * {
-      opacity 25%
-    }
-
-        // Klikbare doorverwijzing naar niveau 3 per service
-    include webapp with {
-      navigateTo webappDetail
-    }
-    include ingestService with {
-      navigateTo ingestDetail
-    }
-    include database with {
-      navigateTo databaseDetail
-    }
-    include rekenservice with {
-      navigateTo rekenDetail
-    }
-    include backendAPI with {
-      navigateTo backendApiDetail
-    }
-    include frontendAPI with {
-      navigateTo frontendApiDetail
-    }
-
-    style * {
-      opacity 25%
-    }
-    style customer {
-      color muted
-    }
-  	autoLayout TopBottom 200 205
-	}
-
-  // Niveau 3: alleen de componenten van één service
-  view webappDetail of webapp {
+  // ═══════════════ Level 3 ═══════════════
+  // include * shows the components plus every element outside the container they talk to
+  view webappDetail of ses.webapp {
     title '3.1 - Web app'
-    include webapp.*
+    include *
   }
-    
-  view ingestDetail of ingestService {
+
+  view ingestDetail of ses.ingestService {
     title '3.2 - Ingest service'
-    include ingestService.*
+    include *
   }
 
-  view databaseDetail of database {
+  view databaseDetail of ses.database {
     title '3.3 - Database'
-    include database.*
+    include *
   }
 
-  view rekenDetail of rekenservice {
+  view rekenDetail of ses.rekenservice {
     title '3.4 - Reken service'
-    include rekenservice.*
+    include *
   }
 
-  view backendApiDetail of backendAPI {
+  view backendApiDetail of ses.backendAPI {
     title '3.5 - Backend API'
-    include backendAPI.*
+    include *
   }
 
-  view frontendApiDetail of frontendAPI {
+  view frontendApiDetail of ses.frontendAPI {
     title '3.6 - Frontend API'
-    include frontendAPI.*
-  
-    style customer {
-      color muted
-    }
+    include *
   }
 
-  view mlComponents of MLservice {
+  view mlComponents of ses.MLservice {
     title '3.7 - ML service'
-    include MLservice.*
+    include *
   }
 
+  // All components in one view
   view componenten {
     title '3 - Componenten'
-    include saas.**
-    include customer, meterdata, weerdata, beheerder
+    include ses.**
+    include customer, beheerder, meterdata, weerdata
   }
 }
-

@@ -2,9 +2,9 @@
   _type: 'element',
   tags: null,
   links: null,
-  viewOf: 'saas.MLservice',
+  viewOf: 'ses.MLservice',
   _stage: 'layouted',
-  sourcePath: 'ontwerp/ontwerp.c4',
+  sourcePath: 'ses_v0.1_en.c4',
   description: null,
   title: '3.7 - ML service',
   id: 'mlComponents',
@@ -20,7 +20,7 @@
   },
   nodes: [
     {
-      id: 'saas.MLservice.effectmeting',
+      id: 'ses.MLservice.effectmeting',
       parent: null,
       level: 0,
       children: [],
@@ -29,7 +29,7 @@
         '1oemb1x',
       ],
       title: 'Effectmeting',
-      modelRef: 'saas.MLservice.effectmeting',
+      modelRef: 'ses.MLservice.effectmeting',
       shape: 'rectangle',
       color: 'primary',
       style: {
@@ -55,7 +55,7 @@
       links: null,
     },
     {
-      id: 'saas.MLservice.weersverwachting',
+      id: 'ses.MLservice.weersverwachting',
       parent: null,
       level: 0,
       children: [],
@@ -64,7 +64,7 @@
         'f1vu2l',
       ],
       title: 'Weersverwachting',
-      modelRef: 'saas.MLservice.weersverwachting',
+      modelRef: 'ses.MLservice.weersverwachting',
       shape: 'rectangle',
       color: 'primary',
       style: {
@@ -90,7 +90,7 @@
       links: null,
     },
     {
-      id: 'saas.MLservice.hertrainen',
+      id: 'ses.MLservice.hertrainen',
       parent: null,
       level: 0,
       children: [],
@@ -101,7 +101,7 @@
         '9js3ko',
       ],
       title: 'Hertrainen',
-      modelRef: 'saas.MLservice.hertrainen',
+      modelRef: 'ses.MLservice.hertrainen',
       shape: 'rectangle',
       color: 'primary',
       style: {
@@ -127,7 +127,7 @@
       links: null,
     },
     {
-      id: 'saas.MLservice.modelregister',
+      id: 'ses.MLservice.modelregister',
       parent: null,
       level: 0,
       children: [],
@@ -139,7 +139,7 @@
         'oz1v1o',
       ],
       title: 'Modelregister',
-      modelRef: 'saas.MLservice.modelregister',
+      modelRef: 'ses.MLservice.modelregister',
       shape: 'storage',
       color: 'primary',
       style: {
@@ -165,7 +165,7 @@
       links: null,
     },
     {
-      id: 'saas.MLservice.voorspellen',
+      id: 'ses.MLservice.voorspellen',
       parent: null,
       level: 0,
       children: [],
@@ -177,7 +177,7 @@
         '1hdxpqf',
       ],
       title: 'Voorspellen',
-      modelRef: 'saas.MLservice.voorspellen',
+      modelRef: 'ses.MLservice.voorspellen',
       shape: 'rectangle',
       color: 'primary',
       style: {
@@ -203,7 +203,7 @@
       links: null,
     },
     {
-      id: 'saas.MLservice.optimaliseren',
+      id: 'ses.MLservice.optimaliseren',
       parent: null,
       level: 0,
       children: [],
@@ -214,7 +214,7 @@
         '1pztqjy',
       ],
       title: 'Optimaliseren',
-      modelRef: 'saas.MLservice.optimaliseren',
+      modelRef: 'ses.MLservice.optimaliseren',
       shape: 'rectangle',
       color: 'primary',
       style: {
@@ -240,7 +240,7 @@
       links: null,
     },
     {
-      id: 'saas.MLservice.rangschikken',
+      id: 'ses.MLservice.rangschikken',
       parent: null,
       level: 0,
       children: [],
@@ -250,7 +250,7 @@
       ],
       outEdges: [],
       title: 'Rangschikken',
-      modelRef: 'saas.MLservice.rangschikken',
+      modelRef: 'ses.MLservice.rangschikken',
       shape: 'rectangle',
       color: 'primary',
       style: {
@@ -279,8 +279,8 @@
   edges: [
     {
       id: '1oemb1x',
-      source: 'saas.MLservice.effectmeting',
-      target: 'saas.MLservice.hertrainen',
+      source: 'ses.MLservice.effectmeting',
+      target: 'ses.MLservice.hertrainen',
       label: 'levert opgevolgd ja/nee en gemeten winst',
       points: [
         [
@@ -329,8 +329,8 @@
     },
     {
       id: '9js3ko',
-      source: 'saas.MLservice.hertrainen',
-      target: 'saas.MLservice.modelregister',
+      source: 'ses.MLservice.hertrainen',
+      target: 'ses.MLservice.modelregister',
       label: 'registreert nieuwe modellen',
       points: [
         [
@@ -379,8 +379,8 @@
     },
     {
       id: '1mx70th',
-      source: 'saas.MLservice.modelregister',
-      target: 'saas.MLservice.voorspellen',
+      source: 'ses.MLservice.modelregister',
+      target: 'ses.MLservice.voorspellen',
       label: 'getrainde modellen',
       points: [
         [
@@ -441,8 +441,8 @@
     },
     {
       id: 'oz1v1o',
-      source: 'saas.MLservice.modelregister',
-      target: 'saas.MLservice.rangschikken',
+      source: 'ses.MLservice.modelregister',
+      target: 'ses.MLservice.rangschikken',
       label: 'getrainde modellen',
       points: [
         [
@@ -491,8 +491,8 @@
     },
     {
       id: 'f1vu2l',
-      source: 'saas.MLservice.weersverwachting',
-      target: 'saas.MLservice.voorspellen',
+      source: 'ses.MLservice.weersverwachting',
+      target: 'ses.MLservice.voorspellen',
       label: 'levert weerfeatures',
       points: [
         [
@@ -541,8 +541,8 @@
     },
     {
       id: '1hdxpqf',
-      source: 'saas.MLservice.voorspellen',
-      target: 'saas.MLservice.optimaliseren',
+      source: 'ses.MLservice.voorspellen',
+      target: 'ses.MLservice.optimaliseren',
       label: 'levert voorspeld overschot (P10)',
       points: [
         [
@@ -591,8 +591,8 @@
     },
     {
       id: '1pztqjy',
-      source: 'saas.MLservice.optimaliseren',
-      target: 'saas.MLservice.rangschikken',
+      source: 'ses.MLservice.optimaliseren',
+      target: 'ses.MLservice.rangschikken',
       label: 'levert mogelijke adviezen',
       points: [
         [
