@@ -13,7 +13,7 @@
     nodeSep: 205,
     rankSep: 200,
   },
-  hash: 'ZE8O-6i-ofXZhfWQ4POkBom1mQRgA0TOoID5o15QIk0',
+  hash: 'BxTFdH34JvSVCxPHl0SrdDQe9LS2JpsQT86G85Y2O8E',
   bounds: {
     x: -62,
     y: -66,
@@ -222,7 +222,6 @@
       ],
       outEdges: [
         'soyyp9',
-        'tf2y90',
       ],
       title: 'Web app',
       modelRef: 'ses.webapp',
@@ -262,6 +261,7 @@
         'soyyp9',
       ],
       outEdges: [
+        '1bu82bn',
         'exzjix',
       ],
       title: 'Frontend API',
@@ -273,20 +273,20 @@
         size: 'sm',
       },
       description: {
-        txt: 'API between the web app and the database',
+        txt: 'Single entry point for the web app: database queries and data uploads',
       },
       tags: [],
       kind: 'container',
       navigateTo: 'frontendApiDetail',
       x: 661,
       y: 662,
-      width: 260,
+      width: 262,
       height: 135,
       labelBBox: {
         x: 11,
-        y: 47,
-        width: 237,
-        height: 39,
+        y: 40,
+        width: 239,
+        height: 54,
       },
       links: null,
     },
@@ -296,7 +296,7 @@
       level: 1,
       children: [],
       inEdges: [
-        'tf2y90',
+        '1bu82bn',
       ],
       outEdges: [
         '4jc7qh',
@@ -654,7 +654,7 @@
       parent: 'ses',
       source: 'ses.webapp',
       target: 'ses.frontendAPI',
-      label: 'sends requests over HTTPS',
+      label: 'sends requests and uploads over HTTPS',
       relations: [
         '1q64c9i',
       ],
@@ -697,7 +697,7 @@
       labelBBox: {
         x: 798,
         y: 585,
-        width: 180,
+        width: 260,
         height: 18,
       },
       controlPoints: [
@@ -714,13 +714,13 @@
       navigateTo: null,
     },
     {
-      id: 'tf2y90',
+      id: '1bu82bn',
       parent: 'ses',
-      source: 'ses.webapp',
+      source: 'ses.frontendAPI',
       target: 'ses.ingestService',
-      label: 'uploads CSV file',
+      label: 'forwards uploaded CSV file',
       relations: [
-        'sks3su',
+        '4jip5l',
       ],
       color: 'gray',
       line: 'dashed',
@@ -730,28 +730,28 @@
       ],
       points: [
         [
-          537,
-          988,
+          538,
+          1146,
         ],
         [
-          427,
-          1215,
+          431,
+          1321,
         ],
       ],
       labelBBox: {
-        x: 537,
-        y: 988,
-        width: 108,
+        x: 152,
+        y: 1010,
+        width: 174,
         height: 18,
       },
       controlPoints: [
         {
-          x: 537,
-          y: 988,
+          x: 273,
+          y: 782,
         },
         {
-          x: 427,
-          y: 1215,
+          x: 178,
+          y: 907,
         },
       ],
       isLabelCustomized: false,
@@ -846,7 +846,7 @@
         x: 798,
         y: 1185,
         width: 204,
-        height: 34,
+        height: 35,
       },
       controlPoints: [
         {
