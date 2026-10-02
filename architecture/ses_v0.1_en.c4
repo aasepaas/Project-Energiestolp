@@ -28,7 +28,7 @@ model {
 
   // ═══════════════ Level 1: actors and external sources ═══════════════
 
-  customer = actor 'Small energy consumers' {
+  customer = actor 'Users with small-scale connections' {
     description 'Participants of the energy community who view their own data and advice'
     style {
       shape person
