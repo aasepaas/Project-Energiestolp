@@ -58,6 +58,13 @@ model {
     }
   }
 
+  tlsServer = actor 'TLS server' {
+    description 'Provides TLS certificate for HTTPS connections to the web app'
+    style {
+      color muted
+    }
+  }
+
   // ═══════════════ Level 2 and 3: system, containers and components ═══════════════
 
   ses = system 'Smart Energie Stolp' {
@@ -336,11 +343,14 @@ model {
 
   // ─────────── Data delivery (shown in every view that contains both) ───────────
   meterData -> admin 'is delivered as CSV export to'
+  ses.webapp -> tlsServer 'requests TLS certificate for HTTPS connections to' 
+  
 
   // ─────────── Level 1: context ───────────
   customer -> ses 'views own energy data and advice' {
     #level1
   }
+
   admin -> ses 'imports meter data and manages the system' {
     #level1
   }
@@ -493,7 +503,7 @@ views {
   view components {
     title '3 - Components'
     include ses.**
-    include customer, admin, meterData, weatherData
+    include customer, admin, meterData, weatherData, tlsServer
     exclude * -> * where tag is #level1 or tag is #level2
     style ses.** {
       size small
