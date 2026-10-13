@@ -13,11 +13,11 @@
     nodeSep: 205,
     rankSep: 200,
   },
-  hash: 'elfCReFXgk4cEwxaNPlyAwl5l4m7zaCboy5_NiWWoP8',
+  hash: '4OE_tig3cBE_arc3aTk7OZU8nGlzYjmMFHu4C7R_Xkc',
   bounds: {
     x: -62,
     y: -66,
-    width: 2261,
+    width: 2060,
     height: 2346,
   },
   nodes: [
@@ -177,9 +177,7 @@
         '1uzxhpb',
         '8fmned',
       ],
-      outEdges: [
-        '1hioz3y',
-      ],
+      outEdges: [],
       title: 'Smart Energie Stolp',
       modelRef: 'ses',
       shape: 'rectangle',
@@ -219,7 +217,6 @@
       ],
       outEdges: [
         'soyyp9',
-        '1hioz3y',
       ],
       title: 'Web app',
       modelRef: 'ses.webapp',
@@ -285,40 +282,6 @@
         y: 40,
         width: 239,
         height: 54,
-      },
-      drifts: null,
-    },
-    {
-      id: 'tlsServer',
-      parent: null,
-      level: 0,
-      children: [],
-      inEdges: [
-        '1hioz3y',
-      ],
-      outEdges: [],
-      title: 'TLS server',
-      modelRef: 'tlsServer',
-      shape: 'rectangle',
-      color: 'muted',
-      style: {
-        opacity: 15,
-        size: 'md',
-      },
-      description: {
-        txt: 'Provides TLS certificate for HTTPS connections to the web app',
-      },
-      tags: [],
-      kind: 'actor',
-      x: 1859,
-      y: 822,
-      width: 320,
-      height: 180,
-      labelBBox: {
-        x: 41,
-        y: 56,
-        width: 237,
-        height: 65,
       },
       drifts: null,
     },
@@ -471,7 +434,7 @@
         x: 12,
         y: 40,
         width: 231,
-        height: 53,
+        height: 54,
       },
       drifts: null,
     },
@@ -544,7 +507,7 @@
       },
       parent: null,
       relations: [
-        'cxezvc',
+        '1ni6f1x',
       ],
       color: 'gray',
       line: 'dashed',
@@ -596,7 +559,7 @@
       },
       parent: null,
       relations: [
-        '17ipads',
+        '1u7w6hy',
       ],
       color: 'gray',
       line: 'dashed',
@@ -660,7 +623,7 @@
       },
       parent: null,
       relations: [
-        '1kiqd3v',
+        '1pk31wt',
       ],
       color: 'gray',
       line: 'dashed',
@@ -724,7 +687,7 @@
       },
       parent: 'ses',
       relations: [
-        'flpm3o',
+        '1q64c9i',
       ],
       color: 'gray',
       line: 'dashed',
@@ -768,7 +731,7 @@
       },
       parent: 'ses',
       relations: [
-        '1tpphrf',
+        '4jip5l',
       ],
       color: 'gray',
       line: 'dashed',
@@ -820,7 +783,7 @@
       },
       parent: 'ses',
       relations: [
-        '9ijxva',
+        '3u21hl',
       ],
       color: 'gray',
       line: 'dashed',
@@ -872,7 +835,7 @@
       },
       parent: 'ses',
       relations: [
-        'gncj0f',
+        'i0fzwp',
       ],
       color: 'gray',
       line: 'dashed',
@@ -948,7 +911,7 @@
       },
       parent: 'ses',
       relations: [
-        '18aiiua',
+        '1hdizdg',
       ],
       color: 'gray',
       line: 'dashed',
@@ -1024,7 +987,7 @@
       },
       parent: 'ses',
       relations: [
-        'i0a0zr',
+        '1d5qh19',
       ],
       color: 'gray',
       line: 'dashed',
@@ -1072,11 +1035,11 @@
         x: 1122,
         y: 1552,
         width: 243,
-        height: 34,
+        height: 35,
       },
       parent: 'ses',
       relations: [
-        '1vhxzc4',
+        '1bmgihn',
       ],
       color: 'gray',
       line: 'dashed',
@@ -1140,7 +1103,7 @@
       },
       parent: 'ses',
       relations: [
-        '1n63gnf',
+        'b2bd19',
       ],
       color: 'gray',
       line: 'dashed',
@@ -1192,7 +1155,7 @@
       },
       parent: 'ses',
       relations: [
-        'rep46',
+        'aulz6k',
       ],
       color: 'gray',
       line: 'dashed',
@@ -1212,46 +1175,6 @@
       ],
       isLabelCustomized: true,
       drifts: null,
-    },
-    {
-      id: '1hioz3y',
-      source: 'ses.webapp',
-      target: 'tlsServer',
-      label: 'requests TLS certificate for HTTPS \nconnections to',
-      points: [
-        [
-          1322,
-          643,
-        ],
-        [
-          1501,
-          712,
-        ],
-      ],
-      labelBBox: {
-        x: 1322,
-        y: 643,
-        width: 221,
-        height: 35,
-      },
-      parent: null,
-      relations: [
-        'tqtjz9',
-      ],
-      color: 'gray',
-      line: 'dashed',
-      head: 'normal',
-      controlPoints: [
-        {
-          x: 1322,
-          y: 643,
-        },
-        {
-          x: 1501,
-          y: 712,
-        },
-      ],
-      isLabelCustomized: false,
     },
     {
       id: 'gou2am',
@@ -1276,7 +1199,7 @@
       },
       parent: null,
       relations: [
-        'b16lk4',
+        '46nq6r',
       ],
       color: 'gray',
       line: 'dashed',

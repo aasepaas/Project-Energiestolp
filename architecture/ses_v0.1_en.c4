@@ -58,13 +58,6 @@ model {
     }
   }
 
-  tlsServer = actor 'TLS server' {
-    description 'Provides TLS certificate for HTTPS connections to the web app'
-    style {
-      color muted
-    }
-  }
-
   // ═══════════════ Level 2 and 3: system, containers and components ═══════════════
 
   ses = system 'Smart Energie Stolp' {
@@ -74,38 +67,39 @@ model {
     // ─────────── Web app ───────────
     container webapp 'Web app' {
       #ui #warn
-      description 'User interface for participants and administrators (front-end framework still to be chosen)'
+      description 'Single-page web application for participants and administrators (front-end framework still to be chosen)'
       style {
         shape browser
       }
 
-      component loginPage 'Login page' {
-        description 'Login page for all users'
+      component userInterface 'User interface' {
+        description 'Application shell: client-side routing, layout and route guards per role'
       }
       component authentication 'Authentication' {
-        description 'Manages sessions and permissions per role'
-      }
-      component dataImport 'Data import' {
-        description 'Lets the administrator upload new meter data through the frontend API'
+        description 'Login form, session handling and storage of the access token and role'
       }
       component dataView 'Data view' {
-        description 'Shows participants their own consumption, generation and advice'
+        description 'Page with charts of own consumption, generation, simultaneity and advice'
+      }
+      component dataImport 'Data import' {
+        description 'Page with a file upload form for CSV meter data (administrators only)'
       }
       component settings 'Settings' {
-        description 'Lets the administrator manage system settings'
+        description 'Page with forms for system settings (administrators only)'
       }
       component apiClient 'API client' {
-        description 'Sends all requests from the web app to the frontend API'
+        description 'HTTP client for the frontend API; adds the Bearer token to every request'
       }
 
-      loginPage -> authentication 'submits credentials'
-      authentication -> apiClient 'verifies user and role'
-      authentication -> dataView 'grants access for participants'
-      authentication -> dataImport 'grants access for administrators'
-      authentication -> settings 'grants access for administrators'
-      dataView -> apiClient 'requests own data and advice'
-      settings -> apiClient 'reads and saves settings'
-      dataImport -> apiClient 'uploads CSV file'
+      // Technical dependencies: "A -> B" means A calls or uses B
+      userInterface -> authentication 'checks session and role in route guard'
+      userInterface -> dataView 'mounts on route /data'
+      userInterface -> dataImport 'mounts on route /import'
+      userInterface -> settings 'mounts on route /settings'
+      authentication -> apiClient 'POST /auth/login and /auth/refresh, sets Bearer token'
+      dataView -> apiClient 'GET /readings, /simultaneity and /advice (JSON)'
+      dataImport -> apiClient 'POST /uploads (multipart/form-data)'
+      settings -> apiClient 'GET and PUT /settings (JSON)'
     }
 
     // ─────────── Frontend API ───────────
@@ -343,14 +337,11 @@ model {
 
   // ─────────── Data delivery (shown in every view that contains both) ───────────
   meterData -> admin 'is delivered as CSV export to'
-  ses.webapp -> tlsServer 'requests TLS certificate for HTTPS connections to' 
-  
 
   // ─────────── Level 1: context ───────────
   customer -> ses 'views own energy data and advice' {
     #level1
   }
-
   admin -> ses 'imports meter data and manages the system' {
     #level1
   }
@@ -359,16 +350,16 @@ model {
   }
 
   // ─────────── Level 2: containers ───────────
-  customer -> ses.webapp 'views own data and advice' {
+  customer -> ses.webapp 'uses via web browser (HTTPS)' {
     #level2
   }
-  admin -> ses.webapp 'imports meter data and manages settings' {
+  admin -> ses.webapp 'uses via web browser (HTTPS)' {
     #level2
   }
   weatherData -> ses.mlService 'provides weather data over HTTPS' {
     #level2
   }
-  ses.webapp -> ses.frontendAPI 'sends requests and uploads over HTTPS' {
+  ses.webapp -> ses.frontendAPI 'REST/JSON and multipart uploads over HTTPS' {
     #level2
   }
   ses.frontendAPI -> ses.ingestService 'forwards uploaded CSV file' {
@@ -397,16 +388,16 @@ model {
   }
 
   // ─────────── Level 3: components across container boundaries ───────────
-  customer -> ses.webapp.loginPage 'logs in to view own data and advice' {
+  customer -> ses.webapp.userInterface 'uses via web browser (HTTPS)' {
     #level3
   }
-  admin -> ses.webapp.loginPage 'logs in to import data and manage settings' {
+  admin -> ses.webapp.userInterface 'uses via web browser (HTTPS)' {
     #level3
   }
   weatherData -> ses.mlService.weatherForecast 'provides weather data over HTTPS' {
     #level3
   }
-  ses.webapp.apiClient -> ses.frontendAPI.apiEndpoints 'sends requests and uploads over HTTPS' {
+  ses.webapp.apiClient -> ses.frontendAPI.apiEndpoints 'REST/JSON and multipart uploads over HTTPS, Bearer token' {
     #level3
   }
   ses.frontendAPI.uploadHandler -> ses.ingestService.fileReceiver 'forwards uploaded CSV file' {
@@ -503,7 +494,7 @@ views {
   view components {
     title '3 - Components'
     include ses.**
-    include customer, admin, meterData, weatherData, tlsServer
+    include customer, admin, meterData, weatherData
     exclude * -> * where tag is #level1 or tag is #level2
     style ses.** {
       size small
