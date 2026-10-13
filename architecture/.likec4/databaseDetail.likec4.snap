@@ -1,0 +1,643 @@
+{
+  "_type": "element",
+  "tags": null,
+  "links": null,
+  "viewOf": "ses.database",
+  "_stage": "layouted",
+  "sourcePath": "ses_v0.1_en.c4",
+  "description": null,
+  "title": "3.7 - Component diagram for Database",
+  "id": "databaseDetail",
+  "autoLayout": {
+    "direction": "TB"
+  },
+  "notation": {
+    "nodes": [
+      {
+        "title": "Component: module inside a container",
+        "shape": "rectangle",
+        "color": "sky",
+        "kinds": [
+          "component"
+        ]
+      },
+      {
+        "title": "Container: separately deployed service (Docker)",
+        "shape": "rectangle",
+        "color": "primary",
+        "kinds": [
+          "container"
+        ]
+      },
+      {
+        "title": "Container: data store",
+        "shape": "storage",
+        "color": "secondary",
+        "kinds": [
+          "dataStore"
+        ]
+      },
+      {
+        "title": "Database table",
+        "shape": "storage",
+        "color": "secondary",
+        "kinds": [
+          "table"
+        ]
+      }
+    ]
+  },
+  "hash": "SFZsPERccarU3_sfoM0l6zjzuEqomlJ7yJgaQZ2Fa8s",
+  "bounds": {
+    "x": -221,
+    "y": -234,
+    "width": 1966,
+    "height": 1169
+  },
+  "nodes": [
+    {
+      "id": "ses.frontendAPI",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "j2fdo"
+      ],
+      "title": "Frontend API",
+      "modelRef": "ses.frontendAPI",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Single entry point for the web app: checks role and data ownership, answers queries and accepts uploads"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask",
+      "kind": "container",
+      "navigateTo": "frontendApiDetail",
+      "x": 397,
+      "y": -194,
+      "width": 346,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 311,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.backendAPI",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "1eh3muu"
+      ],
+      "title": "Backend API",
+      "modelRef": "ses.backendAPI",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Internal API between the backend services and the database"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask",
+      "kind": "container",
+      "navigateTo": "backendApiDetail",
+      "x": 774,
+      "y": -194,
+      "width": 353,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 46,
+        "width": 318,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database",
+      "parent": null,
+      "level": 0,
+      "children": [
+        "ses.database.sqlInterface",
+        "ses.database.readings",
+        "ses.database.meterLinks",
+        "ses.database.participants",
+        "ses.database.users",
+        "ses.database.simultaneity",
+        "ses.database.forecasts",
+        "ses.database.advice",
+        "ses.database.energyPrices",
+        "ses.database.settings",
+        "ses.database.importLog"
+      ],
+      "inEdges": [
+        "j2fdo",
+        "1eh3muu"
+      ],
+      "outEdges": [],
+      "title": "Database",
+      "modelRef": "ses.database",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Readings, links, simultaneity, forecasts, advice and accounts"
+      },
+      "tags": [],
+      "notation": "Container: data store",
+      "technology": "PostgreSQL with TimescaleDB",
+      "kind": "dataStore",
+      "depth": 1,
+      "x": -181,
+      "y": 120,
+      "width": 1886,
+      "height": 775,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 65,
+        "height": 15
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.sqlInterface",
+      "parent": "ses.database",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "j2fdo",
+        "1eh3muu"
+      ],
+      "outEdges": [],
+      "title": "SQL interface",
+      "modelRef": "ses.database.sqlInterface",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "PostgreSQL endpoint with a separate role per API; the frontend role only sees participant data"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "PostgreSQL roles, row-level security",
+      "kind": "component",
+      "x": 624,
+      "y": 192,
+      "width": 271,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 24,
+        "width": 247,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.readings",
+      "parent": "ses.database",
+      "level": 1,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "readings",
+      "modelRef": "ses.database.readings",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Hypertable with meter_id, UTC timestamp, to_grid, from_grid, created_at and import_id"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "technology": "TimescaleDB hypertable",
+      "kind": "table",
+      "x": -130,
+      "y": 452,
+      "width": 261,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 31,
+        "width": 237,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.meterLinks",
+      "parent": "ses.database",
+      "level": 1,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "meter_links",
+      "modelRef": "ses.database.meterLinks",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Links meter_id to participant_id (or to the optional community battery) with a valid-from and valid-to date"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "kind": "table",
+      "x": -133,
+      "y": 712,
+      "width": 266,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 33,
+        "width": 242,
+        "height": 68
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.participants",
+      "parent": "ses.database",
+      "level": 1,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "participants",
+      "modelRef": "ses.database.participants",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Pseudonym, connection (up to 250 A), comfort limits and appliance categories: transport, heat pump, air conditioning"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "kind": "table",
+      "x": 242,
+      "y": 712,
+      "width": 275,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 33,
+        "width": 251,
+        "height": 68
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.users",
+      "parent": "ses.database",
+      "level": 1,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "users",
+      "modelRef": "ses.database.users",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Login accounts with role (participant or administrator) and link to participant"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "kind": "table",
+      "x": 640,
+      "y": 712,
+      "width": 240,
+      "height": 135,
+      "labelBBox": {
+        "x": 15,
+        "y": 40,
+        "width": 209,
+        "height": 53
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.simultaneity",
+      "parent": "ses.database",
+      "level": 1,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "simultaneity",
+      "modelRef": "ses.database.simultaneity",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Shared kWh per quarter hour and participant"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "technology": "TimescaleDB hypertable",
+      "kind": "table",
+      "x": 248,
+      "y": 452,
+      "width": 265,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 38,
+        "width": 241,
+        "height": 57
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.forecasts",
+      "parent": "ses.database",
+      "level": 1,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "forecasts",
+      "modelRef": "ses.database.forecasts",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Forecast generation and consumption per quarter hour with P10, P50 and P90"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "technology": "TimescaleDB hypertable",
+      "kind": "table",
+      "x": 635,
+      "y": 452,
+      "width": 250,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 31,
+        "width": 226,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.advice",
+      "parent": "ses.database",
+      "level": 1,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "advice",
+      "modelRef": "ses.database.advice",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Given advice with impact class (high, medium, low), feedback and measured effect"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "kind": "table",
+      "x": 1383,
+      "y": 452,
+      "width": 274,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 40,
+        "width": 250,
+        "height": 53
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.energyPrices",
+      "parent": "ses.database",
+      "level": 1,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "energy_prices",
+      "modelRef": "ses.database.energyPrices",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Dynamic day-ahead price per quarter hour from the Apex data API"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "technology": "TimescaleDB hypertable",
+      "kind": "table",
+      "x": 1000,
+      "y": 452,
+      "width": 280,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 31,
+        "width": 257,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.settings",
+      "parent": "ses.database",
+      "level": 1,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "settings",
+      "modelRef": "ses.database.settings",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "System settings managed by the administrator"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "kind": "table",
+      "x": 1003,
+      "y": 712,
+      "width": 274,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 47,
+        "width": 251,
+        "height": 39
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.importLog",
+      "parent": "ses.database",
+      "level": 1,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "import_log",
+      "modelRef": "ses.database.importLog",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "File, hash, period, row count and new meters per import"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "kind": "table",
+      "x": 1386,
+      "y": 712,
+      "width": 267,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 40,
+        "width": 243,
+        "height": 53
+      },
+      "drifts": null
+    }
+  ],
+  "edges": [
+    {
+      "id": "j2fdo",
+      "source": "ses.frontendAPI",
+      "target": "ses.database.sqlInterface",
+      "label": "reads participant data and prices, \nwrites settings and feedback",
+      "points": [
+        [
+          684,
+          -14
+        ],
+        [
+          684,
+          55
+        ],
+        [
+          684,
+          123
+        ],
+        [
+          684,
+          192
+        ]
+      ],
+      "labelBBox": {
+        "x": 465,
+        "y": 61,
+        "width": 211,
+        "height": 56
+      },
+      "parent": null,
+      "relations": [
+        "wjdg1y"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "SQL over TCP 5432, frontend role",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1eh3muu",
+      "source": "ses.backendAPI",
+      "target": "ses.database.sqlInterface",
+      "label": "reads and writes readings, links, \nresults and advice",
+      "points": [
+        [
+          834,
+          -14
+        ],
+        [
+          834,
+          55
+        ],
+        [
+          834,
+          123
+        ],
+        [
+          834,
+          192
+        ]
+      ],
+      "labelBBox": {
+        "x": 842,
+        "y": 61,
+        "width": 204,
+        "height": 56
+      },
+      "parent": null,
+      "relations": [
+        "12f7buz"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "SQL over TCP 5432, backend role",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    }
+  ],
+  "_layout": "manual"
+}

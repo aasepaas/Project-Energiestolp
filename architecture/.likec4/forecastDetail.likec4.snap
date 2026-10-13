@@ -1,0 +1,1454 @@
+{
+  "_type": "element",
+  "tags": null,
+  "links": null,
+  "viewOf": "ses.forecastPipeline",
+  "_stage": "layouted",
+  "sourcePath": "ses_v0.1_en.c4",
+  "description": null,
+  "title": "3.5 - Component diagram for Forecast pipeline",
+  "id": "forecastDetail",
+  "autoLayout": {
+    "direction": "TB"
+  },
+  "notation": {
+    "nodes": [
+      {
+        "title": "Component: module inside a container",
+        "shape": "rectangle",
+        "color": "sky",
+        "kinds": [
+          "component"
+        ]
+      },
+      {
+        "title": "Container: separately deployed service (Docker)",
+        "shape": "rectangle",
+        "color": "primary",
+        "kinds": [
+          "container"
+        ]
+      },
+      {
+        "title": "External system or source, outside SES",
+        "shape": "rectangle",
+        "color": "muted",
+        "kinds": [
+          "externalSystem"
+        ]
+      },
+      {
+        "title": "Optional, not implemented in the PoC",
+        "shape": "rectangle",
+        "color": "muted",
+        "kinds": [
+          "externalSystem"
+        ]
+      },
+      {
+        "title": "Container: data store",
+        "shape": "storage",
+        "color": "secondary",
+        "kinds": [
+          "dataStore"
+        ]
+      }
+    ]
+  },
+  "hash": "GZKs_AaJm3nuK6aoAo9CWSLwUmKV7Wesukh5AXahX38",
+  "bounds": {
+    "x": -250,
+    "y": -202,
+    "width": 2981,
+    "height": 1665
+  },
+  "nodes": [
+    {
+      "id": "ses.forecastPipeline",
+      "parent": null,
+      "level": 0,
+      "children": [
+        "ses.forecastPipeline.scheduler",
+        "ses.forecastPipeline.priceClient",
+        "ses.forecastPipeline.forecaster",
+        "ses.forecastPipeline.optimizer",
+        "ses.forecastPipeline.ranker",
+        "ses.forecastPipeline.weatherClient",
+        "ses.forecastPipeline.modelLoader",
+        "ses.forecastPipeline.backendClient"
+      ],
+      "inEdges": [],
+      "outEdges": [
+        "1ln8bha",
+        "1smzr4v",
+        "1c0ee61",
+        "jkqugz",
+        "n0w0nw"
+      ],
+      "title": "Forecast pipeline",
+      "modelRef": "ses.forecastPipeline",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Every evening, after the day-ahead prices are published: forecasts generation and consumption for tomorrow and generates the top 3 advice per participant"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, scikit-learn, XGBoost, PuLP",
+      "kind": "container",
+      "depth": 1,
+      "x": -210,
+      "y": -162,
+      "width": 2226,
+      "height": 1160,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 118,
+        "height": 15
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline.scheduler",
+      "parent": "ses.forecastPipeline",
+      "level": 1,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "nwwjzd",
+        "13yoez5",
+        "16xlvdi",
+        "1bnzbks"
+      ],
+      "title": "Run scheduler",
+      "modelRef": "ses.forecastPipeline.scheduler",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Starts the evening run after the Apex prices for tomorrow are available (after 15:00) and calls the steps in order"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "cron, daily at 20:00 local time",
+      "kind": "component",
+      "x": 736,
+      "y": -90,
+      "width": 328,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 292,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline.priceClient",
+      "parent": "ses.forecastPipeline",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "nwwjzd"
+      ],
+      "outEdges": [
+        "vgyew3",
+        "1ln8bha"
+      ],
+      "title": "Price client",
+      "modelRef": "ses.forecastPipeline.priceClient",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Fetches the dynamic day-ahead prices per quarter hour for tomorrow"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "httpx",
+      "kind": "component",
+      "x": -162,
+      "y": 340,
+      "width": 323,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 47,
+        "width": 287,
+        "height": 84
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline.forecaster",
+      "parent": "ses.forecastPipeline",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "13yoez5"
+      ],
+      "outEdges": [
+        "1mpdpif",
+        "tj4w8o",
+        "199qnej"
+      ],
+      "title": "Forecaster",
+      "modelRef": "ses.forecastPipeline.forecaster",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Forecasts generation and consumption per quarter hour with P10, P50 and P90 bands"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "scikit-learn or XGBoost (from registry)",
+      "kind": "component",
+      "x": 1038,
+      "y": 340,
+      "width": 325,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 47,
+        "width": 289,
+        "height": 84
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline.optimizer",
+      "parent": "ses.forecastPipeline",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "16xlvdi"
+      ],
+      "outEdges": [
+        "1pbls8s",
+        "jkqugz"
+      ],
+      "title": "Optimizer",
+      "modelRef": "ses.forecastPipeline.optimizer",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Schedules flexible appliance categories (transport, heat pump, air conditioning) into forecast surplus (P10) within comfort limits; can optionally plan the community battery as shared storage for surplus that participants cannot shift"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "MILP, PuLP with HiGHS",
+      "kind": "component",
+      "x": 1632,
+      "y": 340,
+      "width": 336,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 20,
+        "width": 300,
+        "height": 138
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline.ranker",
+      "parent": "ses.forecastPipeline",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1bnzbks"
+      ],
+      "outEdges": [
+        "106agid",
+        "jo4q52"
+      ],
+      "title": "Ranker",
+      "modelRef": "ses.forecastPipeline.ranker",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Labels advice as high, medium or low impact by expected shared kWh, ranks by impact times chance of being followed and selects the top 3; the dynamic price only adds a small weight"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "Python",
+      "kind": "component",
+      "x": 421,
+      "y": 340,
+      "width": 358,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 29,
+        "width": 322,
+        "height": 120
+      },
+      "drifts": null
+    },
+    {
+      "id": "apexData",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "1ln8bha"
+      ],
+      "outEdges": [],
+      "title": "Apex data API",
+      "modelRef": "apexData",
+      "shape": "rectangle",
+      "color": "muted",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Dynamic day-ahead energy prices per quarter hour; prices for the next day are available after 15:00"
+      },
+      "tags": [],
+      "notation": "External system or source, outside SES",
+      "technology": "HTTPS, REST/JSON",
+      "kind": "externalSystem",
+      "x": -172,
+      "y": 1243,
+      "width": 345,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 38,
+        "width": 309,
+        "height": 102
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline.weatherClient",
+      "parent": "ses.forecastPipeline",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1mpdpif"
+      ],
+      "outEdges": [
+        "1smzr4v"
+      ],
+      "title": "Weather client",
+      "modelRef": "ses.forecastPipeline.weatherClient",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Fetches irradiance, cloud cover and temperature for the next 48 hours"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "httpx",
+      "kind": "component",
+      "x": 1640,
+      "y": 770,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 39,
+        "y": 47,
+        "width": 242,
+        "height": 84
+      },
+      "drifts": null
+    },
+    {
+      "id": "communityBattery",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "jkqugz"
+      ],
+      "outEdges": [],
+      "title": "Community battery",
+      "modelRef": "communityBattery",
+      "shape": "rectangle",
+      "color": "muted",
+      "style": {
+        "opacity": 10,
+        "size": "md",
+        "border": "dashed"
+      },
+      "description": {
+        "txt": "Optional shared battery of the energy community that stores surplus generation and discharges when consumption exceeds generation; not implemented in the PoC"
+      },
+      "tags": [
+        "optional"
+      ],
+      "notation": "Optional, not implemented in the PoC",
+      "technology": "vendor API, to be determined",
+      "kind": "externalSystem",
+      "x": 2348,
+      "y": 340,
+      "width": 343,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 29,
+        "width": 307,
+        "height": 120
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline.modelLoader",
+      "parent": "ses.forecastPipeline",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "tj4w8o",
+        "106agid"
+      ],
+      "outEdges": [
+        "1c0ee61"
+      ],
+      "title": "Model loader",
+      "modelRef": "ses.forecastPipeline.modelLoader",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Loads the production versions of the forecaster and acceptance model"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "MLflow client",
+      "kind": "component",
+      "x": 1040,
+      "y": 770,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 37,
+        "y": 47,
+        "width": 246,
+        "height": 84
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline.backendClient",
+      "parent": "ses.forecastPipeline",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "vgyew3",
+        "199qnej",
+        "1pbls8s",
+        "jo4q52"
+      ],
+      "outEdges": [
+        "n0w0nw"
+      ],
+      "title": "Backend client",
+      "modelRef": "ses.forecastPipeline.backendClient",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Single gateway to the Backend API"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "httpx",
+      "kind": "component",
+      "x": 480,
+      "y": 792,
+      "width": 240,
+      "height": 135,
+      "labelBBox": {
+        "x": 24,
+        "y": 39,
+        "width": 191,
+        "height": 56
+      },
+      "drifts": null
+    },
+    {
+      "id": "weatherData",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "1smzr4v"
+      ],
+      "outEdges": [],
+      "title": "Weather service",
+      "modelRef": "weatherData",
+      "shape": "rectangle",
+      "color": "muted",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Public weather API (EU) with a 48-hour forecast of irradiance, cloud cover and temperature"
+      },
+      "tags": [],
+      "notation": "External system or source, outside SES",
+      "technology": "HTTPS, REST/JSON",
+      "kind": "externalSystem",
+      "x": 1640,
+      "y": 1243,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 28,
+        "y": 37,
+        "width": 265,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.modelRegistry",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "1c0ee61"
+      ],
+      "outEdges": [],
+      "title": "Model registry",
+      "modelRef": "ses.modelRegistry",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Model versions, training runs and test scores; the forecast pipeline only uses versions with alias production"
+      },
+      "tags": [],
+      "notation": "Container: data store",
+      "technology": "MLflow tracking server, artifacts on local volume",
+      "kind": "dataStore",
+      "x": 1040,
+      "y": 1243,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 31,
+        "y": 37,
+        "width": 258,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.backendAPI",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "n0w0nw"
+      ],
+      "outEdges": [],
+      "title": "Backend API",
+      "modelRef": "ses.backendAPI",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Internal API between the backend services and the database"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask",
+      "kind": "container",
+      "navigateTo": "backendApiDetail",
+      "x": 424,
+      "y": 1243,
+      "width": 353,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 46,
+        "width": 318,
+        "height": 85
+      },
+      "drifts": null
+    }
+  ],
+  "edges": [
+    {
+      "id": "nwwjzd",
+      "source": "ses.forecastPipeline.scheduler",
+      "target": "ses.forecastPipeline.priceClient",
+      "label": "fetches day-ahead prices",
+      "points": [
+        [
+          736,
+          58
+        ],
+        [
+          491,
+          58
+        ],
+        [
+          245,
+          58
+        ],
+        [
+          0,
+          58
+        ],
+        [
+          0,
+          152
+        ],
+        [
+          0,
+          246
+        ],
+        [
+          0,
+          340
+        ]
+      ],
+      "labelBBox": {
+        "x": 141,
+        "y": 13,
+        "width": 160,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "15n94a"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "13yoez5",
+      "source": "ses.forecastPipeline.scheduler",
+      "target": "ses.forecastPipeline.forecaster",
+      "label": "runs forecast",
+      "points": [
+        [
+          1010,
+          90
+        ],
+        [
+          1010,
+          181
+        ],
+        [
+          1010,
+          271
+        ],
+        [
+          1010,
+          362
+        ],
+        [
+          1019,
+          362
+        ],
+        [
+          1029,
+          362
+        ],
+        [
+          1038,
+          362
+        ]
+      ],
+      "labelBBox": {
+        "x": 1018,
+        "y": 206,
+        "width": 85,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "1s25z2r"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "16xlvdi",
+      "source": "ses.forecastPipeline.scheduler",
+      "target": "ses.forecastPipeline.optimizer",
+      "label": "runs optimisation",
+      "points": [
+        [
+          1064,
+          58
+        ],
+        [
+          1309,
+          58
+        ],
+        [
+          1555,
+          58
+        ],
+        [
+          1800,
+          58
+        ],
+        [
+          1800,
+          152
+        ],
+        [
+          1800,
+          246
+        ],
+        [
+          1800,
+          340
+        ]
+      ],
+      "labelBBox": {
+        "x": 1524,
+        "y": 13,
+        "width": 110,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "y184fg"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1bnzbks",
+      "source": "ses.forecastPipeline.scheduler",
+      "target": "ses.forecastPipeline.ranker",
+      "label": "runs ranking",
+      "points": [
+        [
+          812,
+          90
+        ],
+        [
+          812,
+          181
+        ],
+        [
+          812,
+          271
+        ],
+        [
+          812,
+          362
+        ],
+        [
+          801,
+          362
+        ],
+        [
+          790,
+          362
+        ],
+        [
+          779,
+          362
+        ]
+      ],
+      "labelBBox": {
+        "x": 820,
+        "y": 206,
+        "width": 81,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "7pvlvr"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "vgyew3",
+      "source": "ses.forecastPipeline.priceClient",
+      "target": "ses.forecastPipeline.backendClient",
+      "label": "writes energy prices",
+      "points": [
+        [
+          130,
+          520
+        ],
+        [
+          130,
+          633
+        ],
+        [
+          130,
+          747
+        ],
+        [
+          130,
+          860
+        ],
+        [
+          247,
+          860
+        ],
+        [
+          363,
+          860
+        ],
+        [
+          480,
+          860
+        ]
+      ],
+      "labelBBox": {
+        "x": 118,
+        "y": 815,
+        "width": 128,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "1u8ucda"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1mpdpif",
+      "source": "ses.forecastPipeline.forecaster",
+      "target": "ses.forecastPipeline.weatherClient",
+      "label": "gets weather forecast",
+      "points": [
+        [
+          1330,
+          520
+        ],
+        [
+          1330,
+          586
+        ],
+        [
+          1330,
+          651
+        ],
+        [
+          1330,
+          717
+        ],
+        [
+          1441,
+          717
+        ],
+        [
+          1551,
+          717
+        ],
+        [
+          1662,
+          717
+        ],
+        [
+          1662,
+          735
+        ],
+        [
+          1662,
+          752
+        ],
+        [
+          1662,
+          770
+        ]
+      ],
+      "labelBBox": {
+        "x": 1361,
+        "y": 672,
+        "width": 138,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "rs90in"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "tj4w8o",
+      "source": "ses.forecastPipeline.forecaster",
+      "target": "ses.forecastPipeline.modelLoader",
+      "label": "gets forecaster model",
+      "points": [
+        [
+          1204,
+          520
+        ],
+        [
+          1204,
+          586
+        ],
+        [
+          1204,
+          651
+        ],
+        [
+          1204,
+          717
+        ],
+        [
+          1205,
+          717
+        ],
+        [
+          1205,
+          717
+        ],
+        [
+          1206,
+          717
+        ],
+        [
+          1206,
+          735
+        ],
+        [
+          1206,
+          752
+        ],
+        [
+          1206,
+          770
+        ]
+      ],
+      "labelBBox": {
+        "x": 1135,
+        "y": 672,
+        "width": 139,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "ya90dd"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "106agid",
+      "source": "ses.forecastPipeline.ranker",
+      "target": "ses.forecastPipeline.modelLoader",
+      "label": "gets acceptance model",
+      "points": [
+        [
+          749,
+          520
+        ],
+        [
+          749,
+          586
+        ],
+        [
+          749,
+          651
+        ],
+        [
+          749,
+          717
+        ],
+        [
+          853,
+          717
+        ],
+        [
+          958,
+          717
+        ],
+        [
+          1062,
+          717
+        ],
+        [
+          1062,
+          735
+        ],
+        [
+          1062,
+          752
+        ],
+        [
+          1062,
+          770
+        ]
+      ],
+      "labelBBox": {
+        "x": 769,
+        "y": 672,
+        "width": 148,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "1dy5z1n"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "199qnej",
+      "source": "ses.forecastPipeline.forecaster",
+      "target": "ses.forecastPipeline.backendClient",
+      "label": "reads history, writes forecasts",
+      "points": [
+        [
+          1060,
+          520
+        ],
+        [
+          1060,
+          598
+        ],
+        [
+          1060,
+          676
+        ],
+        [
+          1060,
+          754
+        ],
+        [
+          934,
+          754
+        ],
+        [
+          808,
+          754
+        ],
+        [
+          682,
+          754
+        ],
+        [
+          682,
+          767
+        ],
+        [
+          682,
+          779
+        ],
+        [
+          682,
+          792
+        ]
+      ],
+      "labelBBox": {
+        "x": 776,
+        "y": 760,
+        "width": 189,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "19bz50"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1pbls8s",
+      "source": "ses.forecastPipeline.optimizer",
+      "target": "ses.forecastPipeline.backendClient",
+      "label": "reads forecasts, comfort limits and \nappliances",
+      "points": [
+        [
+          1654,
+          520
+        ],
+        [
+          1654,
+          529
+        ],
+        [
+          1654,
+          537
+        ],
+        [
+          1654,
+          546
+        ],
+        [
+          1318,
+          546
+        ],
+        [
+          982,
+          546
+        ],
+        [
+          646,
+          546
+        ],
+        [
+          646,
+          628
+        ],
+        [
+          646,
+          710
+        ],
+        [
+          646,
+          792
+        ]
+      ],
+      "labelBBox": {
+        "x": 840,
+        "y": 552,
+        "width": 217,
+        "height": 56
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "v3hsn4"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "jo4q52",
+      "source": "ses.forecastPipeline.ranker",
+      "target": "ses.forecastPipeline.backendClient",
+      "label": "reads energy prices, writes top 3 advice",
+      "points": [
+        [
+          600,
+          520
+        ],
+        [
+          600,
+          611
+        ],
+        [
+          600,
+          701
+        ],
+        [
+          600,
+          792
+        ]
+      ],
+      "labelBBox": {
+        "x": 341,
+        "y": 636,
+        "width": 251,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "1yhx8bo"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1ln8bha",
+      "source": "ses.forecastPipeline.priceClient",
+      "target": "apexData",
+      "label": "fetches day-ahead prices for tomorrow",
+      "points": [
+        [
+          0,
+          520
+        ],
+        [
+          0,
+          761
+        ],
+        [
+          0,
+          1002
+        ],
+        [
+          0,
+          1243
+        ]
+      ],
+      "labelBBox": {
+        "x": 8,
+        "y": 862,
+        "width": 243,
+        "height": 39
+      },
+      "parent": null,
+      "relations": [
+        "gebln0"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTPS, REST/JSON",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1smzr4v",
+      "source": "ses.forecastPipeline.weatherClient",
+      "target": "weatherData",
+      "label": "fetches 48-hour weather forecast",
+      "points": [
+        [
+          1800,
+          950
+        ],
+        [
+          1800,
+          1048
+        ],
+        [
+          1800,
+          1145
+        ],
+        [
+          1800,
+          1243
+        ]
+      ],
+      "labelBBox": {
+        "x": 1808,
+        "y": 1077,
+        "width": 209,
+        "height": 39
+      },
+      "parent": null,
+      "relations": [
+        "sn6clf"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTPS, REST/JSON",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1c0ee61",
+      "source": "ses.forecastPipeline.modelLoader",
+      "target": "ses.modelRegistry",
+      "label": "loads production models",
+      "points": [
+        [
+          1200,
+          950
+        ],
+        [
+          1200,
+          1048
+        ],
+        [
+          1200,
+          1145
+        ],
+        [
+          1200,
+          1243
+        ]
+      ],
+      "labelBBox": {
+        "x": 1208,
+        "y": 1077,
+        "width": 156,
+        "height": 39
+      },
+      "parent": null,
+      "relations": [
+        "1wbi6a2"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, MLflow REST API",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "jkqugz",
+      "source": "ses.forecastPipeline.optimizer",
+      "target": "communityBattery",
+      "label": "reads capacity and state of charge \n(optional)",
+      "points": [
+        [
+          1968,
+          430
+        ],
+        [
+          2095,
+          430
+        ],
+        [
+          2221,
+          430
+        ],
+        [
+          2348,
+          430
+        ]
+      ],
+      "labelBBox": {
+        "x": 2049,
+        "y": 368,
+        "width": 218,
+        "height": 56
+      },
+      "parent": null,
+      "relations": [
+        "ew1fr3"
+      ],
+      "color": "muted",
+      "line": "dotted",
+      "head": "odiamond",
+      "technology": "vendor API, to be determined",
+      "kind": "optional",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "n0w0nw",
+      "source": "ses.forecastPipeline.backendClient",
+      "target": "ses.backendAPI",
+      "label": "reads history, comfort limits and \nappliances, writes forecasts, prices and \nadvice",
+      "points": [
+        [
+          600,
+          927
+        ],
+        [
+          600,
+          1032
+        ],
+        [
+          600,
+          1138
+        ],
+        [
+          600,
+          1243
+        ]
+      ],
+      "labelBBox": {
+        "x": 608,
+        "y": 1048,
+        "width": 248,
+        "height": 73
+      },
+      "parent": null,
+      "relations": [
+        "ekl7on"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, REST/JSON",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    }
+  ],
+  "_layout": "manual"
+}

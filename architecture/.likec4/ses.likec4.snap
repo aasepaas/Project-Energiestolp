@@ -1,0 +1,1448 @@
+{
+  "_type": "element",
+  "tags": null,
+  "links": null,
+  "viewOf": "ses",
+  "_stage": "layouted",
+  "sourcePath": "ses_v0.1_en.c4",
+  "description": {
+    "txt": "Deployable containers of SES (Docker Compose) and how they communicate"
+  },
+  "title": "2 - Container diagram for Smart Energie Stolp",
+  "id": "ses",
+  "autoLayout": {
+    "direction": "TB"
+  },
+  "notation": {
+    "nodes": [
+      {
+        "title": "Container: web application in the browser",
+        "shape": "browser",
+        "color": "green",
+        "kinds": [
+          "webApp"
+        ]
+      },
+      {
+        "title": "Person",
+        "shape": "person",
+        "color": "indigo",
+        "kinds": [
+          "person"
+        ]
+      },
+      {
+        "title": "Container: separately deployed service (Docker)",
+        "shape": "rectangle",
+        "color": "primary",
+        "kinds": [
+          "container"
+        ]
+      },
+      {
+        "title": "External system or source, outside SES",
+        "shape": "rectangle",
+        "color": "muted",
+        "kinds": [
+          "externalSystem"
+        ]
+      },
+      {
+        "title": "Optional, not implemented in the PoC",
+        "shape": "rectangle",
+        "color": "muted",
+        "kinds": [
+          "externalSystem"
+        ]
+      },
+      {
+        "title": "Software system",
+        "shape": "rectangle",
+        "color": "primary",
+        "kinds": [
+          "system"
+        ]
+      },
+      {
+        "title": "Container: data store",
+        "shape": "storage",
+        "color": "secondary",
+        "kinds": [
+          "dataStore"
+        ]
+      }
+    ]
+  },
+  "hash": "hfvAimS6DAXFem2-zI2btHxX-bmtnYdv6HHPbUF02jI",
+  "bounds": {
+    "x": -260,
+    "y": -130,
+    "width": 2911,
+    "height": 1977
+  },
+  "nodes": [
+    {
+      "id": "customer",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "s12u5w"
+      ],
+      "title": "Participant",
+      "modelRef": "customer",
+      "shape": "person",
+      "color": "indigo",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "User with a grid connection up to 250 A and participant of the Energiestolp, who views own energy data, prices and personal advice"
+      },
+      "tags": [],
+      "notation": "Person",
+      "kind": "person",
+      "x": 2274,
+      "y": 250,
+      "width": 337,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 47,
+        "width": 302,
+        "height": 83
+      },
+      "drifts": null
+    },
+    {
+      "id": "admin",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "1uzxhpb",
+        "1np2a8t"
+      ],
+      "title": "System administrator",
+      "modelRef": "admin",
+      "shape": "person",
+      "color": "indigo",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Community administrator who imports meter data, views aggregated results and manages settings"
+      },
+      "tags": [],
+      "notation": "Person",
+      "kind": "person",
+      "x": 1311,
+      "y": -90,
+      "width": 338,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 47,
+        "width": 303,
+        "height": 83
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses",
+      "parent": null,
+      "level": 0,
+      "children": [
+        "ses.webapp",
+        "ses.forecastPipeline",
+        "ses.frontendAPI",
+        "ses.processingService",
+        "ses.trainingPipeline",
+        "ses.backendAPI",
+        "ses.modelRegistry",
+        "ses.database"
+      ],
+      "inEdges": [
+        "s12u5w",
+        "1uzxhpb"
+      ],
+      "outEdges": [
+        "1ehwkz4",
+        "133zn2c",
+        "1a8h8na"
+      ],
+      "title": "Smart Energie Stolp",
+      "modelRef": "ses",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Calculates, forecasts and improves the simultaneity of local energy generation and consumption"
+      },
+      "tags": [
+        "version1"
+      ],
+      "notation": "Software system",
+      "technology": "Docker Compose on a local server",
+      "kind": "system",
+      "depth": 1,
+      "x": -220,
+      "y": 178,
+      "width": 1919,
+      "height": 1320,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 135,
+        "height": 15
+      },
+      "drifts": null
+    },
+    {
+      "id": "gridOperator",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "1np2a8t"
+      ],
+      "outEdges": [],
+      "title": "Grid operator",
+      "modelRef": "gridOperator",
+      "shape": "rectangle",
+      "color": "muted",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Distribution system operator that provides pseudonymised quarter-hourly readings per meter as a CSV export"
+      },
+      "tags": [],
+      "notation": "External system or source, outside SES",
+      "technology": "CSV export",
+      "kind": "externalSystem",
+      "x": 2277,
+      "y": -90,
+      "width": 330,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 294,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.webapp",
+      "parent": "ses",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "s12u5w",
+        "1uzxhpb"
+      ],
+      "outEdges": [
+        "soyyp9"
+      ],
+      "title": "Web app",
+      "modelRef": "ses.webapp",
+      "shape": "browser",
+      "color": "green",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Single-page application for participants and administrators: dashboards, advice, CSV upload and settings"
+      },
+      "tags": [],
+      "notation": "Container: web application in the browser",
+      "technology": "React, TypeScript",
+      "kind": "webApp",
+      "navigateTo": "webappDetail",
+      "x": 1312,
+      "y": 250,
+      "width": 335,
+      "height": 180,
+      "labelBBox": {
+        "x": 22,
+        "y": 37,
+        "width": 292,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline",
+      "parent": "ses",
+      "level": 1,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "jba1xr",
+        "1exnex5",
+        "1ehwkz4",
+        "133zn2c",
+        "1a8h8na"
+      ],
+      "title": "Forecast pipeline",
+      "modelRef": "ses.forecastPipeline",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Every evening, after the day-ahead prices are published: forecasts generation and consumption for tomorrow and generates the top 3 advice per participant"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, scikit-learn, XGBoost, PuLP",
+      "kind": "container",
+      "navigateTo": "forecastDetail",
+      "x": 1308,
+      "y": 1270,
+      "width": 343,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 28,
+        "width": 308,
+        "height": 121
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.frontendAPI",
+      "parent": "ses",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "soyyp9"
+      ],
+      "outEdges": [
+        "72h6ei",
+        "exzjix"
+      ],
+      "title": "Frontend API",
+      "modelRef": "ses.frontendAPI",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Single entry point for the web app: checks role and data ownership, answers queries and accepts uploads"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask",
+      "kind": "container",
+      "navigateTo": "frontendApiDetail",
+      "x": 567,
+      "y": 250,
+      "width": 346,
+      "height": 180,
+      "labelBBox": {
+        "x": 17,
+        "y": 37,
+        "width": 311,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "weatherData",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "1ehwkz4"
+      ],
+      "outEdges": [],
+      "title": "Weather service",
+      "modelRef": "weatherData",
+      "shape": "rectangle",
+      "color": "muted",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Public weather API (EU) with a 48-hour forecast of irradiance, cloud cover and temperature"
+      },
+      "tags": [],
+      "notation": "External system or source, outside SES",
+      "technology": "HTTPS, REST/JSON",
+      "kind": "externalSystem",
+      "x": 580,
+      "y": 1627,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 27,
+        "y": 37,
+        "width": 265,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "apexData",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "133zn2c"
+      ],
+      "outEdges": [],
+      "title": "Apex data API",
+      "modelRef": "apexData",
+      "shape": "rectangle",
+      "color": "muted",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Dynamic day-ahead energy prices per quarter hour; prices for the next day are available after 15:00"
+      },
+      "tags": [],
+      "notation": "External system or source, outside SES",
+      "technology": "HTTPS, REST/JSON",
+      "kind": "externalSystem",
+      "x": 1308,
+      "y": 1627,
+      "width": 345,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 309,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "communityBattery",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "1a8h8na"
+      ],
+      "outEdges": [],
+      "title": "Community battery",
+      "modelRef": "communityBattery",
+      "shape": "rectangle",
+      "color": "muted",
+      "style": {
+        "opacity": 10,
+        "size": "md",
+        "border": "dashed"
+      },
+      "description": {
+        "txt": "Optional shared battery of the energy community that stores surplus generation and discharges when consumption exceeds generation; not implemented in the PoC"
+      },
+      "tags": [
+        "optional"
+      ],
+      "notation": "Optional, not implemented in the PoC",
+      "technology": "vendor API, to be determined",
+      "kind": "externalSystem",
+      "x": 2048,
+      "y": 1627,
+      "width": 343,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 28,
+        "width": 307,
+        "height": 121
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService",
+      "parent": "ses",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "72h6ei"
+      ],
+      "outEdges": [
+        "cfars0",
+        "1vxzb8e"
+      ],
+      "title": "Data processing service",
+      "modelRef": "ses.processingService",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Imports meter data idempotently, links meters to participants and calculates simultaneity per quarter hour"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask, pandas",
+      "kind": "container",
+      "navigateTo": "processingDetail",
+      "x": -172,
+      "y": 930,
+      "width": 343,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 38,
+        "width": 307,
+        "height": 102
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline",
+      "parent": "ses",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1vxzb8e"
+      ],
+      "outEdges": [
+        "30tutw",
+        "164rgmq"
+      ],
+      "title": "Ingest and training pipeline",
+      "modelRef": "ses.trainingPipeline",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "After every export: ingests training data, measures the effect of advice and retrains the models"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, PyCaret, scikit-learn, XGBoost",
+      "kind": "container",
+      "navigateTo": "trainingDetail",
+      "x": -160,
+      "y": 1270,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 38,
+        "width": 283,
+        "height": 102
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.backendAPI",
+      "parent": "ses",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "cfars0",
+        "30tutw",
+        "jba1xr"
+      ],
+      "outEdges": [
+        "1xytwqb"
+      ],
+      "title": "Backend API",
+      "modelRef": "ses.backendAPI",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Internal API between the backend services and the database"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask",
+      "kind": "container",
+      "navigateTo": "backendApiDetail",
+      "x": 564,
+      "y": 930,
+      "width": 353,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 47,
+        "width": 318,
+        "height": 84
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.modelRegistry",
+      "parent": "ses",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "164rgmq",
+        "1exnex5"
+      ],
+      "outEdges": [],
+      "title": "Model registry",
+      "modelRef": "ses.modelRegistry",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Model versions, training runs and test scores; the forecast pipeline only uses versions with alias production"
+      },
+      "tags": [],
+      "notation": "Container: data store",
+      "technology": "MLflow tracking server, artifacts on local volume",
+      "kind": "dataStore",
+      "x": 580,
+      "y": 1270,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 31,
+        "y": 38,
+        "width": 258,
+        "height": 102
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database",
+      "parent": "ses",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "exzjix",
+        "1xytwqb"
+      ],
+      "outEdges": [],
+      "title": "Database",
+      "modelRef": "ses.database",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Readings, links, simultaneity, forecasts, advice and accounts"
+      },
+      "tags": [],
+      "notation": "Container: data store",
+      "technology": "PostgreSQL with TimescaleDB",
+      "kind": "dataStore",
+      "navigateTo": "databaseDetail",
+      "x": 580,
+      "y": 590,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 27,
+        "y": 47,
+        "width": 267,
+        "height": 84
+      },
+      "drifts": null
+    }
+  ],
+  "edges": [
+    {
+      "id": "s12u5w",
+      "source": "customer",
+      "target": "ses.webapp",
+      "label": "views own energy data and advice",
+      "points": [
+        [
+          2274,
+          340
+        ],
+        [
+          2065,
+          340
+        ],
+        [
+          1856,
+          340
+        ],
+        [
+          1647,
+          340
+        ]
+      ],
+      "labelBBox": {
+        "x": 1852,
+        "y": 295,
+        "width": 218,
+        "height": 39
+      },
+      "parent": null,
+      "relations": [
+        "1rz41pq"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "web browser, HTTPS",
+      "tags": [
+        "level2"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1uzxhpb",
+      "source": "admin",
+      "target": "ses.webapp",
+      "label": "uploads CSV, views aggregated results, \nmanages settings",
+      "points": [
+        [
+          1480,
+          90
+        ],
+        [
+          1480,
+          143
+        ],
+        [
+          1480,
+          197
+        ],
+        [
+          1480,
+          250
+        ]
+      ],
+      "labelBBox": {
+        "x": 1488,
+        "y": 142,
+        "width": 252,
+        "height": 56
+      },
+      "parent": null,
+      "relations": [
+        "1wwsu3m"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "web browser, HTTPS",
+      "tags": [
+        "level2"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "soyyp9",
+      "source": "ses.webapp",
+      "target": "ses.frontendAPI",
+      "label": "requests data, uploads CSV and saves \nsettings",
+      "points": [
+        [
+          1312,
+          340
+        ],
+        [
+          1179,
+          340
+        ],
+        [
+          1046,
+          340
+        ],
+        [
+          913,
+          340
+        ]
+      ],
+      "labelBBox": {
+        "x": 990,
+        "y": 278,
+        "width": 246,
+        "height": 56
+      },
+      "parent": "ses",
+      "relations": [
+        "3dsjsh"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTPS, REST/JSON and multipart, Bearer JWT",
+      "tags": [
+        "level2"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "72h6ei",
+      "source": "ses.frontendAPI",
+      "target": "ses.processingService",
+      "label": "forwards uploaded CSV file",
+      "points": [
+        [
+          567,
+          398
+        ],
+        [
+          378,
+          398
+        ],
+        [
+          189,
+          398
+        ],
+        [
+          0,
+          398
+        ],
+        [
+          0,
+          575
+        ],
+        [
+          0,
+          753
+        ],
+        [
+          0,
+          930
+        ]
+      ],
+      "labelBBox": {
+        "x": -10,
+        "y": 353,
+        "width": 191,
+        "height": 39
+      },
+      "parent": "ses",
+      "relations": [
+        "1kafj91"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, POST /imports (multipart)",
+      "tags": [
+        "level2"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "exzjix",
+      "source": "ses.frontendAPI",
+      "target": "ses.database",
+      "label": "reads participant data and prices, \nwrites settings and feedback",
+      "points": [
+        [
+          740,
+          430
+        ],
+        [
+          740,
+          483
+        ],
+        [
+          740,
+          537
+        ],
+        [
+          740,
+          590
+        ]
+      ],
+      "labelBBox": {
+        "x": 748,
+        "y": 482,
+        "width": 211,
+        "height": 56
+      },
+      "parent": "ses",
+      "relations": [
+        "d78213"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "SQL over TCP 5432, frontend role",
+      "tags": [
+        "level2"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1xytwqb",
+      "source": "ses.backendAPI",
+      "target": "ses.database",
+      "label": "reads and writes readings, links, \nresults and advice",
+      "points": [
+        [
+          740,
+          930
+        ],
+        [
+          740,
+          877
+        ],
+        [
+          740,
+          823
+        ],
+        [
+          740,
+          770
+        ]
+      ],
+      "labelBBox": {
+        "x": 748,
+        "y": 822,
+        "width": 204,
+        "height": 56
+      },
+      "parent": "ses",
+      "relations": [
+        "168lvv2"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "SQL over TCP 5432, backend role",
+      "tags": [
+        "level2"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "cfars0",
+      "source": "ses.processingService",
+      "target": "ses.backendAPI",
+      "label": "reads meter links and readings, upserts \nreadings, simultaneity and import \nrecords",
+      "points": [
+        [
+          171,
+          1020
+        ],
+        [
+          302,
+          1020
+        ],
+        [
+          433,
+          1020
+        ],
+        [
+          564,
+          1020
+        ]
+      ],
+      "labelBBox": {
+        "x": 243,
+        "y": 942,
+        "width": 249,
+        "height": 72
+      },
+      "parent": "ses",
+      "relations": [
+        "uty5g1"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, REST/JSON",
+      "tags": [
+        "level2"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "30tutw",
+      "source": "ses.trainingPipeline",
+      "target": "ses.backendAPI",
+      "label": "reads training data and advice, writes \nmeasured effect",
+      "points": [
+        [
+          132,
+          1270
+        ],
+        [
+          132,
+          1231
+        ],
+        [
+          132,
+          1193
+        ],
+        [
+          132,
+          1154
+        ],
+        [
+          283,
+          1154
+        ],
+        [
+          435,
+          1154
+        ],
+        [
+          586,
+          1154
+        ],
+        [
+          586,
+          1139
+        ],
+        [
+          586,
+          1125
+        ],
+        [
+          586,
+          1110
+        ]
+      ],
+      "labelBBox": {
+        "x": 241,
+        "y": 1092,
+        "width": 236,
+        "height": 56
+      },
+      "parent": "ses",
+      "relations": [
+        "1ph3fhq"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, REST/JSON",
+      "tags": [
+        "level2"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "jba1xr",
+      "source": "ses.forecastPipeline",
+      "target": "ses.backendAPI",
+      "label": "reads history, comfort limits and \nappliances, writes forecasts, prices and \nadvice",
+      "points": [
+        [
+          1330,
+          1270
+        ],
+        [
+          1330,
+          1187
+        ],
+        [
+          1330,
+          1103
+        ],
+        [
+          1330,
+          1020
+        ],
+        [
+          1192,
+          1020
+        ],
+        [
+          1055,
+          1020
+        ],
+        [
+          917,
+          1020
+        ]
+      ],
+      "labelBBox": {
+        "x": 1144,
+        "y": 942,
+        "width": 248,
+        "height": 72
+      },
+      "parent": "ses",
+      "relations": [
+        "1qay01f"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, REST/JSON",
+      "tags": [
+        "level2"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1vxzb8e",
+      "source": "ses.processingService",
+      "target": "ses.trainingPipeline",
+      "label": "triggers training run for imported \nperiod",
+      "points": [
+        [
+          0,
+          1110
+        ],
+        [
+          0,
+          1163
+        ],
+        [
+          0,
+          1217
+        ],
+        [
+          0,
+          1270
+        ]
+      ],
+      "labelBBox": {
+        "x": -211,
+        "y": 1162,
+        "width": 203,
+        "height": 56
+      },
+      "parent": "ses",
+      "relations": [
+        "1t2r3im"
+      ],
+      "color": "gray",
+      "line": "dotted",
+      "head": "normal",
+      "technology": "HTTP, POST /training-runs",
+      "kind": "async",
+      "tags": [
+        "level2"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "164rgmq",
+      "source": "ses.trainingPipeline",
+      "target": "ses.modelRegistry",
+      "label": "logs runs and scores, registers and \npromotes model versions",
+      "points": [
+        [
+          160,
+          1360
+        ],
+        [
+          300,
+          1360
+        ],
+        [
+          440,
+          1360
+        ],
+        [
+          580,
+          1360
+        ]
+      ],
+      "labelBBox": {
+        "x": 259,
+        "y": 1298,
+        "width": 222,
+        "height": 56
+      },
+      "parent": "ses",
+      "relations": [
+        "1sjyuuh"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, MLflow REST API",
+      "tags": [
+        "level2"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1exnex5",
+      "source": "ses.forecastPipeline",
+      "target": "ses.modelRegistry",
+      "label": "loads production models",
+      "points": [
+        [
+          1308,
+          1360
+        ],
+        [
+          1172,
+          1360
+        ],
+        [
+          1036,
+          1360
+        ],
+        [
+          900,
+          1360
+        ]
+      ],
+      "labelBBox": {
+        "x": 1026,
+        "y": 1315,
+        "width": 156,
+        "height": 39
+      },
+      "parent": "ses",
+      "relations": [
+        "1k60umo"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, MLflow REST API",
+      "tags": [
+        "level2"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1ehwkz4",
+      "source": "ses.forecastPipeline",
+      "target": "weatherData",
+      "label": "fetches 48-hour weather forecast",
+      "points": [
+        [
+          1330,
+          1450
+        ],
+        [
+          1330,
+          1497
+        ],
+        [
+          1330,
+          1545
+        ],
+        [
+          1330,
+          1592
+        ],
+        [
+          1177,
+          1592
+        ],
+        [
+          1025,
+          1592
+        ],
+        [
+          872,
+          1592
+        ],
+        [
+          872,
+          1604
+        ],
+        [
+          872,
+          1615
+        ],
+        [
+          872,
+          1627
+        ]
+      ],
+      "labelBBox": {
+        "x": 1088,
+        "y": 1548,
+        "width": 209,
+        "height": 38
+      },
+      "parent": null,
+      "relations": [
+        "1ido8js"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTPS, REST/JSON",
+      "tags": [
+        "level2"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "133zn2c",
+      "source": "ses.forecastPipeline",
+      "target": "apexData",
+      "label": "fetches day-ahead prices for tomorrow",
+      "points": [
+        [
+          1492,
+          1450
+        ],
+        [
+          1492,
+          1509
+        ],
+        [
+          1492,
+          1568
+        ],
+        [
+          1492,
+          1627
+        ]
+      ],
+      "labelBBox": {
+        "x": 1500,
+        "y": 1520,
+        "width": 243,
+        "height": 38
+      },
+      "parent": null,
+      "relations": [
+        "uqzgu2"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTPS, REST/JSON",
+      "tags": [
+        "level2"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1a8h8na",
+      "source": "ses.forecastPipeline",
+      "target": "communityBattery",
+      "label": "reads capacity and state of charge \n(optional)",
+      "points": [
+        [
+          1651,
+          1418
+        ],
+        [
+          1841,
+          1418
+        ],
+        [
+          2030,
+          1418
+        ],
+        [
+          2220,
+          1418
+        ],
+        [
+          2220,
+          1488
+        ],
+        [
+          2220,
+          1557
+        ],
+        [
+          2220,
+          1627
+        ]
+      ],
+      "labelBBox": {
+        "x": 1940,
+        "y": 1356,
+        "width": 218,
+        "height": 56
+      },
+      "parent": null,
+      "relations": [
+        "t3qprt"
+      ],
+      "color": "muted",
+      "line": "dotted",
+      "head": "odiamond",
+      "technology": "vendor API, to be determined",
+      "kind": "optional",
+      "tags": [
+        "level2"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1np2a8t",
+      "source": "admin",
+      "target": "gridOperator",
+      "label": "requests and downloads quarter-hourly \nCSV export",
+      "points": [
+        [
+          1649,
+          0
+        ],
+        [
+          1858,
+          0
+        ],
+        [
+          2068,
+          0
+        ],
+        [
+          2277,
+          0
+        ]
+      ],
+      "labelBBox": {
+        "x": 1840,
+        "y": -62,
+        "width": 247,
+        "height": 56
+      },
+      "parent": null,
+      "relations": [
+        "12nzooi"
+      ],
+      "color": "muted",
+      "line": "dashed",
+      "head": "onormal",
+      "technology": "file download, a few times per year",
+      "kind": "offline",
+      "isLabelCustomized": false,
+      "drifts": null
+    }
+  ],
+  "_layout": "manual"
+}

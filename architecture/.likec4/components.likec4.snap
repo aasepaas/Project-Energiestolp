@@ -1,0 +1,5583 @@
+{
+  "_type": "element",
+  "tags": null,
+  "links": null,
+  "_stage": "layouted",
+  "sourcePath": "ses_v0.1_en.c4",
+  "description": null,
+  "title": "3 - Component diagram for Smart Energie Stolp (all containers)",
+  "id": "components",
+  "autoLayout": {
+    "direction": "TB"
+  },
+  "notation": {
+    "nodes": [
+      {
+        "title": "Container: web application in the browser",
+        "shape": "browser",
+        "color": "green",
+        "kinds": [
+          "webApp"
+        ]
+      },
+      {
+        "title": "Person",
+        "shape": "person",
+        "color": "indigo",
+        "kinds": [
+          "person"
+        ]
+      },
+      {
+        "title": "Component: module inside a container",
+        "shape": "rectangle",
+        "color": "sky",
+        "kinds": [
+          "component"
+        ]
+      },
+      {
+        "title": "Container: separately deployed service (Docker)",
+        "shape": "rectangle",
+        "color": "primary",
+        "kinds": [
+          "container"
+        ]
+      },
+      {
+        "title": "External system or source, outside SES",
+        "shape": "rectangle",
+        "color": "muted",
+        "kinds": [
+          "externalSystem"
+        ]
+      },
+      {
+        "title": "Optional, not implemented in the PoC",
+        "shape": "rectangle",
+        "color": "muted",
+        "kinds": [
+          "externalSystem"
+        ]
+      },
+      {
+        "title": "Software system",
+        "shape": "rectangle",
+        "color": "primary",
+        "kinds": [
+          "system"
+        ]
+      },
+      {
+        "title": "Container: data store",
+        "shape": "storage",
+        "color": "secondary",
+        "kinds": [
+          "dataStore"
+        ]
+      },
+      {
+        "title": "Database table",
+        "shape": "storage",
+        "color": "secondary",
+        "kinds": [
+          "table"
+        ]
+      }
+    ]
+  },
+  "hash": "zM697bVaQo0JvY7hY06KCwPzm7NG6-hta_k5f_4LsoE",
+  "bounds": {
+    "x": 814,
+    "y": -130,
+    "width": 9430,
+    "height": 5808
+  },
+  "nodes": [
+    {
+      "id": "ses",
+      "parent": null,
+      "level": 0,
+      "children": [
+        "ses.forecastPipeline",
+        "ses.database",
+        "ses.webapp",
+        "ses.frontendAPI",
+        "ses.processingService",
+        "ses.trainingPipeline",
+        "ses.modelRegistry",
+        "ses.backendAPI"
+      ],
+      "inEdges": [
+        "15vg0vi",
+        "337hfp"
+      ],
+      "outEdges": [
+        "1smzr4v",
+        "1ln8bha",
+        "jkqugz"
+      ],
+      "title": "Smart Energie Stolp",
+      "modelRef": "ses",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Calculates, forecasts and improves the simultaneity of local energy generation and consumption"
+      },
+      "tags": [
+        "version1"
+      ],
+      "notation": "Software system",
+      "technology": "Docker Compose on a local server",
+      "kind": "system",
+      "depth": 2,
+      "navigateTo": "ses",
+      "x": 854,
+      "y": 244,
+      "width": 8440,
+      "height": 5087,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 135,
+        "height": 15
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline",
+      "parent": "ses",
+      "level": 1,
+      "children": [
+        "ses.forecastPipeline.scheduler",
+        "ses.forecastPipeline.priceClient",
+        "ses.forecastPipeline.forecaster",
+        "ses.forecastPipeline.optimizer",
+        "ses.forecastPipeline.ranker",
+        "ses.forecastPipeline.weatherClient",
+        "ses.forecastPipeline.modelLoader",
+        "ses.forecastPipeline.backendClient"
+      ],
+      "inEdges": [],
+      "outEdges": [
+        "59gsmy",
+        "1c0ee61",
+        "1smzr4v",
+        "1ln8bha",
+        "jkqugz"
+      ],
+      "title": "Forecast pipeline",
+      "modelRef": "ses.forecastPipeline",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Every evening, after the day-ahead prices are published: forecasts generation and consumption for tomorrow and generates the top 3 advice per participant"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, scikit-learn, XGBoost, PuLP",
+      "kind": "container",
+      "depth": 1,
+      "navigateTo": "forecastDetail",
+      "x": 6035,
+      "y": 3888,
+      "width": 2503,
+      "height": 1015,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 118,
+        "height": 15
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database",
+      "parent": "ses",
+      "level": 1,
+      "children": [
+        "ses.database.readings",
+        "ses.database.meterLinks",
+        "ses.database.participants",
+        "ses.database.users",
+        "ses.database.simultaneity",
+        "ses.database.forecasts",
+        "ses.database.advice",
+        "ses.database.energyPrices",
+        "ses.database.settings",
+        "ses.database.importLog",
+        "ses.database.sqlInterface"
+      ],
+      "inEdges": [
+        "1w6ixpb",
+        "1ow4j1x"
+      ],
+      "outEdges": [],
+      "title": "Database",
+      "modelRef": "ses.database",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Readings, links, simultaneity, forecasts, advice and accounts"
+      },
+      "tags": [],
+      "notation": "Container: data store",
+      "technology": "PostgreSQL with TimescaleDB",
+      "kind": "dataStore",
+      "depth": 1,
+      "navigateTo": "databaseDetail",
+      "x": 2296,
+      "y": 4116,
+      "width": 1885,
+      "height": 1167,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 65,
+        "height": 15
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.readings",
+      "parent": "ses.database",
+      "level": 2,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "readings",
+      "modelRef": "ses.database.readings",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Hypertable with meter_id, UTC timestamp, to_grid, from_grid, created_at and import_id"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "technology": "TimescaleDB hypertable",
+      "kind": "table",
+      "x": 2354,
+      "y": 4188,
+      "width": 261,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 32,
+        "width": 237,
+        "height": 70
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.meterLinks",
+      "parent": "ses.database",
+      "level": 2,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "meter_links",
+      "modelRef": "ses.database.meterLinks",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Links meter_id to participant_id (or to the optional community battery) with a valid-from and valid-to date"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "kind": "table",
+      "x": 3863,
+      "y": 4188,
+      "width": 266,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 33,
+        "width": 242,
+        "height": 68
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.participants",
+      "parent": "ses.database",
+      "level": 2,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "participants",
+      "modelRef": "ses.database.participants",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Pseudonym, connection (up to 250 A), comfort limits and appliance categories: transport, heat pump, air conditioning"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "kind": "table",
+      "x": 3858,
+      "y": 4416,
+      "width": 275,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 33,
+        "width": 251,
+        "height": 68
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.users",
+      "parent": "ses.database",
+      "level": 2,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "users",
+      "modelRef": "ses.database.users",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Login accounts with role (participant or administrator) and link to participant"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "kind": "table",
+      "x": 3876,
+      "y": 4644,
+      "width": 240,
+      "height": 135,
+      "labelBBox": {
+        "x": 15,
+        "y": 40,
+        "width": 209,
+        "height": 54
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.simultaneity",
+      "parent": "ses.database",
+      "level": 2,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "simultaneity",
+      "modelRef": "ses.database.simultaneity",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Shared kWh per quarter hour and participant"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "technology": "TimescaleDB hypertable",
+      "kind": "table",
+      "x": 2352,
+      "y": 4416,
+      "width": 265,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 39,
+        "width": 241,
+        "height": 56
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.forecasts",
+      "parent": "ses.database",
+      "level": 2,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "forecasts",
+      "modelRef": "ses.database.forecasts",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Forecast generation and consumption per quarter hour with P10, P50 and P90"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "technology": "TimescaleDB hypertable",
+      "kind": "table",
+      "x": 2359,
+      "y": 4644,
+      "width": 250,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 32,
+        "width": 226,
+        "height": 70
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.advice",
+      "parent": "ses.database",
+      "level": 2,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "advice",
+      "modelRef": "ses.database.advice",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Given advice with impact class (high, medium, low), feedback and measured effect"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "kind": "table",
+      "x": 2347,
+      "y": 5100,
+      "width": 274,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 40,
+        "width": 250,
+        "height": 54
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.energyPrices",
+      "parent": "ses.database",
+      "level": 2,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "energy_prices",
+      "modelRef": "ses.database.energyPrices",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Dynamic day-ahead price per quarter hour from the Apex data API"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "technology": "TimescaleDB hypertable",
+      "kind": "table",
+      "x": 2344,
+      "y": 4872,
+      "width": 280,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 32,
+        "width": 257,
+        "height": 70
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.settings",
+      "parent": "ses.database",
+      "level": 2,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "settings",
+      "modelRef": "ses.database.settings",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "System settings managed by the administrator"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "kind": "table",
+      "x": 3859,
+      "y": 4872,
+      "width": 274,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 47,
+        "width": 251,
+        "height": 40
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.importLog",
+      "parent": "ses.database",
+      "level": 2,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [],
+      "title": "import_log",
+      "modelRef": "ses.database.importLog",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "File, hash, period, row count and new meters per import"
+      },
+      "tags": [],
+      "notation": "Database table",
+      "kind": "table",
+      "x": 3862,
+      "y": 5100,
+      "width": 267,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 40,
+        "width": 243,
+        "height": 54
+      },
+      "drifts": null
+    },
+    {
+      "id": "customer",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "15vg0vi"
+      ],
+      "title": "Participant",
+      "modelRef": "customer",
+      "shape": "person",
+      "color": "indigo",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "User with a grid connection up to 250 A and participant of the Energiestolp, who views own energy data, prices and personal advice"
+      },
+      "tags": [],
+      "notation": "Person",
+      "kind": "person",
+      "x": 1182,
+      "y": -90,
+      "width": 337,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 47,
+        "width": 302,
+        "height": 83
+      },
+      "drifts": null
+    },
+    {
+      "id": "admin",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "337hfp",
+        "1np2a8t"
+      ],
+      "title": "System administrator",
+      "modelRef": "admin",
+      "shape": "person",
+      "color": "indigo",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Community administrator who imports meter data, views aggregated results and manages settings"
+      },
+      "tags": [],
+      "notation": "Person",
+      "kind": "person",
+      "x": 2261,
+      "y": -90,
+      "width": 338,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 47,
+        "width": 303,
+        "height": 83
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline.scheduler",
+      "parent": "ses.forecastPipeline",
+      "level": 2,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "nwwjzd",
+        "13yoez5",
+        "16xlvdi",
+        "1bnzbks"
+      ],
+      "title": "Run scheduler",
+      "modelRef": "ses.forecastPipeline.scheduler",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Starts the evening run after the Apex prices for tomorrow are available (after 15:00) and calls the steps in order"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "cron, daily at 20:00 local time",
+      "kind": "component",
+      "x": 6891,
+      "y": 3960,
+      "width": 258,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 24,
+        "width": 235,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.webapp",
+      "parent": "ses",
+      "level": 1,
+      "children": [
+        "ses.webapp.userInterface",
+        "ses.webapp.authentication",
+        "ses.webapp.dataView",
+        "ses.webapp.dataImport",
+        "ses.webapp.settings",
+        "ses.webapp.apiClient"
+      ],
+      "inEdges": [
+        "15vg0vi",
+        "337hfp"
+      ],
+      "outEdges": [
+        "1ho8lno"
+      ],
+      "title": "Web app",
+      "modelRef": "ses.webapp",
+      "shape": "browser",
+      "color": "green",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Single-page application for participants and administrators: dashboards, advice, CSV upload and settings"
+      },
+      "tags": [],
+      "notation": "Container: web application in the browser",
+      "technology": "React, TypeScript",
+      "kind": "webApp",
+      "depth": 1,
+      "navigateTo": "webappDetail",
+      "x": 902,
+      "y": 316,
+      "width": 1970,
+      "height": 1015,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 55,
+        "height": 15
+      },
+      "drifts": null
+    },
+    {
+      "id": "gridOperator",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "1np2a8t"
+      ],
+      "outEdges": [],
+      "title": "Grid operator",
+      "modelRef": "gridOperator",
+      "shape": "rectangle",
+      "color": "muted",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Distribution system operator that provides pseudonymised quarter-hourly readings per meter as a CSV export"
+      },
+      "tags": [],
+      "notation": "External system or source, outside SES",
+      "technology": "CSV export",
+      "kind": "externalSystem",
+      "x": 3021,
+      "y": -90,
+      "width": 330,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 294,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline.priceClient",
+      "parent": "ses.forecastPipeline",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "nwwjzd"
+      ],
+      "outEdges": [
+        "vgyew3",
+        "1ln8bha"
+      ],
+      "title": "Price client",
+      "modelRef": "ses.forecastPipeline.priceClient",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Fetches the dynamic day-ahead prices per quarter hour for tomorrow"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "httpx",
+      "kind": "component",
+      "x": 6083,
+      "y": 4340,
+      "width": 254,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 31,
+        "width": 231,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline.forecaster",
+      "parent": "ses.forecastPipeline",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "13yoez5"
+      ],
+      "outEdges": [
+        "1mpdpif",
+        "tj4w8o",
+        "199qnej"
+      ],
+      "title": "Forecaster",
+      "modelRef": "ses.forecastPipeline.forecaster",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Forecasts generation and consumption per quarter hour with P10, P50 and P90 bands"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "scikit-learn or XGBoost (from registry)",
+      "kind": "component",
+      "x": 7702,
+      "y": 4340,
+      "width": 256,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 31,
+        "width": 232,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline.optimizer",
+      "parent": "ses.forecastPipeline",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "16xlvdi"
+      ],
+      "outEdges": [
+        "1pbls8s",
+        "jkqugz"
+      ],
+      "title": "Optimizer",
+      "modelRef": "ses.forecastPipeline.optimizer",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Schedules flexible appliance categories (transport, heat pump, air conditioning) into forecast surplus (P10) within comfort limits; can optionally plan the community battery as shared storage for surplus that participants cannot shift"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "MILP, PuLP with HiGHS",
+      "kind": "component",
+      "x": 6622,
+      "y": 4340,
+      "width": 256,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 24,
+        "width": 233,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline.ranker",
+      "parent": "ses.forecastPipeline",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1bnzbks"
+      ],
+      "outEdges": [
+        "106agid",
+        "jo4q52"
+      ],
+      "title": "Ranker",
+      "modelRef": "ses.forecastPipeline.ranker",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Labels advice as high, medium or low impact by expected shared kWh, ranks by impact times chance of being followed and selects the top 3; the dynamic price only adds a small weight"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "Python",
+      "kind": "component",
+      "x": 7149,
+      "y": 4340,
+      "width": 282,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 24,
+        "width": 259,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.webapp.userInterface",
+      "parent": "ses.webapp",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "15vg0vi",
+        "337hfp"
+      ],
+      "outEdges": [
+        "1fhvjr2",
+        "1siaqoz",
+        "1pdc6ib",
+        "1ixdot7"
+      ],
+      "title": "User interface",
+      "modelRef": "ses.webapp.userInterface",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Application shell: client-side routing, layout and route guards per role"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "React Router",
+      "kind": "component",
+      "x": 1770,
+      "y": 388,
+      "width": 240,
+      "height": 135,
+      "labelBBox": {
+        "x": 23,
+        "y": 31,
+        "width": 195,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "apexData",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "1ln8bha"
+      ],
+      "outEdges": [],
+      "title": "Apex data API",
+      "modelRef": "apexData",
+      "shape": "rectangle",
+      "color": "muted",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Dynamic day-ahead energy prices per quarter hour; prices for the next day are available after 15:00"
+      },
+      "tags": [],
+      "notation": "External system or source, outside SES",
+      "technology": "HTTPS, REST/JSON",
+      "kind": "externalSystem",
+      "x": 6038,
+      "y": 5458,
+      "width": 345,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 309,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline.weatherClient",
+      "parent": "ses.forecastPipeline",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1mpdpif"
+      ],
+      "outEdges": [
+        "1smzr4v"
+      ],
+      "title": "Weather client",
+      "modelRef": "ses.forecastPipeline.weatherClient",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Fetches irradiance, cloud cover and temperature for the next 48 hours"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "httpx",
+      "kind": "component",
+      "x": 8250,
+      "y": 4720,
+      "width": 240,
+      "height": 135,
+      "labelBBox": {
+        "x": 23,
+        "y": 32,
+        "width": 194,
+        "height": 70
+      },
+      "drifts": null
+    },
+    {
+      "id": "communityBattery",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "jkqugz"
+      ],
+      "outEdges": [],
+      "title": "Community battery",
+      "modelRef": "communityBattery",
+      "shape": "rectangle",
+      "color": "muted",
+      "style": {
+        "opacity": 10,
+        "size": "md",
+        "border": "dashed"
+      },
+      "description": {
+        "txt": "Optional shared battery of the energy community that stores surplus generation and discharges when consumption exceeds generation; not implemented in the PoC"
+      },
+      "tags": [
+        "optional"
+      ],
+      "notation": "Optional, not implemented in the PoC",
+      "technology": "vendor API, to be determined",
+      "kind": "externalSystem",
+      "x": 6578,
+      "y": 5458,
+      "width": 343,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 28,
+        "width": 307,
+        "height": 121
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline.modelLoader",
+      "parent": "ses.forecastPipeline",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "tj4w8o",
+        "106agid"
+      ],
+      "outEdges": [
+        "1c0ee61"
+      ],
+      "title": "Model loader",
+      "modelRef": "ses.forecastPipeline.modelLoader",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Loads the production versions of the forecaster and acceptance model"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "MLflow client",
+      "kind": "component",
+      "x": 7710,
+      "y": 4720,
+      "width": 240,
+      "height": 135,
+      "labelBBox": {
+        "x": 21,
+        "y": 32,
+        "width": 197,
+        "height": 70
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline.backendClient",
+      "parent": "ses.forecastPipeline",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "vgyew3",
+        "199qnej",
+        "1pbls8s",
+        "jo4q52"
+      ],
+      "outEdges": [
+        "59gsmy"
+      ],
+      "title": "Backend client",
+      "modelRef": "ses.forecastPipeline.backendClient",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Single gateway to the Backend API"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "httpx",
+      "kind": "component",
+      "x": 7170,
+      "y": 4720,
+      "width": 240,
+      "height": 135,
+      "labelBBox": {
+        "x": 24,
+        "y": 39,
+        "width": 191,
+        "height": 56
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.webapp.authentication",
+      "parent": "ses.webapp",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1fhvjr2"
+      ],
+      "outEdges": [
+        "xd20ej"
+      ],
+      "title": "Authentication",
+      "modelRef": "ses.webapp.authentication",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Login form, session handling and storage of the access token and role"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "JWT in memory, refresh token in HttpOnly cookie",
+      "kind": "component",
+      "x": 950,
+      "y": 769,
+      "width": 260,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 32,
+        "width": 237,
+        "height": 70
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.webapp.dataView",
+      "parent": "ses.webapp",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1siaqoz"
+      ],
+      "outEdges": [
+        "1qx1xyu"
+      ],
+      "title": "Data view",
+      "modelRef": "ses.webapp.dataView",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Charts of own consumption, generation, simultaneity, dynamic prices and advice; aggregated view for administrators"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "React components, chart library",
+      "kind": "component",
+      "x": 1499,
+      "y": 769,
+      "width": 242,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 24,
+        "width": 219,
+        "height": 86
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.webapp.dataImport",
+      "parent": "ses.webapp",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1pdc6ib"
+      ],
+      "outEdges": [
+        "fwk6li"
+      ],
+      "title": "Data import",
+      "modelRef": "ses.webapp.dataImport",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "File upload form for CSV meter data with import result (administrators only)"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "HTML form",
+      "kind": "component",
+      "x": 2038,
+      "y": 769,
+      "width": 244,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 32,
+        "width": 221,
+        "height": 70
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.webapp.settings",
+      "parent": "ses.webapp",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1ixdot7"
+      ],
+      "outEdges": [
+        "1bf5l8u"
+      ],
+      "title": "Settings",
+      "modelRef": "ses.webapp.settings",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Forms for system settings (administrators only)"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "HTML form",
+      "kind": "component",
+      "x": 2576,
+      "y": 769,
+      "width": 248,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 32,
+        "width": 224,
+        "height": 70
+      },
+      "drifts": null
+    },
+    {
+      "id": "weatherData",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "1smzr4v"
+      ],
+      "outEdges": [],
+      "title": "Weather service",
+      "modelRef": "weatherData",
+      "shape": "rectangle",
+      "color": "muted",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Public weather API (EU) with a 48-hour forecast of irradiance, cloud cover and temperature"
+      },
+      "tags": [],
+      "notation": "External system or source, outside SES",
+      "technology": "HTTPS, REST/JSON",
+      "kind": "externalSystem",
+      "x": 9884,
+      "y": 4698,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 28,
+        "y": 37,
+        "width": 265,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.webapp.apiClient",
+      "parent": "ses.webapp",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "xd20ej",
+        "1qx1xyu",
+        "fwk6li",
+        "1bf5l8u"
+      ],
+      "outEdges": [
+        "1ho8lno"
+      ],
+      "title": "API client",
+      "modelRef": "ses.webapp.apiClient",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "HTTP client for the Frontend API; adds the Bearer token to every request"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "fetch, TypeScript",
+      "kind": "component",
+      "x": 1763,
+      "y": 1148,
+      "width": 254,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 32,
+        "width": 231,
+        "height": 70
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.frontendAPI",
+      "parent": "ses",
+      "level": 1,
+      "children": [
+        "ses.frontendAPI.apiEndpoints",
+        "ses.frontendAPI.authentication",
+        "ses.frontendAPI.queryBuilder",
+        "ses.frontendAPI.uploadHandler",
+        "ses.frontendAPI.queryExecutor"
+      ],
+      "inEdges": [
+        "1ho8lno"
+      ],
+      "outEdges": [
+        "1w6ixpb",
+        "1m6oypb"
+      ],
+      "title": "Frontend API",
+      "modelRef": "ses.frontendAPI",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Single entry point for the web app: checks role and data ownership, answers queries and accepts uploads"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask",
+      "kind": "container",
+      "depth": 1,
+      "navigateTo": "frontendApiDetail",
+      "x": 1168,
+      "y": 1570,
+      "width": 1447,
+      "height": 1015,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 87,
+        "height": 15
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.frontendAPI.apiEndpoints",
+      "parent": "ses.frontendAPI",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1ho8lno"
+      ],
+      "outEdges": [
+        "1fpqt5u",
+        "mbpwo9",
+        "1do3995"
+      ],
+      "title": "API endpoints",
+      "modelRef": "ses.frontendAPI.apiEndpoints",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "REST routes for the web app; validates input and returns JSON"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "Flask blueprints",
+      "kind": "component",
+      "x": 1757,
+      "y": 1642,
+      "width": 266,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 31,
+        "width": 242,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.frontendAPI.authentication",
+      "parent": "ses.frontendAPI",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1fpqt5u"
+      ],
+      "outEdges": [],
+      "title": "Authentication",
+      "modelRef": "ses.frontendAPI.authentication",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Verifies the JWT and checks whether the role and owner may access the requested data"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "JWT, role-based access",
+      "kind": "component",
+      "x": 1216,
+      "y": 1642,
+      "width": 269,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 31,
+        "width": 245,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.frontendAPI.queryBuilder",
+      "parent": "ses.frontendAPI",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "mbpwo9"
+      ],
+      "outEdges": [
+        "4i8x58"
+      ],
+      "title": "Query builder",
+      "modelRef": "ses.frontendAPI.queryBuilder",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Translates a request into a parameterised query, limited to the data of the caller"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "SQLAlchemy Core",
+      "kind": "component",
+      "x": 1765,
+      "y": 2022,
+      "width": 250,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 31,
+        "width": 226,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.frontendAPI.uploadHandler",
+      "parent": "ses.frontendAPI",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1do3995"
+      ],
+      "outEdges": [
+        "1m6oypb"
+      ],
+      "title": "Upload handler",
+      "modelRef": "ses.frontendAPI.uploadHandler",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Checks file type and size of a CSV upload and forwards it to the data processing service"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "multipart streaming",
+      "kind": "component",
+      "x": 2293,
+      "y": 1642,
+      "width": 274,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 31,
+        "width": 251,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.frontendAPI.queryExecutor",
+      "parent": "ses.frontendAPI",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "4i8x58"
+      ],
+      "outEdges": [
+        "1w6ixpb"
+      ],
+      "title": "Query executor",
+      "modelRef": "ses.frontendAPI.queryExecutor",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Runs the query with the read-mostly frontend role and returns the rows"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "psycopg connection pool",
+      "kind": "component",
+      "x": 1756,
+      "y": 2402,
+      "width": 267,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 32,
+        "width": 243,
+        "height": 70
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService",
+      "parent": "ses",
+      "level": 1,
+      "children": [
+        "ses.processingService.importEndpoint",
+        "ses.processingService.importOrchestrator",
+        "ses.processingService.csvParser",
+        "ses.processingService.validator",
+        "ses.processingService.meterLinker",
+        "ses.processingService.simultaneityCalculator",
+        "ses.processingService.trainingNotifier",
+        "ses.processingService.backendClient"
+      ],
+      "inEdges": [
+        "1m6oypb"
+      ],
+      "outEdges": [
+        "1ggteut",
+        "p1xnw4"
+      ],
+      "title": "Data processing service",
+      "modelRef": "ses.processingService",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Imports meter data idempotently, links meters to participants and calculates simultaneity per quarter hour"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask, pandas",
+      "kind": "container",
+      "depth": 1,
+      "navigateTo": "processingDetail",
+      "x": 3050,
+      "y": 1570,
+      "width": 2518,
+      "height": 1395,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 162,
+        "height": 15
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService.importEndpoint",
+      "parent": "ses.processingService",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1m6oypb"
+      ],
+      "outEdges": [
+        "1ysuv2f"
+      ],
+      "title": "Import endpoint",
+      "modelRef": "ses.processingService.importEndpoint",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Receives the CSV file, records file name, hash and period and starts an import job"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "POST /imports",
+      "kind": "component",
+      "x": 4197,
+      "y": 1642,
+      "width": 246,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 32,
+        "width": 222,
+        "height": 70
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService.importOrchestrator",
+      "parent": "ses.processingService",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1ysuv2f"
+      ],
+      "outEdges": [
+        "10dasd4",
+        "1iajrvr",
+        "1300k9x",
+        "178nxap",
+        "76jp1g",
+        "1ha9cf1"
+      ],
+      "title": "Import orchestrator",
+      "modelRef": "ses.processingService.importOrchestrator",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Runs the import steps in order and records the result in import_log"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "Python, background worker thread",
+      "kind": "component",
+      "x": 4192,
+      "y": 2022,
+      "width": 255,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 32,
+        "width": 231,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService.csvParser",
+      "parent": "ses.processingService",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "10dasd4"
+      ],
+      "outEdges": [],
+      "title": "CSV parser",
+      "modelRef": "ses.processingService.csvParser",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Parses decimal commas and quoted values and builds a UTC timestamp per quarter hour"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "pandas",
+      "kind": "component",
+      "x": 3098,
+      "y": 2402,
+      "width": 283,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 31,
+        "width": 259,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService.validator",
+      "parent": "ses.processingService",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1iajrvr"
+      ],
+      "outEdges": [],
+      "title": "Validator",
+      "modelRef": "ses.processingService.validator",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Detects duplicates, marks missing quarters as gaps (not as zero) and checks limits per meter"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "pandas",
+      "kind": "component",
+      "x": 3644,
+      "y": 2402,
+      "width": 272,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 24,
+        "width": 249,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService.meterLinker",
+      "parent": "ses.processingService",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1300k9x"
+      ],
+      "outEdges": [
+        "1xo9zl7"
+      ],
+      "title": "Meter linker",
+      "modelRef": "ses.processingService.meterLinker",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Links meter_reference to participant_id using the meter link table"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "Python",
+      "kind": "component",
+      "x": 4186,
+      "y": 2402,
+      "width": 267,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 31,
+        "width": 243,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService.simultaneityCalculator",
+      "parent": "ses.processingService",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "178nxap"
+      ],
+      "outEdges": [
+        "1cw63a7"
+      ],
+      "title": "Simultaneity calculator",
+      "modelRef": "ses.processingService.simultaneityCalculator",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Shared energy = min(total feed-in, total consumption) per quarter hour, divided pro rata over participants; an optional community battery meter counts as consumption when charging and as feed-in when discharging"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "pandas",
+      "kind": "component",
+      "x": 4727,
+      "y": 2402,
+      "width": 266,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 24,
+        "width": 243,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService.trainingNotifier",
+      "parent": "ses.processingService",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1ha9cf1"
+      ],
+      "outEdges": [
+        "p1xnw4"
+      ],
+      "title": "Training notifier",
+      "modelRef": "ses.processingService.trainingNotifier",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Notifies the ingest and training pipeline that a new period has been imported"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "httpx",
+      "kind": "component",
+      "x": 5280,
+      "y": 2402,
+      "width": 240,
+      "height": 135,
+      "labelBBox": {
+        "x": 15,
+        "y": 31,
+        "width": 210,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService.backendClient",
+      "parent": "ses.processingService",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "76jp1g",
+        "1xo9zl7",
+        "1cw63a7"
+      ],
+      "outEdges": [
+        "1ggteut"
+      ],
+      "title": "Backend client",
+      "modelRef": "ses.processingService.backendClient",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Single gateway to the Backend API; writes readings as an upsert on (meter, UTC timestamp)"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "httpx",
+      "kind": "component",
+      "x": 4464,
+      "y": 2782,
+      "width": 253,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 24,
+        "width": 229,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline",
+      "parent": "ses",
+      "level": 1,
+      "children": [
+        "ses.trainingPipeline.trainingOrchestrator",
+        "ses.trainingPipeline.featureBuilder",
+        "ses.trainingPipeline.effectMeasurement",
+        "ses.trainingPipeline.modelSelector",
+        "ses.trainingPipeline.modelTrainer",
+        "ses.trainingPipeline.modelEvaluator",
+        "ses.trainingPipeline.backendClient"
+      ],
+      "inEdges": [
+        "p1xnw4"
+      ],
+      "outEdges": [
+        "1okft8h",
+        "owz2sw"
+      ],
+      "title": "Ingest and training pipeline",
+      "modelRef": "ses.trainingPipeline",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "After every export: ingests training data, measures the effect of advice and retrains the models"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, PyCaret, scikit-learn, XGBoost",
+      "kind": "container",
+      "depth": 1,
+      "navigateTo": "trainingDetail",
+      "x": 6032,
+      "y": 1570,
+      "width": 2523,
+      "height": 1015,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 181,
+        "height": 15
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline.trainingOrchestrator",
+      "parent": "ses.trainingPipeline",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "p1xnw4"
+      ],
+      "outEdges": [
+        "vmud81",
+        "1lav9dl",
+        "59pfmm",
+        "ra5pto",
+        "14o6jl4"
+      ],
+      "title": "Training orchestrator",
+      "modelRef": "ses.trainingPipeline.trainingOrchestrator",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Receives the trigger and runs effect measurement, feature building, model selection, training and evaluation in order"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "Flask, POST /training-runs",
+      "kind": "component",
+      "x": 7167,
+      "y": 1642,
+      "width": 246,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 24,
+        "width": 223,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline.featureBuilder",
+      "parent": "ses.trainingPipeline",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "vmud81"
+      ],
+      "outEdges": [
+        "jza1lu"
+      ],
+      "title": "Feature builder",
+      "modelRef": "ses.trainingPipeline.featureBuilder",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Joins readings and calendar features into a training set (no lags of yesterday)"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "pandas",
+      "kind": "component",
+      "x": 6622,
+      "y": 2022,
+      "width": 257,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 31,
+        "width": 233,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline.effectMeasurement",
+      "parent": "ses.trainingPipeline",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1lav9dl"
+      ],
+      "outEdges": [
+        "1blcuh6"
+      ],
+      "title": "Effect measurement",
+      "modelRef": "ses.trainingPipeline.effectMeasurement",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Compares actual consumption with the P50 forecast to measure whether advice was followed"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "pandas",
+      "kind": "component",
+      "x": 6080,
+      "y": 2022,
+      "width": 259,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 24,
+        "width": 235,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline.modelSelector",
+      "parent": "ses.trainingPipeline",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "59pfmm"
+      ],
+      "outEdges": [],
+      "title": "Model selection",
+      "modelRef": "ses.trainingPipeline.modelSelector",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Trains and compares many candidate algorithms on the training set and picks the best one per model"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "PyCaret, compare_models",
+      "kind": "component",
+      "x": 7146,
+      "y": 2022,
+      "width": 287,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 24,
+        "width": 263,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline.modelTrainer",
+      "parent": "ses.trainingPipeline",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "ra5pto"
+      ],
+      "outEdges": [],
+      "title": "Model trainer",
+      "modelRef": "ses.trainingPipeline.modelTrainer",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Trains the selected algorithm as quantile forecasters (P10, P50, P90), plus participant clusters and the acceptance model"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "scikit-learn or XGBoost",
+      "kind": "component",
+      "x": 7698,
+      "y": 2022,
+      "width": 263,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 24,
+        "width": 239,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline.modelEvaluator",
+      "parent": "ses.trainingPipeline",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "14o6jl4"
+      ],
+      "outEdges": [
+        "owz2sw"
+      ],
+      "title": "Model evaluator",
+      "modelRef": "ses.trainingPipeline.modelEvaluator",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Scores the candidate on a hold-out period and promotes it only if it beats the production model"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "pinball loss, MAE",
+      "kind": "component",
+      "x": 8233,
+      "y": 2022,
+      "width": 274,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 24,
+        "width": 250,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline.backendClient",
+      "parent": "ses.trainingPipeline",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "jza1lu",
+        "1blcuh6"
+      ],
+      "outEdges": [
+        "1okft8h"
+      ],
+      "title": "Backend client",
+      "modelRef": "ses.trainingPipeline.backendClient",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Single gateway to the Backend API"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "httpx",
+      "kind": "component",
+      "x": 6360,
+      "y": 2402,
+      "width": 240,
+      "height": 135,
+      "labelBBox": {
+        "x": 24,
+        "y": 39,
+        "width": 191,
+        "height": 56
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.modelRegistry",
+      "parent": "ses",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "owz2sw",
+        "1c0ee61"
+      ],
+      "outEdges": [],
+      "title": "Model registry",
+      "modelRef": "ses.modelRegistry",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Model versions, training runs and test scores; the forecast pipeline only uses versions with alias production"
+      },
+      "tags": [],
+      "notation": "Container: data store",
+      "technology": "MLflow tracking server, artifacts on local volume",
+      "kind": "dataStore",
+      "x": 9006,
+      "y": 3352,
+      "width": 240,
+      "height": 135,
+      "labelBBox": {
+        "x": 16,
+        "y": 24,
+        "width": 207,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.backendAPI",
+      "parent": "ses",
+      "level": 1,
+      "children": [
+        "ses.backendAPI.apiEndpoints",
+        "ses.backendAPI.authentication",
+        "ses.backendAPI.queryBuilder",
+        "ses.backendAPI.queryExecutor"
+      ],
+      "inEdges": [
+        "1ggteut",
+        "1okft8h",
+        "59gsmy"
+      ],
+      "outEdges": [
+        "1ow4j1x"
+      ],
+      "title": "Backend API",
+      "modelRef": "ses.backendAPI",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Internal API between the backend services and the database"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask",
+      "kind": "container",
+      "depth": 1,
+      "navigateTo": "backendApiDetail",
+      "x": 3868,
+      "y": 3205,
+      "width": 895,
+      "height": 1014,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 80,
+        "height": 15
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.backendAPI.apiEndpoints",
+      "parent": "ses.backendAPI",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1ggteut",
+        "1okft8h",
+        "59gsmy"
+      ],
+      "outEdges": [
+        "5ze5mq",
+        "lg18p5"
+      ],
+      "title": "API endpoints",
+      "modelRef": "ses.backendAPI.apiEndpoints",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Internal REST routes for readings, links, simultaneity, forecasts and advice"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "Flask blueprints",
+      "kind": "component",
+      "x": 4470,
+      "y": 3277,
+      "width": 240,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 31,
+        "width": 217,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.backendAPI.authentication",
+      "parent": "ses.backendAPI",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "5ze5mq"
+      ],
+      "outEdges": [],
+      "title": "Authentication",
+      "modelRef": "ses.backendAPI.authentication",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Checks which service makes the request and which tables it may write"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "service token per container",
+      "kind": "component",
+      "x": 3916,
+      "y": 3277,
+      "width": 268,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 31,
+        "width": 245,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.backendAPI.queryBuilder",
+      "parent": "ses.backendAPI",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "lg18p5"
+      ],
+      "outEdges": [
+        "1jrcx70"
+      ],
+      "title": "Query builder",
+      "modelRef": "ses.backendAPI.queryBuilder",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Translates a request into a parameterised query or a batch upsert"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "SQLAlchemy Core",
+      "kind": "component",
+      "x": 4465,
+      "y": 3657,
+      "width": 250,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 31,
+        "width": 226,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.backendAPI.queryExecutor",
+      "parent": "ses.backendAPI",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1jrcx70"
+      ],
+      "outEdges": [
+        "1ow4j1x"
+      ],
+      "title": "Query executor",
+      "modelRef": "ses.backendAPI.queryExecutor",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Runs the query with the backend role and returns the rows"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "psycopg connection pool",
+      "kind": "component",
+      "x": 4466,
+      "y": 4036,
+      "width": 249,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 31,
+        "width": 225,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database.sqlInterface",
+      "parent": "ses.database",
+      "level": 2,
+      "children": [],
+      "inEdges": [
+        "1w6ixpb",
+        "1ow4j1x"
+      ],
+      "outEdges": [],
+      "title": "SQL interface",
+      "modelRef": "ses.database.sqlInterface",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "PostgreSQL endpoint with a separate role per API; the frontend role only sees participant data"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "PostgreSQL roles, row-level security",
+      "kind": "component",
+      "x": 3104,
+      "y": 4644,
+      "width": 271,
+      "height": 135,
+      "labelBBox": {
+        "x": 12,
+        "y": 24,
+        "width": 247,
+        "height": 86
+      },
+      "drifts": null
+    }
+  ],
+  "edges": [
+    {
+      "id": "1fhvjr2",
+      "source": "ses.webapp.userInterface",
+      "target": "ses.webapp.authentication",
+      "label": "checks session and role in route guard",
+      "points": [
+        [
+          1770,
+          500
+        ],
+        [
+          1540,
+          500
+        ],
+        [
+          1310,
+          500
+        ],
+        [
+          1080,
+          500
+        ],
+        [
+          1080,
+          590
+        ],
+        [
+          1080,
+          679
+        ],
+        [
+          1080,
+          769
+        ]
+      ],
+      "labelBBox": {
+        "x": 1165,
+        "y": 455,
+        "width": 244,
+        "height": 39
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "8r2cae"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1siaqoz",
+      "source": "ses.webapp.userInterface",
+      "target": "ses.webapp.dataView",
+      "label": "mounts on route /data",
+      "points": [
+        [
+          1792,
+          523
+        ],
+        [
+          1792,
+          612
+        ],
+        [
+          1792,
+          702
+        ],
+        [
+          1792,
+          791
+        ],
+        [
+          1775,
+          791
+        ],
+        [
+          1758,
+          791
+        ],
+        [
+          1741,
+          791
+        ]
+      ],
+      "labelBBox": {
+        "x": 1800,
+        "y": 638,
+        "width": 140,
+        "height": 39
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "7ns43u"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "client-side routing",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1pdc6ib",
+      "source": "ses.webapp.userInterface",
+      "target": "ses.webapp.dataImport",
+      "label": "mounts on route /import",
+      "points": [
+        [
+          1972,
+          523
+        ],
+        [
+          1972,
+          612
+        ],
+        [
+          1972,
+          702
+        ],
+        [
+          1972,
+          791
+        ],
+        [
+          1994,
+          791
+        ],
+        [
+          2016,
+          791
+        ],
+        [
+          2038,
+          791
+        ]
+      ],
+      "labelBBox": {
+        "x": 1980,
+        "y": 691,
+        "width": 152,
+        "height": 39
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "o314mt"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "client-side routing",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1ixdot7",
+      "source": "ses.webapp.userInterface",
+      "target": "ses.webapp.settings",
+      "label": "mounts on route /settings",
+      "points": [
+        [
+          2010,
+          500
+        ],
+        [
+          2240,
+          500
+        ],
+        [
+          2470,
+          500
+        ],
+        [
+          2700,
+          500
+        ],
+        [
+          2700,
+          590
+        ],
+        [
+          2700,
+          679
+        ],
+        [
+          2700,
+          769
+        ]
+      ],
+      "labelBBox": {
+        "x": 2412,
+        "y": 455,
+        "width": 161,
+        "height": 39
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "5h10vw"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "client-side routing",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "xd20ej",
+      "source": "ses.webapp.authentication",
+      "target": "ses.webapp.apiClient",
+      "label": "logs in and refreshes token",
+      "points": [
+        [
+          1188,
+          904
+        ],
+        [
+          1188,
+          1003
+        ],
+        [
+          1188,
+          1101
+        ],
+        [
+          1188,
+          1200
+        ],
+        [
+          1380,
+          1200
+        ],
+        [
+          1571,
+          1200
+        ],
+        [
+          1763,
+          1200
+        ]
+      ],
+      "labelBBox": {
+        "x": 1251,
+        "y": 1155,
+        "width": 219,
+        "height": 39
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "5klmb8"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "POST /auth/login, POST /auth/refresh",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1qx1xyu",
+      "source": "ses.webapp.dataView",
+      "target": "ses.webapp.apiClient",
+      "label": "requests readings, simultaneity, prices \nand advice",
+      "points": [
+        [
+          1719,
+          904
+        ],
+        [
+          1719,
+          993
+        ],
+        [
+          1719,
+          1081
+        ],
+        [
+          1719,
+          1170
+        ],
+        [
+          1734,
+          1170
+        ],
+        [
+          1748,
+          1170
+        ],
+        [
+          1763,
+          1170
+        ]
+      ],
+      "labelBBox": {
+        "x": 1727,
+        "y": 1010,
+        "width": 242,
+        "height": 55
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "1248v6w"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "GET /readings, /simultaneity, /prices, /advice",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "fwk6li",
+      "source": "ses.webapp.dataImport",
+      "target": "ses.webapp.apiClient",
+      "label": "uploads CSV file",
+      "points": [
+        [
+          2060,
+          904
+        ],
+        [
+          2060,
+          993
+        ],
+        [
+          2060,
+          1081
+        ],
+        [
+          2060,
+          1170
+        ],
+        [
+          2046,
+          1170
+        ],
+        [
+          2031,
+          1170
+        ],
+        [
+          2017,
+          1170
+        ]
+      ],
+      "labelBBox": {
+        "x": 2068,
+        "y": 1018,
+        "width": 108,
+        "height": 39
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "ybgpwb"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "POST /uploads",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1bf5l8u",
+      "source": "ses.webapp.settings",
+      "target": "ses.webapp.apiClient",
+      "label": "reads and saves settings",
+      "points": [
+        [
+          2598,
+          904
+        ],
+        [
+          2598,
+          1005
+        ],
+        [
+          2598,
+          1105
+        ],
+        [
+          2598,
+          1206
+        ],
+        [
+          2404,
+          1206
+        ],
+        [
+          2211,
+          1206
+        ],
+        [
+          2017,
+          1206
+        ]
+      ],
+      "labelBBox": {
+        "x": 2344,
+        "y": 1161,
+        "width": 159,
+        "height": 39
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "1ovwwuq"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "GET, PUT /settings",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1ho8lno",
+      "source": "ses.webapp.apiClient",
+      "target": "ses.frontendAPI.apiEndpoints",
+      "label": "calls REST endpoints",
+      "points": [
+        [
+          1890,
+          1283
+        ],
+        [
+          1890,
+          1403
+        ],
+        [
+          1890,
+          1522
+        ],
+        [
+          1890,
+          1642
+        ]
+      ],
+      "labelBBox": {
+        "x": 1898,
+        "y": 1444,
+        "width": 239,
+        "height": 38
+      },
+      "parent": "ses",
+      "relations": [
+        "1wdp69r"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTPS, REST/JSON and multipart, Bearer JWT",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1fpqt5u",
+      "source": "ses.frontendAPI.apiEndpoints",
+      "target": "ses.frontendAPI.authentication",
+      "label": "verifies token and permissions",
+      "points": [
+        [
+          1757,
+          1710
+        ],
+        [
+          1666,
+          1710
+        ],
+        [
+          1576,
+          1710
+        ],
+        [
+          1485,
+          1710
+        ]
+      ],
+      "labelBBox": {
+        "x": 1525,
+        "y": 1665,
+        "width": 192,
+        "height": 39
+      },
+      "parent": "ses.frontendAPI",
+      "relations": [
+        "11v9zs8"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "mbpwo9",
+      "source": "ses.frontendAPI.apiEndpoints",
+      "target": "ses.frontendAPI.queryBuilder",
+      "label": "builds query for request",
+      "points": [
+        [
+          1890,
+          1777
+        ],
+        [
+          1890,
+          1859
+        ],
+        [
+          1890,
+          1940
+        ],
+        [
+          1890,
+          2022
+        ]
+      ],
+      "labelBBox": {
+        "x": 1898,
+        "y": 1880,
+        "width": 150,
+        "height": 39
+      },
+      "parent": "ses.frontendAPI",
+      "relations": [
+        "17dgjhc"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1do3995",
+      "source": "ses.frontendAPI.apiEndpoints",
+      "target": "ses.frontendAPI.uploadHandler",
+      "label": "hands over authorised upload",
+      "points": [
+        [
+          2023,
+          1710
+        ],
+        [
+          2113,
+          1710
+        ],
+        [
+          2203,
+          1710
+        ],
+        [
+          2293,
+          1710
+        ]
+      ],
+      "labelBBox": {
+        "x": 2064,
+        "y": 1665,
+        "width": 188,
+        "height": 39
+      },
+      "parent": "ses.frontendAPI",
+      "relations": [
+        "10wgs5a"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "4i8x58",
+      "source": "ses.frontendAPI.queryBuilder",
+      "target": "ses.frontendAPI.queryExecutor",
+      "label": "executes query",
+      "points": [
+        [
+          1890,
+          2157
+        ],
+        [
+          1890,
+          2239
+        ],
+        [
+          1890,
+          2320
+        ],
+        [
+          1890,
+          2402
+        ]
+      ],
+      "labelBBox": {
+        "x": 1898,
+        "y": 2260,
+        "width": 99,
+        "height": 39
+      },
+      "parent": "ses.frontendAPI",
+      "relations": [
+        "f8euis"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1w6ixpb",
+      "source": "ses.frontendAPI.queryExecutor",
+      "target": "ses.database.sqlInterface",
+      "label": "reads participant data and prices, \nwrites settings and feedback",
+      "points": [
+        [
+          1994,
+          2537
+        ],
+        [
+          1994,
+          2546
+        ],
+        [
+          1994,
+          2554
+        ],
+        [
+          1994,
+          2563
+        ],
+        [
+          2371,
+          2563
+        ],
+        [
+          2749,
+          2563
+        ],
+        [
+          3126,
+          2563
+        ],
+        [
+          3126,
+          3257
+        ],
+        [
+          3126,
+          3950
+        ],
+        [
+          3126,
+          4644
+        ]
+      ],
+      "labelBBox": {
+        "x": 3134,
+        "y": 2848,
+        "width": 211,
+        "height": 55
+      },
+      "parent": "ses",
+      "relations": [
+        "wjdg1y"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "SQL over TCP 5432, frontend role",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1m6oypb",
+      "source": "ses.frontendAPI.uploadHandler",
+      "target": "ses.processingService.importEndpoint",
+      "label": "forwards uploaded CSV file",
+      "points": [
+        [
+          2567,
+          1710
+        ],
+        [
+          3110,
+          1710
+        ],
+        [
+          3654,
+          1710
+        ],
+        [
+          4197,
+          1710
+        ]
+      ],
+      "labelBBox": {
+        "x": 3286,
+        "y": 1665,
+        "width": 191,
+        "height": 39
+      },
+      "parent": "ses",
+      "relations": [
+        "qd0k6t"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, POST /imports (multipart)",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "5ze5mq",
+      "source": "ses.backendAPI.apiEndpoints",
+      "target": "ses.backendAPI.authentication",
+      "label": "verifies service token",
+      "points": [
+        [
+          4470,
+          3344
+        ],
+        [
+          4375,
+          3344
+        ],
+        [
+          4279,
+          3344
+        ],
+        [
+          4184,
+          3344
+        ]
+      ],
+      "labelBBox": {
+        "x": 4260,
+        "y": 3299,
+        "width": 135,
+        "height": 39
+      },
+      "parent": "ses.backendAPI",
+      "relations": [
+        "1p796ve"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "lg18p5",
+      "source": "ses.backendAPI.apiEndpoints",
+      "target": "ses.backendAPI.queryBuilder",
+      "label": "builds query for request",
+      "points": [
+        [
+          4590,
+          3412
+        ],
+        [
+          4590,
+          3494
+        ],
+        [
+          4590,
+          3575
+        ],
+        [
+          4590,
+          3657
+        ]
+      ],
+      "labelBBox": {
+        "x": 4598,
+        "y": 3515,
+        "width": 150,
+        "height": 39
+      },
+      "parent": "ses.backendAPI",
+      "relations": [
+        "11zx3nk"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1ggteut",
+      "source": "ses.processingService.backendClient",
+      "target": "ses.backendAPI.apiEndpoints",
+      "label": "reads meter links and readings, upserts \nreadings, simultaneity and import \nrecords",
+      "points": [
+        [
+          4590,
+          2917
+        ],
+        [
+          4590,
+          3037
+        ],
+        [
+          4590,
+          3157
+        ],
+        [
+          4590,
+          3277
+        ]
+      ],
+      "labelBBox": {
+        "x": 4333,
+        "y": 3060,
+        "width": 249,
+        "height": 73
+      },
+      "parent": "ses",
+      "relations": [
+        "16ijoh9"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, REST/JSON",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1okft8h",
+      "source": "ses.trainingPipeline.backendClient",
+      "target": "ses.backendAPI.apiEndpoints",
+      "label": "reads training data and advice, writes \nmeasured effect",
+      "points": [
+        [
+          6382,
+          2537
+        ],
+        [
+          6382,
+          2546
+        ],
+        [
+          6382,
+          2554
+        ],
+        [
+          6382,
+          2563
+        ],
+        [
+          5851,
+          2563
+        ],
+        [
+          5319,
+          2563
+        ],
+        [
+          4788,
+          2563
+        ],
+        [
+          4788,
+          2808
+        ],
+        [
+          4788,
+          3054
+        ],
+        [
+          4788,
+          3299
+        ],
+        [
+          4762,
+          3299
+        ],
+        [
+          4736,
+          3299
+        ],
+        [
+          4710,
+          3299
+        ]
+      ],
+      "labelBBox": {
+        "x": 5148,
+        "y": 2569,
+        "width": 236,
+        "height": 55
+      },
+      "parent": "ses",
+      "relations": [
+        "1no1lun"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, REST/JSON",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "59gsmy",
+      "source": "ses.forecastPipeline.backendClient",
+      "target": "ses.backendAPI.apiEndpoints",
+      "label": "reads history, comfort limits and \nappliances, writes forecasts, prices and \nadvice",
+      "points": [
+        [
+          7170,
+          4814
+        ],
+        [
+          6376,
+          4814
+        ],
+        [
+          5582,
+          4814
+        ],
+        [
+          4788,
+          4814
+        ],
+        [
+          4788,
+          4339
+        ],
+        [
+          4788,
+          3864
+        ],
+        [
+          4788,
+          3389
+        ],
+        [
+          4762,
+          3389
+        ],
+        [
+          4736,
+          3389
+        ],
+        [
+          4710,
+          3389
+        ]
+      ],
+      "labelBBox": {
+        "x": 5021,
+        "y": 4735,
+        "width": 248,
+        "height": 73
+      },
+      "parent": "ses",
+      "relations": [
+        "ekl7on"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, REST/JSON",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1jrcx70",
+      "source": "ses.backendAPI.queryBuilder",
+      "target": "ses.backendAPI.queryExecutor",
+      "label": "executes query",
+      "points": [
+        [
+          4590,
+          3792
+        ],
+        [
+          4590,
+          3873
+        ],
+        [
+          4590,
+          3955
+        ],
+        [
+          4590,
+          4036
+        ]
+      ],
+      "labelBBox": {
+        "x": 4598,
+        "y": 3894,
+        "width": 99,
+        "height": 39
+      },
+      "parent": "ses.backendAPI",
+      "relations": [
+        "1fi0l3a"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1ow4j1x",
+      "source": "ses.backendAPI.queryExecutor",
+      "target": "ses.database.sqlInterface",
+      "label": "reads and writes readings, links, \nresults and advice",
+      "points": [
+        [
+          4466,
+          4148
+        ],
+        [
+          4457,
+          4148
+        ],
+        [
+          4449,
+          4148
+        ],
+        [
+          4440,
+          4148
+        ],
+        [
+          4440,
+          4304
+        ],
+        [
+          4440,
+          4460
+        ],
+        [
+          4440,
+          4616
+        ],
+        [
+          4074,
+          4616
+        ],
+        [
+          3708,
+          4616
+        ],
+        [
+          3342,
+          4616
+        ],
+        [
+          3342,
+          4625
+        ],
+        [
+          3342,
+          4635
+        ],
+        [
+          3342,
+          4644
+        ]
+      ],
+      "labelBBox": {
+        "x": 4009,
+        "y": 4554,
+        "width": 204,
+        "height": 56
+      },
+      "parent": "ses",
+      "relations": [
+        "12f7buz"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "SQL over TCP 5432, backend role",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1ysuv2f",
+      "source": "ses.processingService.importEndpoint",
+      "target": "ses.processingService.importOrchestrator",
+      "label": "starts import job",
+      "points": [
+        [
+          4320,
+          1777
+        ],
+        [
+          4320,
+          1859
+        ],
+        [
+          4320,
+          1940
+        ],
+        [
+          4320,
+          2022
+        ]
+      ],
+      "labelBBox": {
+        "x": 4328,
+        "y": 1880,
+        "width": 157,
+        "height": 38
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "1ya6mpu"
+      ],
+      "color": "gray",
+      "line": "dotted",
+      "head": "normal",
+      "technology": "background worker thread",
+      "kind": "async",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "10dasd4",
+      "source": "ses.processingService.importOrchestrator",
+      "target": "ses.processingService.csvParser",
+      "label": "parses raw CSV",
+      "points": [
+        [
+          4192,
+          2062
+        ],
+        [
+          3875,
+          2062
+        ],
+        [
+          3557,
+          2062
+        ],
+        [
+          3240,
+          2062
+        ],
+        [
+          3240,
+          2175
+        ],
+        [
+          3240,
+          2289
+        ],
+        [
+          3240,
+          2402
+        ]
+      ],
+      "labelBBox": {
+        "x": 3473,
+        "y": 2017,
+        "width": 105,
+        "height": 39
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "1cqy63g"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1iajrvr",
+      "source": "ses.processingService.importOrchestrator",
+      "target": "ses.processingService.validator",
+      "label": "validates parsed rows",
+      "points": [
+        [
+          4192,
+          2098
+        ],
+        [
+          4055,
+          2098
+        ],
+        [
+          3917,
+          2098
+        ],
+        [
+          3780,
+          2098
+        ],
+        [
+          3780,
+          2199
+        ],
+        [
+          3780,
+          2301
+        ],
+        [
+          3780,
+          2402
+        ]
+      ],
+      "labelBBox": {
+        "x": 3772,
+        "y": 2104,
+        "width": 139,
+        "height": 39
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "140tezf"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1300k9x",
+      "source": "ses.processingService.importOrchestrator",
+      "target": "ses.processingService.meterLinker",
+      "label": "links valid rows to participants",
+      "points": [
+        [
+          4320,
+          2157
+        ],
+        [
+          4320,
+          2239
+        ],
+        [
+          4320,
+          2320
+        ],
+        [
+          4320,
+          2402
+        ]
+      ],
+      "labelBBox": {
+        "x": 4328,
+        "y": 2260,
+        "width": 189,
+        "height": 39
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "8x9bg8"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "178nxap",
+      "source": "ses.processingService.importOrchestrator",
+      "target": "ses.processingService.simultaneityCalculator",
+      "label": "recalculates imported period",
+      "points": [
+        [
+          4447,
+          2134
+        ],
+        [
+          4585,
+          2134
+        ],
+        [
+          4722,
+          2134
+        ],
+        [
+          4860,
+          2134
+        ],
+        [
+          4860,
+          2223
+        ],
+        [
+          4860,
+          2313
+        ],
+        [
+          4860,
+          2402
+        ]
+      ],
+      "labelBBox": {
+        "x": 4708,
+        "y": 2140,
+        "width": 180,
+        "height": 39
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "1l0eoz3"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "76jp1g",
+      "source": "ses.processingService.importOrchestrator",
+      "target": "ses.processingService.backendClient",
+      "label": "writes readings and import record",
+      "points": [
+        [
+          4192,
+          2134
+        ],
+        [
+          4183,
+          2134
+        ],
+        [
+          4175,
+          2134
+        ],
+        [
+          4166,
+          2134
+        ],
+        [
+          4166,
+          2367
+        ],
+        [
+          4166,
+          2601
+        ],
+        [
+          4166,
+          2834
+        ],
+        [
+          4265,
+          2834
+        ],
+        [
+          4365,
+          2834
+        ],
+        [
+          4464,
+          2834
+        ]
+      ],
+      "labelBBox": {
+        "x": 4174,
+        "y": 2604,
+        "width": 212,
+        "height": 39
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "1j2i657"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1ha9cf1",
+      "source": "ses.processingService.importOrchestrator",
+      "target": "ses.processingService.trainingNotifier",
+      "label": "reports completed import",
+      "points": [
+        [
+          4447,
+          2104
+        ],
+        [
+          4765,
+          2104
+        ],
+        [
+          5082,
+          2104
+        ],
+        [
+          5400,
+          2104
+        ],
+        [
+          5400,
+          2203
+        ],
+        [
+          5400,
+          2303
+        ],
+        [
+          5400,
+          2402
+        ]
+      ],
+      "labelBBox": {
+        "x": 5035,
+        "y": 2059,
+        "width": 159,
+        "height": 39
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "13cxrj9"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1xo9zl7",
+      "source": "ses.processingService.meterLinker",
+      "target": "ses.processingService.backendClient",
+      "label": "reads meter links",
+      "points": [
+        [
+          4424,
+          2537
+        ],
+        [
+          4424,
+          2626
+        ],
+        [
+          4424,
+          2715
+        ],
+        [
+          4424,
+          2804
+        ],
+        [
+          4437,
+          2804
+        ],
+        [
+          4451,
+          2804
+        ],
+        [
+          4464,
+          2804
+        ]
+      ],
+      "labelBBox": {
+        "x": 4305,
+        "y": 2651,
+        "width": 111,
+        "height": 39
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "1gs25si"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1cw63a7",
+      "source": "ses.processingService.simultaneityCalculator",
+      "target": "ses.processingService.backendClient",
+      "label": "reads readings, writes simultaneity",
+      "points": [
+        [
+          4749,
+          2537
+        ],
+        [
+          4749,
+          2626
+        ],
+        [
+          4749,
+          2715
+        ],
+        [
+          4749,
+          2804
+        ],
+        [
+          4738,
+          2804
+        ],
+        [
+          4728,
+          2804
+        ],
+        [
+          4717,
+          2804
+        ]
+      ],
+      "labelBBox": {
+        "x": 4522,
+        "y": 2651,
+        "width": 219,
+        "height": 39
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "cr3xyd"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "p1xnw4",
+      "source": "ses.processingService.trainingNotifier",
+      "target": "ses.trainingPipeline.trainingOrchestrator",
+      "label": "triggers training run for imported \nperiod",
+      "points": [
+        [
+          5520,
+          2424
+        ],
+        [
+          5529,
+          2424
+        ],
+        [
+          5537,
+          2424
+        ],
+        [
+          5546,
+          2424
+        ],
+        [
+          5546,
+          2177
+        ],
+        [
+          5546,
+          1929
+        ],
+        [
+          5546,
+          1682
+        ],
+        [
+          6086,
+          1682
+        ],
+        [
+          6627,
+          1682
+        ],
+        [
+          7167,
+          1682
+        ]
+      ],
+      "labelBBox": {
+        "x": 5931,
+        "y": 1688,
+        "width": 203,
+        "height": 56
+      },
+      "parent": "ses",
+      "relations": [
+        "iehnm3"
+      ],
+      "color": "gray",
+      "line": "dotted",
+      "head": "normal",
+      "technology": "HTTP, POST /training-runs",
+      "kind": "async",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "vmud81",
+      "source": "ses.trainingPipeline.trainingOrchestrator",
+      "target": "ses.trainingPipeline.featureBuilder",
+      "label": "builds training set",
+      "points": [
+        [
+          7167,
+          1754
+        ],
+        [
+          7028,
+          1754
+        ],
+        [
+          6889,
+          1754
+        ],
+        [
+          6750,
+          1754
+        ],
+        [
+          6750,
+          1843
+        ],
+        [
+          6750,
+          1933
+        ],
+        [
+          6750,
+          2022
+        ]
+      ],
+      "labelBBox": {
+        "x": 6756,
+        "y": 1760,
+        "width": 113,
+        "height": 39
+      },
+      "parent": "ses.trainingPipeline",
+      "relations": [
+        "1hhh3hv"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1lav9dl",
+      "source": "ses.trainingPipeline.trainingOrchestrator",
+      "target": "ses.trainingPipeline.effectMeasurement",
+      "label": "measures effect of given advice",
+      "points": [
+        [
+          7167,
+          1718
+        ],
+        [
+          6848,
+          1718
+        ],
+        [
+          6529,
+          1718
+        ],
+        [
+          6210,
+          1718
+        ],
+        [
+          6210,
+          1819
+        ],
+        [
+          6210,
+          1921
+        ],
+        [
+          6210,
+          2022
+        ]
+      ],
+      "labelBBox": {
+        "x": 6397,
+        "y": 1724,
+        "width": 201,
+        "height": 39
+      },
+      "parent": "ses.trainingPipeline",
+      "relations": [
+        "jsro5w"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "59pfmm",
+      "source": "ses.trainingPipeline.trainingOrchestrator",
+      "target": "ses.trainingPipeline.modelSelector",
+      "label": "selects best algorithm",
+      "points": [
+        [
+          7290,
+          1777
+        ],
+        [
+          7290,
+          1859
+        ],
+        [
+          7290,
+          1940
+        ],
+        [
+          7290,
+          2022
+        ]
+      ],
+      "labelBBox": {
+        "x": 7298,
+        "y": 1880,
+        "width": 139,
+        "height": 39
+      },
+      "parent": "ses.trainingPipeline",
+      "relations": [
+        "1cf5x8d"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "ra5pto",
+      "source": "ses.trainingPipeline.trainingOrchestrator",
+      "target": "ses.trainingPipeline.modelTrainer",
+      "label": "trains selected algorithm",
+      "points": [
+        [
+          7413,
+          1754
+        ],
+        [
+          7552,
+          1754
+        ],
+        [
+          7691,
+          1754
+        ],
+        [
+          7830,
+          1754
+        ],
+        [
+          7830,
+          1843
+        ],
+        [
+          7830,
+          1933
+        ],
+        [
+          7830,
+          2022
+        ]
+      ],
+      "labelBBox": {
+        "x": 7689,
+        "y": 1760,
+        "width": 156,
+        "height": 39
+      },
+      "parent": "ses.trainingPipeline",
+      "relations": [
+        "9ll49z"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "14o6jl4",
+      "source": "ses.trainingPipeline.trainingOrchestrator",
+      "target": "ses.trainingPipeline.modelEvaluator",
+      "label": "evaluates and promotes candidates",
+      "points": [
+        [
+          7413,
+          1724
+        ],
+        [
+          7732,
+          1724
+        ],
+        [
+          8051,
+          1724
+        ],
+        [
+          8370,
+          1724
+        ],
+        [
+          8370,
+          1823
+        ],
+        [
+          8370,
+          1923
+        ],
+        [
+          8370,
+          2022
+        ]
+      ],
+      "labelBBox": {
+        "x": 7970,
+        "y": 1679,
+        "width": 225,
+        "height": 39
+      },
+      "parent": "ses.trainingPipeline",
+      "relations": [
+        "errovm"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "jza1lu",
+      "source": "ses.trainingPipeline.featureBuilder",
+      "target": "ses.trainingPipeline.backendClient",
+      "label": "reads readings and measured effect",
+      "points": [
+        [
+          6644,
+          2157
+        ],
+        [
+          6644,
+          2246
+        ],
+        [
+          6644,
+          2335
+        ],
+        [
+          6644,
+          2424
+        ],
+        [
+          6629,
+          2424
+        ],
+        [
+          6615,
+          2424
+        ],
+        [
+          6600,
+          2424
+        ]
+      ],
+      "labelBBox": {
+        "x": 6652,
+        "y": 2271,
+        "width": 228,
+        "height": 39
+      },
+      "parent": "ses.trainingPipeline",
+      "relations": [
+        "12be0pn"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1blcuh6",
+      "source": "ses.trainingPipeline.effectMeasurement",
+      "target": "ses.trainingPipeline.backendClient",
+      "label": "reads advice, readings and forecasts, \nwrites effect",
+      "points": [
+        [
+          6300,
+          2157
+        ],
+        [
+          6300,
+          2246
+        ],
+        [
+          6300,
+          2335
+        ],
+        [
+          6300,
+          2424
+        ],
+        [
+          6320,
+          2424
+        ],
+        [
+          6340,
+          2424
+        ],
+        [
+          6360,
+          2424
+        ]
+      ],
+      "labelBBox": {
+        "x": 6308,
+        "y": 2316,
+        "width": 237,
+        "height": 55
+      },
+      "parent": "ses.trainingPipeline",
+      "relations": [
+        "12ni36"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "owz2sw",
+      "source": "ses.trainingPipeline.modelEvaluator",
+      "target": "ses.modelRegistry",
+      "label": "logs runs and scores, registers and \npromotes model versions",
+      "points": [
+        [
+          8507,
+          2134
+        ],
+        [
+          8713,
+          2134
+        ],
+        [
+          8920,
+          2134
+        ],
+        [
+          9126,
+          2134
+        ],
+        [
+          9126,
+          2540
+        ],
+        [
+          9126,
+          2946
+        ],
+        [
+          9126,
+          3352
+        ]
+      ],
+      "labelBBox": {
+        "x": 9134,
+        "y": 2471,
+        "width": 222,
+        "height": 56
+      },
+      "parent": "ses",
+      "relations": [
+        "5ql20d"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, MLflow REST API",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "nwwjzd",
+      "source": "ses.forecastPipeline.scheduler",
+      "target": "ses.forecastPipeline.priceClient",
+      "label": "fetches day-ahead prices",
+      "points": [
+        [
+          6891,
+          4072
+        ],
+        [
+          6664,
+          4072
+        ],
+        [
+          6437,
+          4072
+        ],
+        [
+          6210,
+          4072
+        ],
+        [
+          6210,
+          4161
+        ],
+        [
+          6210,
+          4251
+        ],
+        [
+          6210,
+          4340
+        ]
+      ],
+      "labelBBox": {
+        "x": 6334,
+        "y": 4027,
+        "width": 160,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "15n94a"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "13yoez5",
+      "source": "ses.forecastPipeline.scheduler",
+      "target": "ses.forecastPipeline.forecaster",
+      "label": "runs forecast",
+      "points": [
+        [
+          7149,
+          4072
+        ],
+        [
+          7376,
+          4072
+        ],
+        [
+          7603,
+          4072
+        ],
+        [
+          7830,
+          4072
+        ],
+        [
+          7830,
+          4161
+        ],
+        [
+          7830,
+          4251
+        ],
+        [
+          7830,
+          4340
+        ]
+      ],
+      "labelBBox": {
+        "x": 7583,
+        "y": 4027,
+        "width": 85,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "1s25z2r"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "16xlvdi",
+      "source": "ses.forecastPipeline.scheduler",
+      "target": "ses.forecastPipeline.optimizer",
+      "label": "runs optimisation",
+      "points": [
+        [
+          6913,
+          4095
+        ],
+        [
+          6913,
+          4184
+        ],
+        [
+          6913,
+          4273
+        ],
+        [
+          6913,
+          4362
+        ],
+        [
+          6901,
+          4362
+        ],
+        [
+          6890,
+          4362
+        ],
+        [
+          6878,
+          4362
+        ]
+      ],
+      "labelBBox": {
+        "x": 6921,
+        "y": 4209,
+        "width": 110,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "y184fg"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1bnzbks",
+      "source": "ses.forecastPipeline.scheduler",
+      "target": "ses.forecastPipeline.ranker",
+      "label": "runs ranking",
+      "points": [
+        [
+          7111,
+          4095
+        ],
+        [
+          7111,
+          4184
+        ],
+        [
+          7111,
+          4273
+        ],
+        [
+          7111,
+          4362
+        ],
+        [
+          7124,
+          4362
+        ],
+        [
+          7136,
+          4362
+        ],
+        [
+          7149,
+          4362
+        ]
+      ],
+      "labelBBox": {
+        "x": 7119,
+        "y": 4209,
+        "width": 81,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "7pvlvr"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "vgyew3",
+      "source": "ses.forecastPipeline.priceClient",
+      "target": "ses.forecastPipeline.backendClient",
+      "label": "writes energy prices",
+      "points": [
+        [
+          6303,
+          4475
+        ],
+        [
+          6303,
+          4576
+        ],
+        [
+          6303,
+          4677
+        ],
+        [
+          6303,
+          4778
+        ],
+        [
+          6592,
+          4778
+        ],
+        [
+          6881,
+          4778
+        ],
+        [
+          7170,
+          4778
+        ]
+      ],
+      "labelBBox": {
+        "x": 6499,
+        "y": 4733,
+        "width": 128,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "1u8ucda"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1mpdpif",
+      "source": "ses.forecastPipeline.forecaster",
+      "target": "ses.forecastPipeline.weatherClient",
+      "label": "gets weather forecast",
+      "points": [
+        [
+          7958,
+          4452
+        ],
+        [
+          8095,
+          4452
+        ],
+        [
+          8233,
+          4452
+        ],
+        [
+          8370,
+          4452
+        ],
+        [
+          8370,
+          4541
+        ],
+        [
+          8370,
+          4631
+        ],
+        [
+          8370,
+          4720
+        ]
+      ],
+      "labelBBox": {
+        "x": 8239,
+        "y": 4407,
+        "width": 138,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "rs90in"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1c0ee61",
+      "source": "ses.forecastPipeline.modelLoader",
+      "target": "ses.modelRegistry",
+      "label": "loads production models",
+      "points": [
+        [
+          7912,
+          4855
+        ],
+        [
+          7912,
+          4864
+        ],
+        [
+          7912,
+          4872
+        ],
+        [
+          7912,
+          4881
+        ],
+        [
+          7933,
+          4881
+        ],
+        [
+          7953,
+          4881
+        ],
+        [
+          7974,
+          4881
+        ],
+        [
+          7974,
+          4427
+        ],
+        [
+          7974,
+          3972
+        ],
+        [
+          7974,
+          3518
+        ],
+        [
+          8325,
+          3518
+        ],
+        [
+          8677,
+          3518
+        ],
+        [
+          9028,
+          3518
+        ],
+        [
+          9028,
+          3508
+        ],
+        [
+          9028,
+          3497
+        ],
+        [
+          9028,
+          3487
+        ]
+      ],
+      "labelBBox": {
+        "x": 7982,
+        "y": 3703,
+        "width": 156,
+        "height": 39
+      },
+      "parent": "ses",
+      "relations": [
+        "1wbi6a2"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, MLflow REST API",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "tj4w8o",
+      "source": "ses.forecastPipeline.forecaster",
+      "target": "ses.forecastPipeline.modelLoader",
+      "label": "gets forecaster model",
+      "points": [
+        [
+          7850,
+          4475
+        ],
+        [
+          7850,
+          4557
+        ],
+        [
+          7850,
+          4638
+        ],
+        [
+          7850,
+          4720
+        ]
+      ],
+      "labelBBox": {
+        "x": 7858,
+        "y": 4578,
+        "width": 139,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "ya90dd"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "106agid",
+      "source": "ses.forecastPipeline.ranker",
+      "target": "ses.forecastPipeline.modelLoader",
+      "label": "gets acceptance model",
+      "points": [
+        [
+          7405,
+          4475
+        ],
+        [
+          7405,
+          4544
+        ],
+        [
+          7405,
+          4613
+        ],
+        [
+          7405,
+          4682
+        ],
+        [
+          7514,
+          4682
+        ],
+        [
+          7623,
+          4682
+        ],
+        [
+          7732,
+          4682
+        ],
+        [
+          7732,
+          4695
+        ],
+        [
+          7732,
+          4707
+        ],
+        [
+          7732,
+          4720
+        ]
+      ],
+      "labelBBox": {
+        "x": 7429,
+        "y": 4688,
+        "width": 148,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "1dy5z1n"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "199qnej",
+      "source": "ses.forecastPipeline.forecaster",
+      "target": "ses.forecastPipeline.backendClient",
+      "label": "reads history, writes forecasts",
+      "points": [
+        [
+          7724,
+          4475
+        ],
+        [
+          7724,
+          4531
+        ],
+        [
+          7724,
+          4588
+        ],
+        [
+          7724,
+          4644
+        ],
+        [
+          7607,
+          4644
+        ],
+        [
+          7489,
+          4644
+        ],
+        [
+          7372,
+          4644
+        ],
+        [
+          7372,
+          4669
+        ],
+        [
+          7372,
+          4695
+        ],
+        [
+          7372,
+          4720
+        ]
+      ],
+      "labelBBox": {
+        "x": 7524,
+        "y": 4599,
+        "width": 189,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "19bz50"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1pbls8s",
+      "source": "ses.forecastPipeline.optimizer",
+      "target": "ses.forecastPipeline.backendClient",
+      "label": "reads forecasts, comfort limits and \nappliances",
+      "points": [
+        [
+          6842,
+          4475
+        ],
+        [
+          6842,
+          4564
+        ],
+        [
+          6842,
+          4653
+        ],
+        [
+          6842,
+          4742
+        ],
+        [
+          6951,
+          4742
+        ],
+        [
+          7061,
+          4742
+        ],
+        [
+          7170,
+          4742
+        ]
+      ],
+      "labelBBox": {
+        "x": 6783,
+        "y": 4681,
+        "width": 217,
+        "height": 55
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "v3hsn4"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "jo4q52",
+      "source": "ses.forecastPipeline.ranker",
+      "target": "ses.forecastPipeline.backendClient",
+      "label": "reads energy prices, writes top 3 advice",
+      "points": [
+        [
+          7290,
+          4475
+        ],
+        [
+          7290,
+          4557
+        ],
+        [
+          7290,
+          4638
+        ],
+        [
+          7290,
+          4720
+        ]
+      ],
+      "labelBBox": {
+        "x": 7031,
+        "y": 4578,
+        "width": 251,
+        "height": 39
+      },
+      "parent": "ses.forecastPipeline",
+      "relations": [
+        "1yhx8bo"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "15vg0vi",
+      "source": "customer",
+      "target": "ses.webapp.userInterface",
+      "label": "views own energy data and advice",
+      "points": [
+        [
+          1519,
+          58
+        ],
+        [
+          1610,
+          58
+        ],
+        [
+          1701,
+          58
+        ],
+        [
+          1792,
+          58
+        ],
+        [
+          1792,
+          168
+        ],
+        [
+          1792,
+          278
+        ],
+        [
+          1792,
+          388
+        ]
+      ],
+      "labelBBox": {
+        "x": 1566,
+        "y": 88,
+        "width": 218,
+        "height": 39
+      },
+      "parent": null,
+      "relations": [
+        "1xejct8"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "web browser, HTTPS",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "337hfp",
+      "source": "admin",
+      "target": "ses.webapp.userInterface",
+      "label": "uploads CSV, views aggregated results, \nmanages settings",
+      "points": [
+        [
+          2261,
+          58
+        ],
+        [
+          2165,
+          58
+        ],
+        [
+          2068,
+          58
+        ],
+        [
+          1972,
+          58
+        ],
+        [
+          1972,
+          168
+        ],
+        [
+          1972,
+          278
+        ],
+        [
+          1972,
+          388
+        ]
+      ],
+      "labelBBox": {
+        "x": 1980,
+        "y": 80,
+        "width": 252,
+        "height": 56
+      },
+      "parent": null,
+      "relations": [
+        "109mvyu"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "web browser, HTTPS",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1np2a8t",
+      "source": "admin",
+      "target": "gridOperator",
+      "label": "requests and downloads quarter-hourly \nCSV export",
+      "points": [
+        [
+          2599,
+          0
+        ],
+        [
+          2740,
+          0
+        ],
+        [
+          2880,
+          0
+        ],
+        [
+          3021,
+          0
+        ]
+      ],
+      "labelBBox": {
+        "x": 2686,
+        "y": -62,
+        "width": 247,
+        "height": 56
+      },
+      "parent": null,
+      "relations": [
+        "12nzooi"
+      ],
+      "color": "muted",
+      "line": "dashed",
+      "head": "onormal",
+      "technology": "file download, a few times per year",
+      "kind": "offline",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1smzr4v",
+      "source": "ses.forecastPipeline.weatherClient",
+      "target": "weatherData",
+      "label": "fetches 48-hour weather forecast",
+      "points": [
+        [
+          8490,
+          4788
+        ],
+        [
+          8955,
+          4788
+        ],
+        [
+          9419,
+          4788
+        ],
+        [
+          9884,
+          4788
+        ]
+      ],
+      "labelBBox": {
+        "x": 9082,
+        "y": 4743,
+        "width": 209,
+        "height": 39
+      },
+      "parent": null,
+      "relations": [
+        "sn6clf"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTPS, REST/JSON",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1ln8bha",
+      "source": "ses.forecastPipeline.priceClient",
+      "target": "apexData",
+      "label": "fetches day-ahead prices for tomorrow",
+      "points": [
+        [
+          6210,
+          4475
+        ],
+        [
+          6210,
+          4803
+        ],
+        [
+          6210,
+          5130
+        ],
+        [
+          6210,
+          5458
+        ]
+      ],
+      "labelBBox": {
+        "x": 6218,
+        "y": 4947,
+        "width": 243,
+        "height": 39
+      },
+      "parent": null,
+      "relations": [
+        "gebln0"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTPS, REST/JSON",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "jkqugz",
+      "source": "ses.forecastPipeline.optimizer",
+      "target": "communityBattery",
+      "label": "reads capacity and state of charge \n(optional)",
+      "points": [
+        [
+          6750,
+          4475
+        ],
+        [
+          6750,
+          4803
+        ],
+        [
+          6750,
+          5130
+        ],
+        [
+          6750,
+          5458
+        ]
+      ],
+      "labelBBox": {
+        "x": 6758,
+        "y": 4939,
+        "width": 218,
+        "height": 55
+      },
+      "parent": null,
+      "relations": [
+        "ew1fr3"
+      ],
+      "color": "muted",
+      "line": "dotted",
+      "head": "odiamond",
+      "technology": "vendor API, to be determined",
+      "kind": "optional",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    }
+  ],
+  "_layout": "manual"
+}

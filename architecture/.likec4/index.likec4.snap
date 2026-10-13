@@ -1,0 +1,630 @@
+{
+  "_type": "element",
+  "tags": null,
+  "links": null,
+  "_stage": "layouted",
+  "sourcePath": "ses_v0.1_en.c4",
+  "description": {
+    "txt": "Who uses SES and which external systems it depends on"
+  },
+  "title": "1 - System context diagram for Smart Energie Stolp",
+  "id": "index",
+  "autoLayout": {
+    "direction": "TB"
+  },
+  "notation": {
+    "nodes": [
+      {
+        "title": "Person",
+        "shape": "person",
+        "color": "indigo",
+        "kinds": [
+          "person"
+        ]
+      },
+      {
+        "title": "External system or source, outside SES",
+        "shape": "rectangle",
+        "color": "muted",
+        "kinds": [
+          "externalSystem"
+        ]
+      },
+      {
+        "title": "Optional, not implemented in the PoC",
+        "shape": "rectangle",
+        "color": "muted",
+        "kinds": [
+          "externalSystem"
+        ]
+      },
+      {
+        "title": "Software system",
+        "shape": "rectangle",
+        "color": "primary",
+        "kinds": [
+          "system"
+        ]
+      }
+    ]
+  },
+  "hash": "yoRj9RwlKmD3VLCMYgh_P9CAdjdpuL9x8EN-zlfY3hQ",
+  "bounds": {
+    "x": -208,
+    "y": -130,
+    "width": 2397,
+    "height": 1340
+  },
+  "nodes": [
+    {
+      "id": "customer",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "m72g5n"
+      ],
+      "title": "Participant",
+      "modelRef": "customer",
+      "shape": "person",
+      "color": "indigo",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "User with a grid connection up to 250 A and participant of the Energiestolp, who views own energy data, prices and personal advice"
+      },
+      "tags": [],
+      "notation": "Person",
+      "kind": "person",
+      "x": -168,
+      "y": -90,
+      "width": 337,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 47,
+        "width": 302,
+        "height": 83
+      },
+      "drifts": null
+    },
+    {
+      "id": "admin",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "1np2a8t",
+        "1lg33gg"
+      ],
+      "title": "System administrator",
+      "modelRef": "admin",
+      "shape": "person",
+      "color": "indigo",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Community administrator who imports meter data, views aggregated results and manages settings"
+      },
+      "tags": [],
+      "notation": "Person",
+      "kind": "person",
+      "x": 1071,
+      "y": -90,
+      "width": 338,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 47,
+        "width": 303,
+        "height": 83
+      },
+      "drifts": null
+    },
+    {
+      "id": "gridOperator",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "1np2a8t"
+      ],
+      "outEdges": [],
+      "title": "Grid operator",
+      "modelRef": "gridOperator",
+      "shape": "rectangle",
+      "color": "muted",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Distribution system operator that provides pseudonymised quarter-hourly readings per meter as a CSV export"
+      },
+      "tags": [],
+      "notation": "External system or source, outside SES",
+      "technology": "CSV export",
+      "kind": "externalSystem",
+      "x": 1819,
+      "y": -90,
+      "width": 330,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 294,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "m72g5n",
+        "1lg33gg"
+      ],
+      "outEdges": [
+        "1dmq3uv",
+        "1n2iowj",
+        "1idl9ox"
+      ],
+      "title": "Smart Energie Stolp",
+      "modelRef": "ses",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Calculates, forecasts and improves the simultaneity of local energy generation and consumption"
+      },
+      "tags": [
+        "version1"
+      ],
+      "notation": "Software system",
+      "technology": "Docker Compose on a local server",
+      "kind": "system",
+      "navigateTo": "ses",
+      "x": 458,
+      "y": 450,
+      "width": 325,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 289,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "weatherData",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "1dmq3uv"
+      ],
+      "outEdges": [],
+      "title": "Weather service",
+      "modelRef": "weatherData",
+      "shape": "rectangle",
+      "color": "muted",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Public weather API (EU) with a 48-hour forecast of irradiance, cloud cover and temperature"
+      },
+      "tags": [],
+      "notation": "External system or source, outside SES",
+      "technology": "HTTPS, REST/JSON",
+      "kind": "externalSystem",
+      "x": -160,
+      "y": 990,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 28,
+        "y": 37,
+        "width": 265,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "apexData",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "1n2iowj"
+      ],
+      "outEdges": [],
+      "title": "Apex data API",
+      "modelRef": "apexData",
+      "shape": "rectangle",
+      "color": "muted",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Dynamic day-ahead energy prices per quarter hour; prices for the next day are available after 15:00"
+      },
+      "tags": [],
+      "notation": "External system or source, outside SES",
+      "technology": "HTTPS, REST/JSON",
+      "kind": "externalSystem",
+      "x": 448,
+      "y": 990,
+      "width": 345,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 309,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "communityBattery",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "1idl9ox"
+      ],
+      "outEdges": [],
+      "title": "Community battery",
+      "modelRef": "communityBattery",
+      "shape": "rectangle",
+      "color": "muted",
+      "style": {
+        "opacity": 10,
+        "size": "md",
+        "border": "dashed"
+      },
+      "description": {
+        "txt": "Optional shared battery of the energy community that stores surplus generation and discharges when consumption exceeds generation; not implemented in the PoC"
+      },
+      "tags": [
+        "optional"
+      ],
+      "notation": "Optional, not implemented in the PoC",
+      "technology": "vendor API, to be determined",
+      "kind": "externalSystem",
+      "x": 1068,
+      "y": 990,
+      "width": 343,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 28,
+        "width": 307,
+        "height": 121
+      },
+      "drifts": null
+    }
+  ],
+  "edges": [
+    {
+      "id": "m72g5n",
+      "source": "customer",
+      "target": "ses",
+      "label": "views own energy data and advice",
+      "points": [
+        [
+          169,
+          58
+        ],
+        [
+          273,
+          58
+        ],
+        [
+          376,
+          58
+        ],
+        [
+          480,
+          58
+        ],
+        [
+          480,
+          189
+        ],
+        [
+          480,
+          319
+        ],
+        [
+          480,
+          450
+        ]
+      ],
+      "labelBBox": {
+        "x": 488,
+        "y": 97,
+        "width": 218,
+        "height": 39
+      },
+      "parent": null,
+      "relations": [
+        "cfvybv"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTPS",
+      "tags": [
+        "level1"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1np2a8t",
+      "source": "admin",
+      "target": "gridOperator",
+      "label": "requests and downloads quarter-hourly \nCSV export",
+      "points": [
+        [
+          1409,
+          0
+        ],
+        [
+          1546,
+          0
+        ],
+        [
+          1682,
+          0
+        ],
+        [
+          1819,
+          0
+        ]
+      ],
+      "labelBBox": {
+        "x": 1490,
+        "y": -62,
+        "width": 247,
+        "height": 56
+      },
+      "parent": null,
+      "relations": [
+        "12nzooi"
+      ],
+      "color": "muted",
+      "line": "dashed",
+      "head": "onormal",
+      "technology": "file download, a few times per year",
+      "kind": "offline",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1lg33gg",
+      "source": "admin",
+      "target": "ses",
+      "label": "imports meter data, views aggregated \nresults and manages settings",
+      "points": [
+        [
+          1071,
+          58
+        ],
+        [
+          964,
+          58
+        ],
+        [
+          857,
+          58
+        ],
+        [
+          750,
+          58
+        ],
+        [
+          750,
+          189
+        ],
+        [
+          750,
+          319
+        ],
+        [
+          750,
+          450
+        ]
+      ],
+      "labelBBox": {
+        "x": 758,
+        "y": 89,
+        "width": 238,
+        "height": 56
+      },
+      "parent": null,
+      "relations": [
+        "18p7g8x"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTPS",
+      "tags": [
+        "level1"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1dmq3uv",
+      "source": "ses",
+      "target": "weatherData",
+      "label": "fetches 48-hour weather forecast",
+      "points": [
+        [
+          458,
+          598
+        ],
+        [
+          305,
+          598
+        ],
+        [
+          153,
+          598
+        ],
+        [
+          0,
+          598
+        ],
+        [
+          0,
+          729
+        ],
+        [
+          0,
+          859
+        ],
+        [
+          0,
+          990
+        ]
+      ],
+      "labelBBox": {
+        "x": -36,
+        "y": 553,
+        "width": 209,
+        "height": 39
+      },
+      "parent": null,
+      "relations": [
+        "bcbice"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTPS, REST/JSON",
+      "tags": [
+        "level1"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1n2iowj",
+      "source": "ses",
+      "target": "apexData",
+      "label": "fetches dynamic day-ahead energy prices",
+      "points": [
+        [
+          620,
+          630
+        ],
+        [
+          620,
+          750
+        ],
+        [
+          620,
+          870
+        ],
+        [
+          620,
+          990
+        ]
+      ],
+      "labelBBox": {
+        "x": 628,
+        "y": 790,
+        "width": 263,
+        "height": 39
+      },
+      "parent": null,
+      "relations": [
+        "u8s2ob"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTPS, REST/JSON",
+      "tags": [
+        "level1"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1idl9ox",
+      "source": "ses",
+      "target": "communityBattery",
+      "label": "reads capacity and state of charge \n(optional)",
+      "points": [
+        [
+          783,
+          598
+        ],
+        [
+          935,
+          598
+        ],
+        [
+          1088,
+          598
+        ],
+        [
+          1240,
+          598
+        ],
+        [
+          1240,
+          729
+        ],
+        [
+          1240,
+          859
+        ],
+        [
+          1240,
+          990
+        ]
+      ],
+      "labelBBox": {
+        "x": 1062,
+        "y": 536,
+        "width": 218,
+        "height": 56
+      },
+      "parent": null,
+      "relations": [
+        "1yhmobu"
+      ],
+      "color": "muted",
+      "line": "dotted",
+      "head": "odiamond",
+      "technology": "vendor API, to be determined",
+      "kind": "optional",
+      "tags": [
+        "level1"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    }
+  ],
+  "_layout": "manual"
+}

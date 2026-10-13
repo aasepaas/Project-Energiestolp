@@ -1,0 +1,1088 @@
+{
+  "_type": "element",
+  "tags": null,
+  "links": null,
+  "viewOf": "ses.processingService",
+  "_stage": "layouted",
+  "sourcePath": "ses_v0.1_en.c4",
+  "description": null,
+  "title": "3.3 - Component diagram for Data processing service",
+  "id": "processingDetail",
+  "autoLayout": {
+    "direction": "TB"
+  },
+  "notation": {
+    "nodes": [
+      {
+        "title": "Component: module inside a container",
+        "shape": "rectangle",
+        "color": "sky",
+        "kinds": [
+          "component"
+        ]
+      },
+      {
+        "title": "Container: separately deployed service (Docker)",
+        "shape": "rectangle",
+        "color": "primary",
+        "kinds": [
+          "container"
+        ]
+      }
+    ]
+  },
+  "hash": "u45xpJ37lzVSJVYGI-CBFIuhjxHfjCJ12v54BG-oirg",
+  "bounds": {
+    "x": -213,
+    "y": -202,
+    "width": 3342,
+    "height": 1957
+  },
+  "nodes": [
+    {
+      "id": "ses.frontendAPI",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "eahp6"
+      ],
+      "title": "Frontend API",
+      "modelRef": "ses.frontendAPI",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Single entry point for the web app: checks role and data ownership, answers queries and accepts uploads"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask",
+      "kind": "container",
+      "navigateTo": "frontendApiDetail",
+      "x": -173,
+      "y": 910,
+      "width": 346,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 311,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService",
+      "parent": null,
+      "level": 0,
+      "children": [
+        "ses.processingService.importEndpoint",
+        "ses.processingService.importOrchestrator",
+        "ses.processingService.csvParser",
+        "ses.processingService.validator",
+        "ses.processingService.meterLinker",
+        "ses.processingService.simultaneityCalculator",
+        "ses.processingService.trainingNotifier",
+        "ses.processingService.backendClient"
+      ],
+      "inEdges": [
+        "eahp6"
+      ],
+      "outEdges": [
+        "tn669f",
+        "13osd4k"
+      ],
+      "title": "Data processing service",
+      "modelRef": "ses.processingService",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Imports meter data idempotently, links meters to participants and calculates simultaneity per quarter hour"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask, pandas",
+      "kind": "container",
+      "depth": 1,
+      "x": 352,
+      "y": -162,
+      "width": 2097,
+      "height": 1877,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 162,
+        "height": 15
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService.importEndpoint",
+      "parent": "ses.processingService",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "eahp6"
+      ],
+      "outEdges": [
+        "1ysuv2f"
+      ],
+      "title": "Import endpoint",
+      "modelRef": "ses.processingService.importEndpoint",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Receives the CSV file, records file name, hash and period and starts an import job"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "POST /imports",
+      "kind": "component",
+      "x": 400,
+      "y": 910,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 22,
+        "y": 47,
+        "width": 277,
+        "height": 84
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService.importOrchestrator",
+      "parent": "ses.processingService",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1ysuv2f"
+      ],
+      "outEdges": [
+        "10dasd4",
+        "1iajrvr",
+        "1300k9x",
+        "178nxap",
+        "76jp1g",
+        "1ha9cf1"
+      ],
+      "title": "Import orchestrator",
+      "modelRef": "ses.processingService.importOrchestrator",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Runs the import steps in order and records the result in import_log"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "Python, background worker thread",
+      "kind": "component",
+      "x": 958,
+      "y": 910,
+      "width": 324,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 46,
+        "width": 288,
+        "height": 84
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService.csvParser",
+      "parent": "ses.processingService",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "10dasd4"
+      ],
+      "outEdges": [],
+      "title": "CSV parser",
+      "modelRef": "ses.processingService.csvParser",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Parses decimal commas and quoted values and builds a UTC timestamp per quarter hour"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "pandas",
+      "kind": "component",
+      "x": 1500,
+      "y": -90,
+      "width": 359,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 46,
+        "width": 323,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService.validator",
+      "parent": "ses.processingService",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1iajrvr"
+      ],
+      "outEdges": [],
+      "title": "Validator",
+      "modelRef": "ses.processingService.validator",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Detects duplicates, marks missing quarters as gaps (not as zero) and checks limits per meter"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "pandas",
+      "kind": "component",
+      "x": 1507,
+      "y": 310,
+      "width": 346,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 310,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService.meterLinker",
+      "parent": "ses.processingService",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1300k9x"
+      ],
+      "outEdges": [
+        "1xo9zl7"
+      ],
+      "title": "Meter linker",
+      "modelRef": "ses.processingService.meterLinker",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Links meter_reference to participant_id using the meter link table"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "Python",
+      "kind": "component",
+      "x": 1510,
+      "y": 710,
+      "width": 339,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 46,
+        "width": 303,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService.simultaneityCalculator",
+      "parent": "ses.processingService",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "178nxap"
+      ],
+      "outEdges": [
+        "1cw63a7"
+      ],
+      "title": "Simultaneity calculator",
+      "modelRef": "ses.processingService.simultaneityCalculator",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Shared energy = min(total feed-in, total consumption) per quarter hour, divided pro rata over participants; an optional community battery meter counts as consumption when charging and as feed-in when discharging"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "pandas",
+      "kind": "component",
+      "x": 1511,
+      "y": 1110,
+      "width": 338,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 19,
+        "width": 302,
+        "height": 139
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService.trainingNotifier",
+      "parent": "ses.processingService",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1ha9cf1"
+      ],
+      "outEdges": [
+        "13osd4k"
+      ],
+      "title": "Training notifier",
+      "modelRef": "ses.processingService.trainingNotifier",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Notifies the ingest and training pipeline that a new period has been imported"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "httpx",
+      "kind": "component",
+      "x": 1560,
+      "y": 1532,
+      "width": 240,
+      "height": 135,
+      "labelBBox": {
+        "x": 15,
+        "y": 31,
+        "width": 210,
+        "height": 71
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService.backendClient",
+      "parent": "ses.processingService",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "76jp1g",
+        "1xo9zl7",
+        "1cw63a7"
+      ],
+      "outEdges": [
+        "tn669f"
+      ],
+      "title": "Backend client",
+      "modelRef": "ses.processingService.backendClient",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Single gateway to the Backend API; writes readings as an upsert on (meter, UTC timestamp)"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "httpx",
+      "kind": "component",
+      "x": 2080,
+      "y": 910,
+      "width": 321,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 286,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "13osd4k"
+      ],
+      "outEdges": [],
+      "title": "Ingest and training pipeline",
+      "modelRef": "ses.trainingPipeline",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "After every export: ingests training data, measures the effect of advice and retrains the models"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, PyCaret, scikit-learn, XGBoost",
+      "kind": "container",
+      "navigateTo": "trainingDetail",
+      "x": 2752,
+      "y": 1510,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 283,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.backendAPI",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "tn669f"
+      ],
+      "outEdges": [],
+      "title": "Backend API",
+      "modelRef": "ses.backendAPI",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Internal API between the backend services and the database"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask",
+      "kind": "container",
+      "navigateTo": "backendApiDetail",
+      "x": 2736,
+      "y": 910,
+      "width": 353,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 46,
+        "width": 318,
+        "height": 84
+      },
+      "drifts": null
+    }
+  ],
+  "edges": [
+    {
+      "id": "eahp6",
+      "source": "ses.frontendAPI",
+      "target": "ses.processingService.importEndpoint",
+      "label": "forwards uploaded CSV file",
+      "points": [
+        [
+          173,
+          1000
+        ],
+        [
+          249,
+          1000
+        ],
+        [
+          324,
+          1000
+        ],
+        [
+          400,
+          1000
+        ]
+      ],
+      "labelBBox": {
+        "x": 191,
+        "y": 955,
+        "width": 191,
+        "height": 39
+      },
+      "parent": null,
+      "relations": [
+        "qd0k6t"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, POST /imports (multipart)",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1ysuv2f",
+      "source": "ses.processingService.importEndpoint",
+      "target": "ses.processingService.importOrchestrator",
+      "label": "starts import job",
+      "points": [
+        [
+          720,
+          1000
+        ],
+        [
+          799,
+          1000
+        ],
+        [
+          879,
+          1000
+        ],
+        [
+          958,
+          1000
+        ]
+      ],
+      "labelBBox": {
+        "x": 760,
+        "y": 955,
+        "width": 157,
+        "height": 39
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "1ya6mpu"
+      ],
+      "color": "gray",
+      "line": "dotted",
+      "head": "normal",
+      "technology": "background worker thread",
+      "kind": "async",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "10dasd4",
+      "source": "ses.processingService.importOrchestrator",
+      "target": "ses.processingService.csvParser",
+      "label": "parses raw CSV",
+      "points": [
+        [
+          1214,
+          910
+        ],
+        [
+          1214,
+          607
+        ],
+        [
+          1214,
+          303
+        ],
+        [
+          1214,
+          0
+        ],
+        [
+          1309,
+          0
+        ],
+        [
+          1405,
+          0
+        ],
+        [
+          1500,
+          0
+        ]
+      ],
+      "labelBBox": {
+        "x": 1222,
+        "y": 254,
+        "width": 105,
+        "height": 38
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "1cqy63g"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1iajrvr",
+      "source": "ses.processingService.importOrchestrator",
+      "target": "ses.processingService.validator",
+      "label": "validates parsed rows",
+      "points": [
+        [
+          1250,
+          910
+        ],
+        [
+          1250,
+          740
+        ],
+        [
+          1250,
+          570
+        ],
+        [
+          1250,
+          400
+        ],
+        [
+          1336,
+          400
+        ],
+        [
+          1421,
+          400
+        ],
+        [
+          1507,
+          400
+        ]
+      ],
+      "labelBBox": {
+        "x": 1258,
+        "y": 534,
+        "width": 139,
+        "height": 38
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "140tezf"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1300k9x",
+      "source": "ses.processingService.importOrchestrator",
+      "target": "ses.processingService.meterLinker",
+      "label": "links valid rows to participants",
+      "points": [
+        [
+          1282,
+          932
+        ],
+        [
+          1365,
+          932
+        ],
+        [
+          1449,
+          932
+        ],
+        [
+          1532,
+          932
+        ],
+        [
+          1532,
+          918
+        ],
+        [
+          1532,
+          904
+        ],
+        [
+          1532,
+          890
+        ]
+      ],
+      "labelBBox": {
+        "x": 1312,
+        "y": 888,
+        "width": 189,
+        "height": 38
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "8x9bg8"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "178nxap",
+      "source": "ses.processingService.importOrchestrator",
+      "target": "ses.processingService.simultaneityCalculator",
+      "label": "recalculates imported period",
+      "points": [
+        [
+          1282,
+          1058
+        ],
+        [
+          1366,
+          1058
+        ],
+        [
+          1449,
+          1058
+        ],
+        [
+          1533,
+          1058
+        ],
+        [
+          1533,
+          1075
+        ],
+        [
+          1533,
+          1093
+        ],
+        [
+          1533,
+          1110
+        ]
+      ],
+      "labelBBox": {
+        "x": 1368,
+        "y": 1014,
+        "width": 180,
+        "height": 38
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "1l0eoz3"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "76jp1g",
+      "source": "ses.processingService.importOrchestrator",
+      "target": "ses.processingService.backendClient",
+      "label": "writes readings and import record",
+      "points": [
+        [
+          1282,
+          1000
+        ],
+        [
+          1548,
+          1000
+        ],
+        [
+          1814,
+          1000
+        ],
+        [
+          2080,
+          1000
+        ]
+      ],
+      "labelBBox": {
+        "x": 1575,
+        "y": 955,
+        "width": 212,
+        "height": 39
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "1j2i657"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1ha9cf1",
+      "source": "ses.processingService.importOrchestrator",
+      "target": "ses.processingService.trainingNotifier",
+      "label": "reports completed import",
+      "points": [
+        [
+          1250,
+          1090
+        ],
+        [
+          1250,
+          1260
+        ],
+        [
+          1250,
+          1430
+        ],
+        [
+          1250,
+          1600
+        ],
+        [
+          1353,
+          1600
+        ],
+        [
+          1457,
+          1600
+        ],
+        [
+          1560,
+          1600
+        ]
+      ],
+      "labelBBox": {
+        "x": 1258,
+        "y": 1504,
+        "width": 159,
+        "height": 38
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "13cxrj9"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1xo9zl7",
+      "source": "ses.processingService.meterLinker",
+      "target": "ses.processingService.backendClient",
+      "label": "reads meter links",
+      "points": [
+        [
+          1849,
+          858
+        ],
+        [
+          1933,
+          858
+        ],
+        [
+          2018,
+          858
+        ],
+        [
+          2102,
+          858
+        ],
+        [
+          2102,
+          875
+        ],
+        [
+          2102,
+          893
+        ],
+        [
+          2102,
+          910
+        ]
+      ],
+      "labelBBox": {
+        "x": 1971,
+        "y": 813,
+        "width": 111,
+        "height": 39
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "1gs25si"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1cw63a7",
+      "source": "ses.processingService.simultaneityCalculator",
+      "target": "ses.processingService.backendClient",
+      "label": "reads readings, writes simultaneity",
+      "points": [
+        [
+          1849,
+          1132
+        ],
+        [
+          1933,
+          1132
+        ],
+        [
+          2018,
+          1132
+        ],
+        [
+          2102,
+          1132
+        ],
+        [
+          2102,
+          1118
+        ],
+        [
+          2102,
+          1104
+        ],
+        [
+          2102,
+          1090
+        ]
+      ],
+      "labelBBox": {
+        "x": 1866,
+        "y": 1138,
+        "width": 219,
+        "height": 39
+      },
+      "parent": "ses.processingService",
+      "relations": [
+        "cr3xyd"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "tn669f",
+      "source": "ses.processingService.backendClient",
+      "target": "ses.backendAPI",
+      "label": "reads meter links and readings, upserts \nreadings, simultaneity and import \nrecords",
+      "points": [
+        [
+          2401,
+          1000
+        ],
+        [
+          2513,
+          1000
+        ],
+        [
+          2624,
+          1000
+        ],
+        [
+          2736,
+          1000
+        ]
+      ],
+      "labelBBox": {
+        "x": 2444,
+        "y": 922,
+        "width": 249,
+        "height": 72
+      },
+      "parent": null,
+      "relations": [
+        "16ijoh9"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, REST/JSON",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "13osd4k",
+      "source": "ses.processingService.trainingNotifier",
+      "target": "ses.trainingPipeline",
+      "label": "triggers training run for imported \nperiod",
+      "points": [
+        [
+          1800,
+          1600
+        ],
+        [
+          2117,
+          1600
+        ],
+        [
+          2435,
+          1600
+        ],
+        [
+          2752,
+          1600
+        ]
+      ],
+      "labelBBox": {
+        "x": 2174,
+        "y": 1539,
+        "width": 203,
+        "height": 55
+      },
+      "parent": null,
+      "relations": [
+        "iehnm3"
+      ],
+      "color": "gray",
+      "line": "dotted",
+      "head": "normal",
+      "technology": "HTTP, POST /training-runs",
+      "kind": "async",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    }
+  ],
+  "_layout": "manual"
+}

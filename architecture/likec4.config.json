@@ -1,5 +1,12 @@
 {
   "$schema": "https://likec4.dev/schemas/config.json",
   "name": "smart-energie-stolp",
-  "title": "Smart Energie Stolp"
+  "title": "Smart Energie Stolp",
+  "styles": {
+    "defaults": {
+      "relationship": {
+        "line": "dashed"
+      }
+    }
+  }
 }

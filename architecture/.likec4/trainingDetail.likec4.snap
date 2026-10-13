@@ -1,0 +1,961 @@
+{
+  "_type": "element",
+  "tags": null,
+  "links": null,
+  "viewOf": "ses.trainingPipeline",
+  "_stage": "layouted",
+  "sourcePath": "ses_v0.1_en.c4",
+  "description": null,
+  "title": "3.4 - Component diagram for Ingest and training pipeline",
+  "id": "trainingDetail",
+  "autoLayout": {
+    "direction": "TB"
+  },
+  "notation": {
+    "nodes": [
+      {
+        "title": "Component: module inside a container",
+        "shape": "rectangle",
+        "color": "sky",
+        "kinds": [
+          "component"
+        ]
+      },
+      {
+        "title": "Container: separately deployed service (Docker)",
+        "shape": "rectangle",
+        "color": "primary",
+        "kinds": [
+          "container"
+        ]
+      },
+      {
+        "title": "Container: data store",
+        "shape": "storage",
+        "color": "secondary",
+        "kinds": [
+          "dataStore"
+        ]
+      }
+    ]
+  },
+  "hash": "5plvVnqmZmeEEGppCiva1mqGgbseH9ayJgscEuk5vhU",
+  "bounds": {
+    "x": -212,
+    "y": -202,
+    "width": 2949,
+    "height": 1780
+  },
+  "nodes": [
+    {
+      "id": "ses.processingService",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "vfiw0u"
+      ],
+      "title": "Data processing service",
+      "modelRef": "ses.processingService",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Imports meter data idempotently, links meters to participants and calculates simultaneity per quarter hour"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask, pandas",
+      "kind": "container",
+      "navigateTo": "processingDetail",
+      "x": -172,
+      "y": 610,
+      "width": 343,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 307,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline",
+      "parent": null,
+      "level": 0,
+      "children": [
+        "ses.trainingPipeline.trainingOrchestrator",
+        "ses.trainingPipeline.featureBuilder",
+        "ses.trainingPipeline.effectMeasurement",
+        "ses.trainingPipeline.modelSelector",
+        "ses.trainingPipeline.modelTrainer",
+        "ses.trainingPipeline.modelEvaluator",
+        "ses.trainingPipeline.backendClient"
+      ],
+      "inEdges": [
+        "vfiw0u"
+      ],
+      "outEdges": [
+        "owz2sw",
+        "14279qf"
+      ],
+      "title": "Ingest and training pipeline",
+      "modelRef": "ses.trainingPipeline",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "After every export: ingests training data, measures the effect of advice and retrains the models"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, PyCaret, scikit-learn, XGBoost",
+      "kind": "container",
+      "depth": 1,
+      "x": 392,
+      "y": -162,
+      "width": 1576,
+      "height": 1700,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 181,
+        "height": 15
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline.trainingOrchestrator",
+      "parent": "ses.trainingPipeline",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "vfiw0u"
+      ],
+      "outEdges": [
+        "vmud81",
+        "1lav9dl",
+        "59pfmm",
+        "ra5pto",
+        "14o6jl4"
+      ],
+      "title": "Training orchestrator",
+      "modelRef": "ses.trainingPipeline.trainingOrchestrator",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Receives the trigger and runs effect measurement, feature building, model selection, training and evaluation in order"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "Flask, POST /training-runs",
+      "kind": "component",
+      "x": 440,
+      "y": 610,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 21,
+        "y": 37,
+        "width": 278,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline.featureBuilder",
+      "parent": "ses.trainingPipeline",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "vmud81"
+      ],
+      "outEdges": [
+        "jza1lu"
+      ],
+      "title": "Feature builder",
+      "modelRef": "ses.trainingPipeline.featureBuilder",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Joins readings and calendar features into a training set (no lags of yesterday)"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "pandas",
+      "kind": "component",
+      "x": 1037,
+      "y": 260,
+      "width": 326,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 47,
+        "width": 291,
+        "height": 84
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline.effectMeasurement",
+      "parent": "ses.trainingPipeline",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1lav9dl"
+      ],
+      "outEdges": [
+        "1blcuh6"
+      ],
+      "title": "Effect measurement",
+      "modelRef": "ses.trainingPipeline.effectMeasurement",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Compares actual consumption with the P50 forecast to measure whether advice was followed"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "pandas",
+      "kind": "component",
+      "x": 1036,
+      "y": -90,
+      "width": 329,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 38,
+        "width": 293,
+        "height": 102
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline.modelSelector",
+      "parent": "ses.trainingPipeline",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "59pfmm"
+      ],
+      "outEdges": [],
+      "title": "Model selection",
+      "modelRef": "ses.trainingPipeline.modelSelector",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Trains and compares many candidate algorithms on the training set and picks the best one per model"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "PyCaret, compare_models",
+      "kind": "component",
+      "x": 1018,
+      "y": 610,
+      "width": 364,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 38,
+        "width": 328,
+        "height": 102
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline.modelTrainer",
+      "parent": "ses.trainingPipeline",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "ra5pto"
+      ],
+      "outEdges": [],
+      "title": "Model trainer",
+      "modelRef": "ses.trainingPipeline.modelTrainer",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Trains the selected algorithm as quantile forecasters (P10, P50, P90), plus participant clusters and the acceptance model"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "scikit-learn or XGBoost",
+      "kind": "component",
+      "x": 1033,
+      "y": 960,
+      "width": 334,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 38,
+        "width": 298,
+        "height": 102
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline.modelEvaluator",
+      "parent": "ses.trainingPipeline",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "14o6jl4"
+      ],
+      "outEdges": [
+        "owz2sw"
+      ],
+      "title": "Model evaluator",
+      "modelRef": "ses.trainingPipeline.modelEvaluator",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Scores the candidate on a hold-out period and promotes it only if it beats the production model"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "pinball loss, MAE",
+      "kind": "component",
+      "x": 1026,
+      "y": 1310,
+      "width": 347,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 38,
+        "width": 312,
+        "height": 102
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline.backendClient",
+      "parent": "ses.trainingPipeline",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "jza1lu",
+        "1blcuh6"
+      ],
+      "outEdges": [
+        "14279qf"
+      ],
+      "title": "Backend client",
+      "modelRef": "ses.trainingPipeline.backendClient",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "sm"
+      },
+      "description": {
+        "txt": "Single gateway to the Backend API"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "httpx",
+      "kind": "component",
+      "x": 1680,
+      "y": 108,
+      "width": 240,
+      "height": 135,
+      "labelBBox": {
+        "x": 24,
+        "y": 39,
+        "width": 191,
+        "height": 56
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.modelRegistry",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "owz2sw"
+      ],
+      "outEdges": [],
+      "title": "Model registry",
+      "modelRef": "ses.modelRegistry",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Model versions, training runs and test scores; the forecast pipeline only uses versions with alias production"
+      },
+      "tags": [],
+      "notation": "Container: data store",
+      "technology": "MLflow tracking server, artifacts on local volume",
+      "kind": "dataStore",
+      "x": 2360,
+      "y": 1310,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 31,
+        "y": 38,
+        "width": 258,
+        "height": 102
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.backendAPI",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "14279qf"
+      ],
+      "outEdges": [],
+      "title": "Backend API",
+      "modelRef": "ses.backendAPI",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Internal API between the backend services and the database"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask",
+      "kind": "container",
+      "navigateTo": "backendApiDetail",
+      "x": 2344,
+      "y": 85,
+      "width": 353,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 47,
+        "width": 318,
+        "height": 84
+      },
+      "drifts": null
+    }
+  ],
+  "edges": [
+    {
+      "id": "vfiw0u",
+      "source": "ses.processingService",
+      "target": "ses.trainingPipeline.trainingOrchestrator",
+      "label": "triggers training run for imported \nperiod",
+      "points": [
+        [
+          171,
+          700
+        ],
+        [
+          261,
+          700
+        ],
+        [
+          350,
+          700
+        ],
+        [
+          440,
+          700
+        ]
+      ],
+      "labelBBox": {
+        "x": 204,
+        "y": 638,
+        "width": 203,
+        "height": 56
+      },
+      "parent": null,
+      "relations": [
+        "iehnm3"
+      ],
+      "color": "gray",
+      "line": "dotted",
+      "head": "normal",
+      "technology": "HTTP, POST /training-runs",
+      "kind": "async",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "vmud81",
+      "source": "ses.trainingPipeline.trainingOrchestrator",
+      "target": "ses.trainingPipeline.featureBuilder",
+      "label": "builds training set",
+      "points": [
+        [
+          732,
+          610
+        ],
+        [
+          732,
+          523
+        ],
+        [
+          732,
+          437
+        ],
+        [
+          732,
+          350
+        ],
+        [
+          834,
+          350
+        ],
+        [
+          935,
+          350
+        ],
+        [
+          1037,
+          350
+        ]
+      ],
+      "labelBBox": {
+        "x": 721,
+        "y": 305,
+        "width": 113,
+        "height": 39
+      },
+      "parent": "ses.trainingPipeline",
+      "relations": [
+        "1hhh3hv"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1lav9dl",
+      "source": "ses.trainingPipeline.trainingOrchestrator",
+      "target": "ses.trainingPipeline.effectMeasurement",
+      "label": "measures effect of given advice",
+      "points": [
+        [
+          696,
+          610
+        ],
+        [
+          696,
+          407
+        ],
+        [
+          696,
+          203
+        ],
+        [
+          696,
+          0
+        ],
+        [
+          809,
+          0
+        ],
+        [
+          923,
+          0
+        ],
+        [
+          1036,
+          0
+        ]
+      ],
+      "labelBBox": {
+        "x": 704,
+        "y": 72,
+        "width": 201,
+        "height": 39
+      },
+      "parent": "ses.trainingPipeline",
+      "relations": [
+        "jsro5w"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "59pfmm",
+      "source": "ses.trainingPipeline.trainingOrchestrator",
+      "target": "ses.trainingPipeline.modelSelector",
+      "label": "selects best algorithm",
+      "points": [
+        [
+          760,
+          700
+        ],
+        [
+          846,
+          700
+        ],
+        [
+          932,
+          700
+        ],
+        [
+          1018,
+          700
+        ]
+      ],
+      "labelBBox": {
+        "x": 820,
+        "y": 655,
+        "width": 139,
+        "height": 39
+      },
+      "parent": "ses.trainingPipeline",
+      "relations": [
+        "1cf5x8d"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "ra5pto",
+      "source": "ses.trainingPipeline.trainingOrchestrator",
+      "target": "ses.trainingPipeline.modelTrainer",
+      "label": "trains selected algorithm",
+      "points": [
+        [
+          732,
+          790
+        ],
+        [
+          732,
+          877
+        ],
+        [
+          732,
+          963
+        ],
+        [
+          732,
+          1050
+        ],
+        [
+          832,
+          1050
+        ],
+        [
+          933,
+          1050
+        ],
+        [
+          1033,
+          1050
+        ]
+      ],
+      "labelBBox": {
+        "x": 699,
+        "y": 1005,
+        "width": 156,
+        "height": 39
+      },
+      "parent": "ses.trainingPipeline",
+      "relations": [
+        "9ll49z"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "14o6jl4",
+      "source": "ses.trainingPipeline.trainingOrchestrator",
+      "target": "ses.trainingPipeline.modelEvaluator",
+      "label": "evaluates and promotes candidates",
+      "points": [
+        [
+          696,
+          790
+        ],
+        [
+          696,
+          993
+        ],
+        [
+          696,
+          1197
+        ],
+        [
+          696,
+          1400
+        ],
+        [
+          806,
+          1400
+        ],
+        [
+          916,
+          1400
+        ],
+        [
+          1026,
+          1400
+        ]
+      ],
+      "labelBBox": {
+        "x": 704,
+        "y": 1198,
+        "width": 225,
+        "height": 39
+      },
+      "parent": "ses.trainingPipeline",
+      "relations": [
+        "errovm"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "jza1lu",
+      "source": "ses.trainingPipeline.featureBuilder",
+      "target": "ses.trainingPipeline.backendClient",
+      "label": "reads readings and measured effect",
+      "points": [
+        [
+          1363,
+          282
+        ],
+        [
+          1476,
+          282
+        ],
+        [
+          1589,
+          282
+        ],
+        [
+          1702,
+          282
+        ],
+        [
+          1702,
+          269
+        ],
+        [
+          1702,
+          256
+        ],
+        [
+          1702,
+          243
+        ]
+      ],
+      "labelBBox": {
+        "x": 1418,
+        "y": 237,
+        "width": 228,
+        "height": 39
+      },
+      "parent": "ses.trainingPipeline",
+      "relations": [
+        "12be0pn"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1blcuh6",
+      "source": "ses.trainingPipeline.effectMeasurement",
+      "target": "ses.trainingPipeline.backendClient",
+      "label": "reads advice, readings and forecasts, \nwrites effect",
+      "points": [
+        [
+          1365,
+          58
+        ],
+        [
+          1477,
+          58
+        ],
+        [
+          1590,
+          58
+        ],
+        [
+          1702,
+          58
+        ],
+        [
+          1702,
+          75
+        ],
+        [
+          1702,
+          91
+        ],
+        [
+          1702,
+          108
+        ]
+      ],
+      "labelBBox": {
+        "x": 1415,
+        "y": -4,
+        "width": 237,
+        "height": 56
+      },
+      "parent": "ses.trainingPipeline",
+      "relations": [
+        "12ni36"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "owz2sw",
+      "source": "ses.trainingPipeline.modelEvaluator",
+      "target": "ses.modelRegistry",
+      "label": "logs runs and scores, registers and \npromotes model versions",
+      "points": [
+        [
+          1373,
+          1400
+        ],
+        [
+          1702,
+          1400
+        ],
+        [
+          2031,
+          1400
+        ],
+        [
+          2360,
+          1400
+        ]
+      ],
+      "labelBBox": {
+        "x": 1756,
+        "y": 1338,
+        "width": 222,
+        "height": 56
+      },
+      "parent": null,
+      "relations": [
+        "5ql20d"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, MLflow REST API",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "14279qf",
+      "source": "ses.trainingPipeline.backendClient",
+      "target": "ses.backendAPI",
+      "label": "reads training data and advice, writes \nmeasured effect",
+      "points": [
+        [
+          1920,
+          176
+        ],
+        [
+          2061,
+          176
+        ],
+        [
+          2203,
+          176
+        ],
+        [
+          2344,
+          176
+        ]
+      ],
+      "labelBBox": {
+        "x": 2014,
+        "y": 114,
+        "width": 236,
+        "height": 56
+      },
+      "parent": null,
+      "relations": [
+        "1no1lun"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, REST/JSON",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    }
+  ],
+  "_layout": "manual"
+}

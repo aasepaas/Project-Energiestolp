@@ -1,21 +1,89 @@
 // Smart Energie Stolp (SES): C4 model, levels 1 to 3
-// Docs: https://likec4.dev/
+// Docs: https://likec4.dev/  Notation: https://c4model.com/diagrams/notation
 //
-// Modelling rule: between two elements there is exactly one relationship,
-// and every view only shows the relationships of its own C4 level.
+// Modelling rules:
+// - Between two elements there is exactly one relationship.
+// - Every relationship points from the initiator (the caller) to the callee,
+//   so the arrow shows who starts the interaction, not where the data goes.
+// - Every relationship has a technology (protocol, endpoint or call).
+// - Every view only shows the relationships of its own C4 level.
 
 specification {
-  element actor
-  element system
-  element container
-  element component
+  // Element kinds; the notation is shown in the legend of every view
+  element person {
+    notation 'Person'
+    style {
+      shape person
+      color indigo
+    }
+  }
+  element externalSystem {
+    notation 'External system or source, outside SES'
+    style {
+      color muted
+    }
+  }
+  element system {
+    notation 'Software system'
+    style {
+      color primary
+    }
+  }
+  element webApp {
+    notation 'Container: web application in the browser'
+    style {
+      shape browser
+      color green
+    }
+  }
+  element container {
+    notation 'Container: separately deployed service (Docker)'
+    style {
+      color primary
+    }
+  }
+  element dataStore {
+    notation 'Container: data store'
+    style {
+      shape storage
+      color secondary
+    }
+  }
+  element component {
+    notation 'Component: module inside a container'
+    style {
+      color sky
+    }
+  }
+  element table {
+    notation 'Database table'
+    style {
+      shape storage
+      color secondary
+      size small
+    }
+  }
 
-  tag ui {
-    color #33B074
+  // Relationship kinds; a plain dashed arrow is a synchronous request/response call
+  relationship async {
+    notation 'Asynchronous trigger (fire-and-forget)'
+    line dotted
   }
-  tag version1 {
-    color #D6409F
+  relationship offline {
+    notation 'Manual transfer, outside the system'
+    line dashed
+    color muted
+    head onormal
   }
+  relationship optional {
+    notation 'Optional input, not implemented in the PoC'
+    line dotted
+    color muted
+    head odiamond
+  }
+
+  tag version1
+  tag optional
   tag warn
 
   // Relationship levels, used to show each level in its own view
@@ -26,36 +94,35 @@ specification {
 
 model {
 
-  // ═══════════════ Level 1: actors and external sources ═══════════════
+  // ═══════════════ Level 1: persons and external systems ═══════════════
 
-  customer = actor 'Users with small-scale connections' {
-    description 'Participants of the energy community who view their own data and advice'
-    style {
-      shape person
-      color muted
-    }
+  customer = person 'Participant' {
+    description 'User with a grid connection up to 250 A and participant of the Energiestolp, who views own energy data, prices and personal advice'
   }
 
-  admin = actor 'System administrator' {
-    description 'Administrator who imports data and manages the system'
-    style {
-      shape person
-      color muted
-    }
+  admin = person 'System administrator' {
+    description 'Community administrator who imports meter data, views aggregated results and manages settings'
   }
 
-  meterData = actor 'Meter data' {
-    description 'CSV export with quarter-hourly readings per meter, delivered a few times per year'
-    style {
-      color muted
-    }
+  gridOperator = externalSystem 'Grid operator' {
+    description 'Distribution system operator that provides pseudonymised quarter-hourly readings per meter as a CSV export'
+    technology 'CSV export'
   }
 
-  weatherData = actor 'Weather data' {
-    description 'Weather forecast for the next 48 hours and historical weather archive'
-    style {
-      color muted
-    }
+  weatherData = externalSystem 'Weather service' {
+    description 'Public weather API (EU) with a 48-hour forecast of irradiance, cloud cover and temperature'
+    technology 'HTTPS, REST/JSON'
+  }
+
+  apexData = externalSystem 'Apex data API' {
+    description 'Dynamic day-ahead energy prices per quarter hour; prices for the next day are available after 15:00'
+    technology 'HTTPS, REST/JSON'
+  }
+
+  communityBattery = externalSystem 'Community battery' {
+    #optional
+    description 'Optional shared battery of the energy community that stores surplus generation and discharges when consumption exceeds generation; not implemented in the PoC'
+    technology 'vendor API, to be determined'
   }
 
   // ═══════════════ Level 2 and 3: system, containers and components ═══════════════
@@ -63,374 +130,573 @@ model {
   ses = system 'Smart Energie Stolp' {
     #version1
     description 'Calculates, forecasts and improves the simultaneity of local energy generation and consumption'
+    technology 'Docker Compose on a local server'
 
     // ─────────── Web app ───────────
-    container webapp 'Web app' {
-      #ui #warn
-      description 'Single-page web application for participants and administrators (front-end framework still to be chosen)'
-      style {
-        shape browser
-      }
+    webapp = webApp 'Web app' {
+      description 'Single-page application for participants and administrators: dashboards, advice, CSV upload and settings'
+      technology 'React, TypeScript'
 
       component userInterface 'User interface' {
         description 'Application shell: client-side routing, layout and route guards per role'
+        technology 'React Router'
       }
       component authentication 'Authentication' {
         description 'Login form, session handling and storage of the access token and role'
+        technology 'JWT in memory, refresh token in HttpOnly cookie'
       }
       component dataView 'Data view' {
-        description 'Page with charts of own consumption, generation, simultaneity and advice'
+        description 'Charts of own consumption, generation, simultaneity, dynamic prices and advice; aggregated view for administrators'
+        technology 'React components, chart library'
       }
       component dataImport 'Data import' {
-        description 'Page with a file upload form for CSV meter data (administrators only)'
+        description 'File upload form for CSV meter data with import result (administrators only)'
+        technology 'HTML form'
       }
       component settings 'Settings' {
-        description 'Page with forms for system settings (administrators only)'
+        description 'Forms for system settings (administrators only)'
+        technology 'HTML form'
       }
       component apiClient 'API client' {
-        description 'HTTP client for the frontend API; adds the Bearer token to every request'
+        description 'HTTP client for the Frontend API; adds the Bearer token to every request'
+        technology 'fetch, TypeScript'
       }
 
       // Technical dependencies: "A -> B" means A calls or uses B
-      userInterface -> authentication 'checks session and role in route guard'
-      userInterface -> dataView 'mounts on route /data'
-      userInterface -> dataImport 'mounts on route /import'
-      userInterface -> settings 'mounts on route /settings'
-      authentication -> apiClient 'POST /auth/login and /auth/refresh, sets Bearer token'
-      dataView -> apiClient 'GET /readings, /simultaneity and /advice (JSON)'
-      dataImport -> apiClient 'POST /uploads (multipart/form-data)'
-      settings -> apiClient 'GET and PUT /settings (JSON)'
+      userInterface -> authentication 'checks session and role in route guard' {
+        technology 'function call'
+      }
+      userInterface -> dataView 'mounts on route /data' {
+        technology 'client-side routing'
+      }
+      userInterface -> dataImport 'mounts on route /import' {
+        technology 'client-side routing'
+      }
+      userInterface -> settings 'mounts on route /settings' {
+        technology 'client-side routing'
+      }
+      authentication -> apiClient 'logs in and refreshes token' {
+        technology 'POST /auth/login, POST /auth/refresh'
+      }
+      dataView -> apiClient 'requests readings, simultaneity, prices and advice' {
+        technology 'GET /readings, /simultaneity, /prices, /advice'
+      }
+      dataImport -> apiClient 'uploads CSV file' {
+        technology 'POST /uploads'
+      }
+      settings -> apiClient 'reads and saves settings' {
+        technology 'GET, PUT /settings'
+      }
     }
 
     // ─────────── Frontend API ───────────
-    container frontendAPI 'Frontend API' {
-      description 'Single entry point for the web app: database queries and data uploads'
-      style {
-        size small
-      }
+    frontendAPI = container 'Frontend API' {
+      description 'Single entry point for the web app: checks role and data ownership, answers queries and accepts uploads'
+      technology 'Python, Flask'
 
       component apiEndpoints 'API endpoints' {
-        description 'Receives requests, routes them and returns the result'
+        description 'REST routes for the web app; validates input and returns JSON'
+        technology 'Flask blueprints'
       }
       component authentication 'Authentication' {
-        description 'Checks who makes the request and whether it is allowed'
+        description 'Verifies the JWT and checks whether the role and owner may access the requested data'
+        technology 'JWT, role-based access'
       }
       component queryBuilder 'Query builder' {
-        description 'Translates a request into a valid database query'
+        description 'Translates a request into a parameterised query, limited to the data of the caller'
+        technology 'SQLAlchemy Core'
       }
       component queryExecutor 'Query executor' {
-        description 'Sends the query to the database and returns the result'
+        description 'Runs the query with the read-mostly frontend role and returns the rows'
+        technology 'psycopg connection pool'
       }
-
       component uploadHandler 'Upload handler' {
-        description 'Accepts CSV uploads from administrators, checks file type and size and forwards them to the ingest service'
+        description 'Checks file type and size of a CSV upload and forwards it to the data processing service'
+        technology 'multipart streaming'
       }
 
-      apiEndpoints -> authentication 'verifies caller and permissions'
-      apiEndpoints -> queryBuilder 'passes validated request'
-      queryBuilder -> queryExecutor 'passes query'
-      apiEndpoints -> uploadHandler 'passes authorised upload'
+      apiEndpoints -> authentication 'verifies token and permissions' {
+        technology 'function call'
+      }
+      apiEndpoints -> queryBuilder 'builds query for request' {
+        technology 'function call'
+      }
+      queryBuilder -> queryExecutor 'executes query' {
+        technology 'function call'
+      }
+      apiEndpoints -> uploadHandler 'hands over authorised upload' {
+        technology 'function call'
+      }
     }
 
     // ─────────── Backend API ───────────
-    container backendAPI 'Backend API' {
-      description 'API between the backend services and the database'
-      style {
-        size small
-      }
+    backendAPI = container 'Backend API' {
+      description 'Internal API between the backend services and the database'
+      technology 'Python, Flask'
 
       component apiEndpoints 'API endpoints' {
-        description 'Receives requests, routes them and returns the result'
+        description 'Internal REST routes for readings, links, simultaneity, forecasts and advice'
+        technology 'Flask blueprints'
       }
       component authentication 'Authentication' {
-        description 'Checks which service makes the request and whether it is allowed'
+        description 'Checks which service makes the request and which tables it may write'
+        technology 'service token per container'
       }
       component queryBuilder 'Query builder' {
-        description 'Translates a request into a valid database query'
+        description 'Translates a request into a parameterised query or a batch upsert'
+        technology 'SQLAlchemy Core'
       }
       component queryExecutor 'Query executor' {
-        description 'Sends the query to the database and returns the result'
+        description 'Runs the query with the backend role and returns the rows'
+        technology 'psycopg connection pool'
       }
 
-      apiEndpoints -> authentication 'verifies caller and permissions'
-      apiEndpoints -> queryBuilder 'passes validated request'
-      queryBuilder -> queryExecutor 'passes query'
+      apiEndpoints -> authentication 'verifies service token' {
+        technology 'function call'
+      }
+      apiEndpoints -> queryBuilder 'builds query for request' {
+        technology 'function call'
+      }
+      queryBuilder -> queryExecutor 'executes query' {
+        technology 'function call'
+      }
     }
 
-    // ─────────── Ingest service ───────────
-    container ingestService 'Ingest service' {
-      description 'Imports meter data and links every meter to the right participant'
+    // ─────────── Data processing service (import + simultaneity) ───────────
+    processingService = container 'Data processing service' {
+      description 'Imports meter data idempotently, links meters to participants and calculates simultaneity per quarter hour'
+      technology 'Python, Flask, pandas'
 
-      component fileReceiver 'File receiver' {
-        description 'Receives the meter data file from the frontend API and records file name, hash and period'
+      component importEndpoint 'Import endpoint' {
+        description 'Receives the CSV file, records file name, hash and period and starts an import job'
+        technology 'POST /imports'
+      }
+      component importOrchestrator 'Import orchestrator' {
+        description 'Runs the import steps in order and records the result in import_log'
+        technology 'Python, background worker thread'
       }
       component csvParser 'CSV parser' {
-        description 'Parses decimal commas and merges date and time into a UTC timestamp'
+        description 'Parses decimal commas and quoted values and builds a UTC timestamp per quarter hour'
+        technology 'pandas'
       }
       component validator 'Validator' {
-        description 'Detects duplicates, marks gaps (not as zero) and checks limits per meter'
+        description 'Detects duplicates, marks missing quarters as gaps (not as zero) and checks limits per meter'
+        technology 'pandas'
       }
       component meterLinker 'Meter linker' {
-        description 'Links meter_reference to participant_id using the client\'s linking tool'
-      }
-      component backendClient 'Backend client' {
-        description 'Reads meter links and writes readings and import records through the backend API'
-      }
-      component importNotifier 'Import notifier' {
-        description 'Notifies the calculation service that new data has been imported'
-        style {
-          size small
-        }
-      }
-
-      fileReceiver -> csvParser 'passes raw CSV'
-      csvParser -> validator 'passes parsed rows'
-      validator -> meterLinker 'passes valid rows'
-      meterLinker -> backendClient 'requests meter links and passes linked rows'
-      backendClient -> importNotifier 'reports completed import'
-    }
-
-    // ─────────── Calculation service ───────────
-    container calculationService 'Calculation service' {
-      description 'Calculates simultaneity per quarter hour'
-
-      component calculationTrigger 'Calculation trigger' {
-        description 'Starts a recalculation for the changed period'
-        style {
-          size small
-        }
+        description 'Links meter_reference to participant_id using the meter link table'
+        technology 'Python'
       }
       component simultaneityCalculator 'Simultaneity calculator' {
-        description 'Shared energy = min(surplus, consumption) per quarter hour'
+        description 'Shared energy = min(total feed-in, total consumption) per quarter hour, divided pro rata over participants; an optional community battery meter counts as consumption when charging and as feed-in when discharging'
+        technology 'pandas'
       }
-
-      calculationTrigger -> simultaneityCalculator 'starts calculation'
-    }
-
-    // ─────────── ML service ───────────
-    container mlService 'ML service' {
-      description 'Forecasts generation and consumption and generates personal advice'
-
-      // After every export, a few times per year
-      component effectMeasurement 'Effect measurement' {
-        description 'Compares actual consumption with the P50 forecast to measure whether advice was followed'
+      component backendClient 'Backend client' {
+        description 'Single gateway to the Backend API; writes readings as an upsert on (meter, UTC timestamp)'
+        technology 'httpx'
       }
-      component retraining 'Retraining' {
-        description 'Retrains the forecasters, clusters and acceptance model on new data'
-      }
-      component modelRegistry 'Model registry' {
-        description 'MLflow registry with model versions and test scores; a new model goes live only if it scores better'
-        style {
-          shape storage
-        }
-      }
-
-      // Every evening, automatically
-      component weatherForecast 'Weather forecast' {
-        description 'Fetches irradiance, cloud cover and temperature for the next 48 hours'
-      }
-      component forecasting 'Forecasting' {
-        description 'Forecasts generation and consumption per quarter hour with P10 to P90 bands (LightGBM)'
-      }
-      component optimization 'Optimization' {
-        description 'Schedules flexible appliances into unused surplus within comfort limits (MILP)'
-      }
-      component ranking 'Ranking' {
-        description 'Ranks advice by expected gain times chance of being followed and selects the top 3'
-      }
-
-      // Shared
-      component dataAccess 'Data access' {
-        description 'Single gateway from the ML service to the backend API'
+      component trainingNotifier 'Training notifier' {
+        description 'Notifies the ingest and training pipeline that a new period has been imported'
+        technology 'httpx'
         style {
           size small
         }
       }
 
-      effectMeasurement -> retraining 'provides measured effect of advice'
-      retraining -> modelRegistry 'registers new models'
-      weatherForecast -> forecasting 'provides weather features'
-      forecasting -> optimization 'provides forecast surplus (P10)'
-      optimization -> ranking 'provides candidate advice'
-      modelRegistry -> forecasting 'provides trained models'
-      modelRegistry -> ranking 'provides trained models'
+      importEndpoint -[async]-> importOrchestrator 'starts import job' {
+        technology 'background worker thread'
+      }
+      importOrchestrator -> csvParser 'parses raw CSV' {
+        technology 'function call'
+      }
+      importOrchestrator -> validator 'validates parsed rows' {
+        technology 'function call'
+      }
+      importOrchestrator -> meterLinker 'links valid rows to participants' {
+        technology 'function call'
+      }
+      importOrchestrator -> simultaneityCalculator 'recalculates imported period' {
+        technology 'function call'
+      }
+      importOrchestrator -> backendClient 'writes readings and import record' {
+        technology 'function call'
+      }
+      importOrchestrator -> trainingNotifier 'reports completed import' {
+        technology 'function call'
+      }
+      meterLinker -> backendClient 'reads meter links' {
+        technology 'function call'
+      }
+      simultaneityCalculator -> backendClient 'reads readings, writes simultaneity' {
+        technology 'function call'
+      }
+    }
 
-      effectMeasurement -> dataAccess 'reads given advice and readings'
-      retraining -> dataAccess 'reads training data'
-      forecasting -> dataAccess 'reads history, writes forecasts'
-      optimization -> dataAccess 'reads comfort limits and appliances'
-      ranking -> dataAccess 'writes top 3 advice'
+    // ─────────── Ingest and training pipeline (after every export) ───────────
+    trainingPipeline = container 'Ingest and training pipeline' {
+      description 'After every export: ingests training data, measures the effect of advice and retrains the models'
+      technology 'Python, PyCaret, scikit-learn, XGBoost'
+
+      component trainingOrchestrator 'Training orchestrator' {
+        description 'Receives the trigger and runs effect measurement, feature building, model selection, training and evaluation in order'
+        technology 'Flask, POST /training-runs'
+      }
+      component featureBuilder 'Feature builder' {
+        description 'Joins readings and calendar features into a training set (no lags of yesterday)'
+        technology 'pandas'
+      }
+      component effectMeasurement 'Effect measurement' {
+        description 'Compares actual consumption with the P50 forecast to measure whether advice was followed'
+        technology 'pandas'
+      }
+      component modelSelector 'Model selection' {
+        description 'Trains and compares many candidate algorithms on the training set and picks the best one per model'
+        technology 'PyCaret, compare_models'
+      }
+      component modelTrainer 'Model trainer' {
+        description 'Trains the selected algorithm as quantile forecasters (P10, P50, P90), plus participant clusters and the acceptance model'
+        technology 'scikit-learn or XGBoost'
+      }
+      component modelEvaluator 'Model evaluator' {
+        description 'Scores the candidate on a hold-out period and promotes it only if it beats the production model'
+        technology 'pinball loss, MAE'
+      }
+      component backendClient 'Backend client' {
+        description 'Single gateway to the Backend API'
+        technology 'httpx'
+        style {
+          size small
+        }
+      }
+
+      trainingOrchestrator -> effectMeasurement 'measures effect of given advice' {
+        technology 'function call'
+      }
+      trainingOrchestrator -> featureBuilder 'builds training set' {
+        technology 'function call'
+      }
+      trainingOrchestrator -> modelSelector 'selects best algorithm' {
+        technology 'function call'
+      }
+      trainingOrchestrator -> modelTrainer 'trains selected algorithm' {
+        technology 'function call'
+      }
+      trainingOrchestrator -> modelEvaluator 'evaluates and promotes candidates' {
+        technology 'function call'
+      }
+      featureBuilder -> backendClient 'reads readings and measured effect' {
+        technology 'function call'
+      }
+      effectMeasurement -> backendClient 'reads advice, readings and forecasts, writes effect' {
+        technology 'function call'
+      }
+    }
+
+    // ─────────── Forecast pipeline (every evening) ───────────
+    forecastPipeline = container 'Forecast pipeline' {
+      description 'Every evening, after the day-ahead prices are published: forecasts generation and consumption for tomorrow and generates the top 3 advice per participant'
+      technology 'Python, scikit-learn, XGBoost, PuLP'
+
+      component scheduler 'Run scheduler' {
+        description 'Starts the evening run after the Apex prices for tomorrow are available (after 15:00) and calls the steps in order'
+        technology 'cron, daily at 20:00 local time'
+      }
+      component priceClient 'Price client' {
+        description 'Fetches the dynamic day-ahead prices per quarter hour for tomorrow'
+        technology 'httpx'
+      }
+      component weatherClient 'Weather client' {
+        description 'Fetches irradiance, cloud cover and temperature for the next 48 hours'
+        technology 'httpx'
+      }
+      component modelLoader 'Model loader' {
+        description 'Loads the production versions of the forecaster and acceptance model'
+        technology 'MLflow client'
+      }
+      component forecaster 'Forecaster' {
+        description 'Forecasts generation and consumption per quarter hour with P10, P50 and P90 bands'
+        technology 'scikit-learn or XGBoost (from registry)'
+      }
+      component optimizer 'Optimizer' {
+        description 'Schedules flexible appliance categories (transport, heat pump, air conditioning) into forecast surplus (P10) within comfort limits; can optionally plan the community battery as shared storage for surplus that participants cannot shift'
+        technology 'MILP, PuLP with HiGHS'
+      }
+      component ranker 'Ranker' {
+        description 'Labels advice as high, medium or low impact by expected shared kWh, ranks by impact times chance of being followed and selects the top 3; the dynamic price only adds a small weight'
+        technology 'Python'
+      }
+      component backendClient 'Backend client' {
+        description 'Single gateway to the Backend API'
+        technology 'httpx'
+        style {
+          size small
+        }
+      }
+
+      scheduler -> priceClient 'fetches day-ahead prices' {
+        technology 'function call'
+      }
+      scheduler -> forecaster 'runs forecast' {
+        technology 'function call'
+      }
+      scheduler -> optimizer 'runs optimisation' {
+        technology 'function call'
+      }
+      scheduler -> ranker 'runs ranking' {
+        technology 'function call'
+      }
+      forecaster -> weatherClient 'gets weather forecast' {
+        technology 'function call'
+      }
+      forecaster -> modelLoader 'gets forecaster model' {
+        technology 'function call'
+      }
+      ranker -> modelLoader 'gets acceptance model' {
+        technology 'function call'
+      }
+      forecaster -> backendClient 'reads history, writes forecasts' {
+        technology 'function call'
+      }
+      optimizer -> backendClient 'reads forecasts, comfort limits and appliances' {
+        technology 'function call'
+      }
+      priceClient -> backendClient 'writes energy prices' {
+        technology 'function call'
+      }
+      ranker -> backendClient 'reads energy prices, writes top 3 advice' {
+        technology 'function call'
+      }
+    }
+
+    // ─────────── Model registry ───────────
+    modelRegistry = dataStore 'Model registry' {
+      description 'Model versions, training runs and test scores; the forecast pipeline only uses versions with alias production'
+      technology 'MLflow tracking server, artifacts on local volume'
     }
 
     // ─────────── Database ───────────
-    container database 'Database' {
-      description 'PostgreSQL with TimescaleDB for readings, links, forecasts and advice'
-      style {
-        shape storage
-      }
+    database = dataStore 'Database' {
+      description 'Readings, links, simultaneity, forecasts, advice and accounts'
+      technology 'PostgreSQL with TimescaleDB'
 
       component sqlInterface 'SQL interface' {
         description 'PostgreSQL endpoint with a separate role per API; the frontend role only sees participant data'
+        technology 'PostgreSQL roles, row-level security'
         style {
           size small
         }
       }
-      component readings 'readings' {
+      readings = table 'readings' {
         description 'Hypertable with meter_id, UTC timestamp, to_grid, from_grid, created_at and import_id'
-        style {
-          shape storage
-        }
+        technology 'TimescaleDB hypertable'
       }
-      component meterLinks 'meter_links' {
-        description 'Links meter_id to participant_id'
-        style {
-          shape storage
-        }
+      meterLinks = table 'meter_links' {
+        description 'Links meter_id to participant_id (or to the optional community battery) with a valid-from and valid-to date'
       }
-      component participants 'participants' {
-        description 'Pseudonym, connection type, comfort limits and appliances'
-        style {
-          shape storage
-        }
+      participants = table 'participants' {
+        description 'Pseudonym, connection (up to 250 A), comfort limits and appliance categories: transport, heat pump, air conditioning'
       }
-      component simultaneity 'simultaneity' {
+      users = table 'users' {
+        description 'Login accounts with role (participant or administrator) and link to participant'
+      }
+      simultaneity = table 'simultaneity' {
         description 'Shared kWh per quarter hour and participant'
-        style {
-          shape storage
-        }
+        technology 'TimescaleDB hypertable'
       }
-      component forecasts 'forecasts' {
-        description 'Forecast generation and consumption per quarter hour'
-        style {
-          shape storage
-        }
+      forecasts = table 'forecasts' {
+        description 'Forecast generation and consumption per quarter hour with P10, P50 and P90'
+        technology 'TimescaleDB hypertable'
       }
-      component advice 'advice' {
-        description 'Given advice, feedback and measured effect'
-        style {
-          shape storage
-        }
+      advice = table 'advice' {
+        description 'Given advice with impact class (high, medium, low), feedback and measured effect'
       }
-      component importLog 'import_log' {
+      energyPrices = table 'energy_prices' {
+        description 'Dynamic day-ahead price per quarter hour from the Apex data API'
+        technology 'TimescaleDB hypertable'
+      }
+      settings = table 'settings' {
+        description 'System settings managed by the administrator'
+      }
+      importLog = table 'import_log' {
         description 'File, hash, period, row count and new meters per import'
-        style {
-          shape storage
-        }
       }
 
-      sqlInterface -> readings 'stores and queries'
-      sqlInterface -> meterLinks 'stores and queries'
-      sqlInterface -> participants 'stores and queries'
-      sqlInterface -> simultaneity 'stores and queries'
-      sqlInterface -> forecasts 'stores and queries'
-      sqlInterface -> advice 'stores and queries'
-      sqlInterface -> importLog 'stores and queries'
+      // Relationships between the tables (such as foreign keys) are still to be modelled
     }
   }
 
   // ═══════════════ Relationships ═══════════════
   // Every pair of elements has exactly one relationship. Each level is modelled
   // explicitly and tagged, so a view only shows the relationships of its own level:
-  //   #level1  context:    actor -> system
-  //   #level2  containers: actor -> container, container -> container
+  //   #level1  context:    person or external system <-> system
+  //   #level2  containers: person or external system <-> container, container -> container
   //   #level3  components: crossing a container boundary at component level
 
   // ─────────── Data delivery (shown in every view that contains both) ───────────
-  meterData -> admin 'is delivered as CSV export to'
+  admin -[offline]-> gridOperator 'requests and downloads quarter-hourly CSV export' {
+    technology 'file download, a few times per year'
+  }
 
   // ─────────── Level 1: context ───────────
   customer -> ses 'views own energy data and advice' {
     #level1
+    technology 'HTTPS'
   }
-  admin -> ses 'imports meter data and manages the system' {
+  admin -> ses 'imports meter data, views aggregated results and manages settings' {
     #level1
+    technology 'HTTPS'
   }
-  weatherData -> ses 'provides weather forecasts and history' {
+  ses -> weatherData 'fetches 48-hour weather forecast' {
     #level1
+    technology 'HTTPS, REST/JSON'
+  }
+  ses -> apexData 'fetches dynamic day-ahead energy prices' {
+    #level1
+    technology 'HTTPS, REST/JSON'
+  }
+  ses -[optional]-> communityBattery 'reads capacity and state of charge (optional)' {
+    #level1
+    technology 'vendor API, to be determined'
   }
 
   // ─────────── Level 2: containers ───────────
-  customer -> ses.webapp 'uses via web browser (HTTPS)' {
+  customer -> ses.webapp 'views own energy data and advice' {
     #level2
+    technology 'web browser, HTTPS'
   }
-  admin -> ses.webapp 'uses via web browser (HTTPS)' {
+  admin -> ses.webapp 'uploads CSV, views aggregated results, manages settings' {
     #level2
+    technology 'web browser, HTTPS'
   }
-  weatherData -> ses.mlService 'provides weather data over HTTPS' {
+  ses.webapp -> ses.frontendAPI 'requests data, uploads CSV and saves settings' {
     #level2
+    technology 'HTTPS, REST/JSON and multipart, Bearer JWT'
   }
-  ses.webapp -> ses.frontendAPI 'REST/JSON and multipart uploads over HTTPS' {
+  ses.frontendAPI -> ses.processingService 'forwards uploaded CSV file' {
     #level2
+    technology 'HTTP, POST /imports (multipart)'
   }
-  ses.frontendAPI -> ses.ingestService 'forwards uploaded CSV file' {
+  ses.frontendAPI -> ses.database 'reads participant data and prices, writes settings and feedback' {
     #level2
+    technology 'SQL over TCP 5432, frontend role'
   }
-  ses.ingestService -> ses.backendAPI 'reads meter links, writes readings and import records' {
+  ses.processingService -> ses.backendAPI 'reads meter links and readings, upserts readings, simultaneity and import records' {
     #level2
+    technology 'HTTP, REST/JSON'
   }
-  ses.ingestService -> ses.calculationService 'reports new data' {
+  ses.processingService -[async]-> ses.trainingPipeline 'triggers training run for imported period' {
     #level2
+    technology 'HTTP, POST /training-runs'
   }
-  ses.calculationService -> ses.backendAPI 'reads readings, writes simultaneity' {
+  ses.trainingPipeline -> ses.backendAPI 'reads training data and advice, writes measured effect' {
     #level2
+    technology 'HTTP, REST/JSON'
   }
-  ses.calculationService -> ses.mlService 'reports new results' {
+  ses.trainingPipeline -> ses.modelRegistry 'logs runs and scores, registers and promotes model versions' {
     #level2
+    technology 'HTTP, MLflow REST API'
   }
-  ses.mlService -> ses.backendAPI 'reads and writes forecasts, advice and training data' {
+  ses.forecastPipeline -> weatherData 'fetches 48-hour weather forecast' {
     #level2
+    technology 'HTTPS, REST/JSON'
   }
-  ses.frontendAPI -> ses.database 'reads participant data, writes settings and feedback' {
+  ses.forecastPipeline -> ses.modelRegistry 'loads production models' {
     #level2
+    technology 'HTTP, MLflow REST API'
+  }
+  ses.forecastPipeline -> apexData 'fetches day-ahead prices for tomorrow' {
+    #level2
+    technology 'HTTPS, REST/JSON'
+  }
+  ses.forecastPipeline -[optional]-> communityBattery 'reads capacity and state of charge (optional)' {
+    #level2
+    technology 'vendor API, to be determined'
+  }
+  ses.forecastPipeline -> ses.backendAPI 'reads history, comfort limits and appliances, writes forecasts, prices and advice' {
+    #level2
+    technology 'HTTP, REST/JSON'
   }
   ses.backendAPI -> ses.database 'reads and writes readings, links, results and advice' {
     #level2
+    technology 'SQL over TCP 5432, backend role'
   }
 
   // ─────────── Level 3: components across container boundaries ───────────
-  customer -> ses.webapp.userInterface 'uses via web browser (HTTPS)' {
+  customer -> ses.webapp.userInterface 'views own energy data and advice' {
     #level3
+    technology 'web browser, HTTPS'
   }
-  admin -> ses.webapp.userInterface 'uses via web browser (HTTPS)' {
+  admin -> ses.webapp.userInterface 'uploads CSV, views aggregated results, manages settings' {
     #level3
+    technology 'web browser, HTTPS'
   }
-  weatherData -> ses.mlService.weatherForecast 'provides weather data over HTTPS' {
+  ses.webapp.apiClient -> ses.frontendAPI.apiEndpoints 'calls REST endpoints' {
     #level3
+    technology 'HTTPS, REST/JSON and multipart, Bearer JWT'
   }
-  ses.webapp.apiClient -> ses.frontendAPI.apiEndpoints 'REST/JSON and multipart uploads over HTTPS, Bearer token' {
+  ses.frontendAPI.uploadHandler -> ses.processingService.importEndpoint 'forwards uploaded CSV file' {
     #level3
+    technology 'HTTP, POST /imports (multipart)'
   }
-  ses.frontendAPI.uploadHandler -> ses.ingestService.fileReceiver 'forwards uploaded CSV file' {
+  ses.frontendAPI.queryExecutor -> ses.database.sqlInterface 'reads participant data and prices, writes settings and feedback' {
     #level3
+    technology 'SQL over TCP 5432, frontend role'
   }
-  ses.ingestService.backendClient -> ses.backendAPI.apiEndpoints 'reads meter links, writes readings and import records' {
+  ses.processingService.backendClient -> ses.backendAPI.apiEndpoints 'reads meter links and readings, upserts readings, simultaneity and import records' {
     #level3
+    technology 'HTTP, REST/JSON'
   }
-  ses.ingestService.importNotifier -> ses.calculationService.calculationTrigger 'reports new data' {
+  ses.processingService.trainingNotifier -[async]-> ses.trainingPipeline.trainingOrchestrator 'triggers training run for imported period' {
     #level3
+    technology 'HTTP, POST /training-runs'
   }
-  ses.calculationService.simultaneityCalculator -> ses.backendAPI.apiEndpoints 'reads readings, writes simultaneity' {
+  ses.trainingPipeline.backendClient -> ses.backendAPI.apiEndpoints 'reads training data and advice, writes measured effect' {
     #level3
+    technology 'HTTP, REST/JSON'
   }
-  ses.calculationService.simultaneityCalculator -> ses.mlService.effectMeasurement 'reports new results' {
+  ses.trainingPipeline.modelEvaluator -> ses.modelRegistry 'logs runs and scores, registers and promotes model versions' {
     #level3
+    technology 'HTTP, MLflow REST API'
   }
-  ses.mlService.dataAccess -> ses.backendAPI.apiEndpoints 'reads and writes forecasts, advice and training data' {
+  ses.forecastPipeline.weatherClient -> weatherData 'fetches 48-hour weather forecast' {
     #level3
+    technology 'HTTPS, REST/JSON'
   }
-  ses.frontendAPI.queryExecutor -> ses.database.sqlInterface 'reads participant data, writes settings and feedback' {
+  ses.forecastPipeline.modelLoader -> ses.modelRegistry 'loads production models' {
     #level3
+    technology 'HTTP, MLflow REST API'
+  }
+  ses.forecastPipeline.priceClient -> apexData 'fetches day-ahead prices for tomorrow' {
+    #level3
+    technology 'HTTPS, REST/JSON'
+  }
+  ses.forecastPipeline.optimizer -[optional]-> communityBattery 'reads capacity and state of charge (optional)' {
+    #level3
+    technology 'vendor API, to be determined'
+  }
+  ses.forecastPipeline.backendClient -> ses.backendAPI.apiEndpoints 'reads history, comfort limits and appliances, writes forecasts, prices and advice' {
+    #level3
+    technology 'HTTP, REST/JSON'
   }
   ses.backendAPI.queryExecutor -> ses.database.sqlInterface 'reads and writes readings, links, results and advice' {
     #level3
+    technology 'SQL over TCP 5432, backend role'
   }
 }
 
 views {
 
+  // Optional elements (not implemented in the PoC) get a dashed border in every view
+  style element.tag = #optional {
+    notation 'Optional, not implemented in the PoC'
+    border dashed
+    opacity 10%
+  }
+
   // ═══════════════ Level 1 ═══════════════
   view index {
-    title '1 - Context'
+    title '1 - System context diagram for Smart Energie Stolp'
+    description 'Who uses SES and which external systems it depends on'
     include *
     exclude * -> * where tag is #level2 or tag is #level3
   }
@@ -438,67 +704,66 @@ views {
   // ═══════════════ Level 2 ═══════════════
   // Every container links to its own level 3 view (click to open)
   view ses of ses {
-    title '2 - Containers'
+    title '2 - Container diagram for Smart Energie Stolp'
+    description 'Deployable containers of SES (Docker Compose) and how they communicate'
     include *
-    include meterData
+    include gridOperator
     exclude * -> * where tag is #level1 or tag is #level3
-    autoLayout TopBottom 200 205
   }
 
   // ═══════════════ Level 3 ═══════════════
   // include * shows the components plus every element outside the container they talk to;
   // only level 3 relationships are shown
   view webappDetail of ses.webapp {
-    title '3.1 - Web app'
-    include *
-    exclude * -> * where tag is #level1 or tag is #level2
-  }
-
-  view ingestDetail of ses.ingestService {
-    title '3.2 - Ingest service'
-    include *
-    exclude * -> * where tag is #level1 or tag is #level2
-  }
-
-  view databaseDetail of ses.database {
-    title '3.3 - Database'
-    include *
-    exclude * -> * where tag is #level1 or tag is #level2
-  }
-
-  view calculationDetail of ses.calculationService {
-    title '3.4 - Calculation service'
-    include *
-    exclude * -> * where tag is #level1 or tag is #level2
-  }
-
-  view backendApiDetail of ses.backendAPI {
-    title '3.5 - Backend API'
+    title '3.1 - Component diagram for Web app'
     include *
     exclude * -> * where tag is #level1 or tag is #level2
   }
 
   view frontendApiDetail of ses.frontendAPI {
-    title '3.6 - Frontend API'
+    title '3.2 - Component diagram for Frontend API'
     include *
     exclude * -> * where tag is #level1 or tag is #level2
   }
 
-  view mlDetail of ses.mlService {
-    title '3.7 - ML service'
+  view processingDetail of ses.processingService {
+    title '3.3 - Component diagram for Data processing service'
+    include *
+    exclude * -> * where tag is #level1 or tag is #level2
+  }
+
+  view trainingDetail of ses.trainingPipeline {
+    title '3.4 - Component diagram for Ingest and training pipeline'
+    include *
+    exclude * -> * where tag is #level1 or tag is #level2
+  }
+
+  view forecastDetail of ses.forecastPipeline {
+    title '3.5 - Component diagram for Forecast pipeline'
+    include *
+    exclude * -> * where tag is #level1 or tag is #level2
+  }
+
+  view backendApiDetail of ses.backendAPI {
+    title '3.6 - Component diagram for Backend API'
+    include *
+    exclude * -> * where tag is #level1 or tag is #level2
+  }
+
+  view databaseDetail of ses.database {
+    title '3.7 - Component diagram for Database'
     include *
     exclude * -> * where tag is #level1 or tag is #level2
   }
 
   // All components in one view
   view components {
-    title '3 - Components'
+    title '3 - Component diagram for Smart Energie Stolp (all containers)'
     include ses.**
-    include customer, admin, meterData, weatherData
+    include customer, admin, gridOperator, weatherData, apexData, communityBattery
     exclude * -> * where tag is #level1 or tag is #level2
     style ses.** {
       size small
     }
-    autoLayout TopBottom 60 40
   }
 }

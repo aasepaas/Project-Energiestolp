@@ -1,0 +1,698 @@
+{
+  "_type": "element",
+  "tags": null,
+  "links": null,
+  "viewOf": "ses.frontendAPI",
+  "_stage": "layouted",
+  "sourcePath": "ses_v0.1_en.c4",
+  "description": null,
+  "title": "3.2 - Component diagram for Frontend API",
+  "id": "frontendApiDetail",
+  "autoLayout": {
+    "direction": "TB"
+  },
+  "notation": {
+    "nodes": [
+      {
+        "title": "Container: web application in the browser",
+        "shape": "browser",
+        "color": "green",
+        "kinds": [
+          "webApp"
+        ]
+      },
+      {
+        "title": "Component: module inside a container",
+        "shape": "rectangle",
+        "color": "sky",
+        "kinds": [
+          "component"
+        ]
+      },
+      {
+        "title": "Container: separately deployed service (Docker)",
+        "shape": "rectangle",
+        "color": "primary",
+        "kinds": [
+          "container"
+        ]
+      },
+      {
+        "title": "Container: data store",
+        "shape": "storage",
+        "color": "secondary",
+        "kinds": [
+          "dataStore"
+        ]
+      }
+    ]
+  },
+  "hash": "RCyqO72Oz7xU5AaNIbs2DRsnsJO9iAoYFMQsp7awxGk",
+  "bounds": {
+    "x": -258,
+    "y": -130,
+    "width": 2389,
+    "height": 1407
+  },
+  "nodes": [
+    {
+      "id": "ses.webapp",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "1ejf8yz"
+      ],
+      "title": "Web app",
+      "modelRef": "ses.webapp",
+      "shape": "browser",
+      "color": "green",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Single-page application for participants and administrators: dashboards, advice, CSV upload and settings"
+      },
+      "tags": [],
+      "notation": "Container: web application in the browser",
+      "technology": "React, TypeScript",
+      "kind": "webApp",
+      "navigateTo": "webappDetail",
+      "x": 432,
+      "y": -90,
+      "width": 335,
+      "height": 180,
+      "labelBBox": {
+        "x": 22,
+        "y": 37,
+        "width": 292,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.frontendAPI",
+      "parent": null,
+      "level": 0,
+      "children": [
+        "ses.frontendAPI.apiEndpoints",
+        "ses.frontendAPI.authentication",
+        "ses.frontendAPI.queryBuilder",
+        "ses.frontendAPI.uploadHandler",
+        "ses.frontendAPI.queryExecutor"
+      ],
+      "inEdges": [
+        "1ejf8yz"
+      ],
+      "outEdges": [
+        "1medkoq",
+        "pasym7"
+      ],
+      "title": "Frontend API",
+      "modelRef": "ses.frontendAPI",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Single entry point for the web app: checks role and data ownership, answers queries and accepts uploads"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask",
+      "kind": "container",
+      "depth": 1,
+      "x": -218,
+      "y": 208,
+      "width": 1640,
+      "height": 670,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 87,
+        "height": 15
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.frontendAPI.apiEndpoints",
+      "parent": "ses.frontendAPI",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1ejf8yz"
+      ],
+      "outEdges": [
+        "1fpqt5u",
+        "mbpwo9",
+        "1do3995"
+      ],
+      "title": "API endpoints",
+      "modelRef": "ses.frontendAPI.apiEndpoints",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "REST routes for the web app; validates input and returns JSON"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "Flask blueprints",
+      "kind": "component",
+      "x": 432,
+      "y": 280,
+      "width": 337,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 47,
+        "width": 302,
+        "height": 84
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.frontendAPI.authentication",
+      "parent": "ses.frontendAPI",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1fpqt5u"
+      ],
+      "outEdges": [],
+      "title": "Authentication",
+      "modelRef": "ses.frontendAPI.authentication",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Verifies the JWT and checks whether the role and owner may access the requested data"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "JWT, role-based access",
+      "kind": "component",
+      "x": 430,
+      "y": 650,
+      "width": 341,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 46,
+        "width": 306,
+        "height": 84
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.frontendAPI.queryBuilder",
+      "parent": "ses.frontendAPI",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "mbpwo9"
+      ],
+      "outEdges": [
+        "4i8x58"
+      ],
+      "title": "Query builder",
+      "modelRef": "ses.frontendAPI.queryBuilder",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Translates a request into a parameterised query, limited to the data of the caller"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "SQLAlchemy Core",
+      "kind": "component",
+      "x": -160,
+      "y": 280,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 19,
+        "y": 46,
+        "width": 282,
+        "height": 84
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.frontendAPI.uploadHandler",
+      "parent": "ses.frontendAPI",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1do3995"
+      ],
+      "outEdges": [
+        "pasym7"
+      ],
+      "title": "Upload handler",
+      "modelRef": "ses.frontendAPI.uploadHandler",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Checks file type and size of a CSV upload and forwards it to the data processing service"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "multipart streaming",
+      "kind": "component",
+      "x": 1026,
+      "y": 280,
+      "width": 348,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 46,
+        "width": 313,
+        "height": 84
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.frontendAPI.queryExecutor",
+      "parent": "ses.frontendAPI",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "4i8x58"
+      ],
+      "outEdges": [
+        "1medkoq"
+      ],
+      "title": "Query executor",
+      "modelRef": "ses.frontendAPI.queryExecutor",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Runs the query with the read-mostly frontend role and returns the rows"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "psycopg connection pool",
+      "kind": "component",
+      "x": -170,
+      "y": 650,
+      "width": 339,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 46,
+        "width": 303,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.processingService",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "pasym7"
+      ],
+      "outEdges": [],
+      "title": "Data processing service",
+      "modelRef": "ses.processingService",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Imports meter data idempotently, links meters to participants and calculates simultaneity per quarter hour"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask, pandas",
+      "kind": "container",
+      "navigateTo": "processingDetail",
+      "x": 1748,
+      "y": 280,
+      "width": 343,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 307,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "1medkoq"
+      ],
+      "outEdges": [],
+      "title": "Database",
+      "modelRef": "ses.database",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Readings, links, simultaneity, forecasts, advice and accounts"
+      },
+      "tags": [],
+      "notation": "Container: data store",
+      "technology": "PostgreSQL with TimescaleDB",
+      "kind": "dataStore",
+      "navigateTo": "databaseDetail",
+      "x": -160,
+      "y": 1057,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 27,
+        "y": 46,
+        "width": 267,
+        "height": 85
+      },
+      "drifts": null
+    }
+  ],
+  "edges": [
+    {
+      "id": "1ejf8yz",
+      "source": "ses.webapp",
+      "target": "ses.frontendAPI.apiEndpoints",
+      "label": "calls REST endpoints",
+      "points": [
+        [
+          600,
+          90
+        ],
+        [
+          600,
+          153
+        ],
+        [
+          600,
+          217
+        ],
+        [
+          600,
+          280
+        ]
+      ],
+      "labelBBox": {
+        "x": 608,
+        "y": 166,
+        "width": 239,
+        "height": 39
+      },
+      "parent": null,
+      "relations": [
+        "1wdp69r"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTPS, REST/JSON and multipart, Bearer JWT",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1fpqt5u",
+      "source": "ses.frontendAPI.apiEndpoints",
+      "target": "ses.frontendAPI.authentication",
+      "label": "verifies token and permissions",
+      "points": [
+        [
+          600,
+          460
+        ],
+        [
+          600,
+          523
+        ],
+        [
+          600,
+          587
+        ],
+        [
+          600,
+          650
+        ]
+      ],
+      "labelBBox": {
+        "x": 608,
+        "y": 536,
+        "width": 192,
+        "height": 39
+      },
+      "parent": "ses.frontendAPI",
+      "relations": [
+        "11v9zs8"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "mbpwo9",
+      "source": "ses.frontendAPI.apiEndpoints",
+      "target": "ses.frontendAPI.queryBuilder",
+      "label": "builds query for request",
+      "points": [
+        [
+          432,
+          370
+        ],
+        [
+          341,
+          370
+        ],
+        [
+          251,
+          370
+        ],
+        [
+          160,
+          370
+        ]
+      ],
+      "labelBBox": {
+        "x": 221,
+        "y": 325,
+        "width": 150,
+        "height": 39
+      },
+      "parent": "ses.frontendAPI",
+      "relations": [
+        "17dgjhc"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1do3995",
+      "source": "ses.frontendAPI.apiEndpoints",
+      "target": "ses.frontendAPI.uploadHandler",
+      "label": "hands over authorised upload",
+      "points": [
+        [
+          769,
+          370
+        ],
+        [
+          855,
+          370
+        ],
+        [
+          940,
+          370
+        ],
+        [
+          1026,
+          370
+        ]
+      ],
+      "labelBBox": {
+        "x": 804,
+        "y": 325,
+        "width": 188,
+        "height": 39
+      },
+      "parent": "ses.frontendAPI",
+      "relations": [
+        "10wgs5a"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "4i8x58",
+      "source": "ses.frontendAPI.queryBuilder",
+      "target": "ses.frontendAPI.queryExecutor",
+      "label": "executes query",
+      "points": [
+        [
+          0,
+          460
+        ],
+        [
+          0,
+          523
+        ],
+        [
+          0,
+          587
+        ],
+        [
+          0,
+          650
+        ]
+      ],
+      "labelBBox": {
+        "x": 8,
+        "y": 536,
+        "width": 99,
+        "height": 38
+      },
+      "parent": "ses.frontendAPI",
+      "relations": [
+        "f8euis"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1medkoq",
+      "source": "ses.frontendAPI.queryExecutor",
+      "target": "ses.database",
+      "label": "reads participant data and prices, \nwrites settings and feedback",
+      "points": [
+        [
+          0,
+          830
+        ],
+        [
+          0,
+          906
+        ],
+        [
+          0,
+          981
+        ],
+        [
+          0,
+          1057
+        ]
+      ],
+      "labelBBox": {
+        "x": 8,
+        "y": 916,
+        "width": 211,
+        "height": 55
+      },
+      "parent": null,
+      "relations": [
+        "wjdg1y"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "SQL over TCP 5432, frontend role",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "pasym7",
+      "source": "ses.frontendAPI.uploadHandler",
+      "target": "ses.processingService",
+      "label": "forwards uploaded CSV file",
+      "points": [
+        [
+          1374,
+          370
+        ],
+        [
+          1499,
+          370
+        ],
+        [
+          1623,
+          370
+        ],
+        [
+          1748,
+          370
+        ]
+      ],
+      "labelBBox": {
+        "x": 1466,
+        "y": 326,
+        "width": 191,
+        "height": 38
+      },
+      "parent": null,
+      "relations": [
+        "qd0k6t"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, POST /imports (multipart)",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    }
+  ],
+  "_layout": "manual"
+}

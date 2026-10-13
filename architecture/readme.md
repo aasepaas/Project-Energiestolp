@@ -15,7 +15,7 @@ Views:
 
 - `index`: 1 - Context
 - `ses`: 2 - Containers
-- `webappDetail`, `ingestDetail`, `databaseDetail`, `calculationDetail`, `backendApiDetail`, `frontendApiDetail`, `mlDetail`: 3.1 tot en met 3.7, componenten per container
+- `webappDetail`, `frontendApiDetail`, `processingDetail`, `trainingDetail`, `forecastDetail`, `backendApiDetail`, `databaseDetail`: 3.1 tot en met 3.7, componenten per container
 - `components`: 3 - Components, alle componenten in één view
 
 context niveau:

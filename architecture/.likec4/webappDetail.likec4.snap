@@ -1,0 +1,1020 @@
+{
+  "_type": "element",
+  "tags": null,
+  "links": null,
+  "viewOf": "ses.webapp",
+  "_stage": "layouted",
+  "sourcePath": "ses_v0.1_en.c4",
+  "description": null,
+  "title": "3.1 - Component diagram for Web app",
+  "id": "webappDetail",
+  "autoLayout": {
+    "direction": "TB"
+  },
+  "notation": {
+    "nodes": [
+      {
+        "title": "Container: web application in the browser",
+        "shape": "browser",
+        "color": "green",
+        "kinds": [
+          "webApp"
+        ]
+      },
+      {
+        "title": "Person",
+        "shape": "person",
+        "color": "indigo",
+        "kinds": [
+          "person"
+        ]
+      },
+      {
+        "title": "Component: module inside a container",
+        "shape": "rectangle",
+        "color": "sky",
+        "kinds": [
+          "component"
+        ]
+      },
+      {
+        "title": "Container: separately deployed service (Docker)",
+        "shape": "rectangle",
+        "color": "primary",
+        "kinds": [
+          "container"
+        ]
+      }
+    ]
+  },
+  "hash": "0LD78ZBeWW8msiFkCCyfvD0zFCpBiZUL6hFyEKTOtZM",
+  "bounds": {
+    "x": -209,
+    "y": -202,
+    "width": 2918,
+    "height": 1580
+  },
+  "nodes": [
+    {
+      "id": "customer",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "15vg0vi"
+      ],
+      "title": "Participant",
+      "modelRef": "customer",
+      "shape": "person",
+      "color": "indigo",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "User with a grid connection up to 250 A and participant of the Energiestolp, who views own energy data, prices and personal advice"
+      },
+      "tags": [],
+      "notation": "Person",
+      "kind": "person",
+      "x": -168,
+      "y": 270,
+      "width": 337,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 47,
+        "width": 302,
+        "height": 83
+      },
+      "drifts": null
+    },
+    {
+      "id": "admin",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "337hfp"
+      ],
+      "title": "System administrator",
+      "modelRef": "admin",
+      "shape": "person",
+      "color": "indigo",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Community administrator who imports meter data, views aggregated results and manages settings"
+      },
+      "tags": [],
+      "notation": "Person",
+      "kind": "person",
+      "x": -169,
+      "y": 750,
+      "width": 338,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 47,
+        "width": 303,
+        "height": 83
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.webapp",
+      "parent": null,
+      "level": 0,
+      "children": [
+        "ses.webapp.userInterface",
+        "ses.webapp.authentication",
+        "ses.webapp.dataView",
+        "ses.webapp.dataImport",
+        "ses.webapp.settings",
+        "ses.webapp.apiClient"
+      ],
+      "inEdges": [
+        "15vg0vi",
+        "337hfp"
+      ],
+      "outEdges": [
+        "b9xygy"
+      ],
+      "title": "Web app",
+      "modelRef": "ses.webapp",
+      "shape": "browser",
+      "color": "green",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Single-page application for participants and administrators: dashboards, advice, CSV upload and settings"
+      },
+      "tags": [],
+      "notation": "Container: web application in the browser",
+      "technology": "React, TypeScript",
+      "kind": "webApp",
+      "depth": 1,
+      "x": 364,
+      "y": -162,
+      "width": 1665,
+      "height": 1500,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 55,
+        "height": 15
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.webapp.userInterface",
+      "parent": "ses.webapp",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "15vg0vi",
+        "337hfp"
+      ],
+      "outEdges": [
+        "1fhvjr2",
+        "1siaqoz",
+        "1pdc6ib",
+        "1ixdot7"
+      ],
+      "title": "User interface",
+      "modelRef": "ses.webapp.userInterface",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Application shell: client-side routing, layout and route guards per role"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "React Router",
+      "kind": "component",
+      "x": 412,
+      "y": 510,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 39,
+        "y": 46,
+        "width": 242,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.webapp.authentication",
+      "parent": "ses.webapp",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1fhvjr2"
+      ],
+      "outEdges": [
+        "xd20ej"
+      ],
+      "title": "Authentication",
+      "modelRef": "ses.webapp.authentication",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Login form, session handling and storage of the access token and role"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "JWT in memory, refresh token in HttpOnly cookie",
+      "kind": "component",
+      "x": 1030,
+      "y": -90,
+      "width": 331,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 47,
+        "width": 295,
+        "height": 84
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.webapp.dataView",
+      "parent": "ses.webapp",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1siaqoz"
+      ],
+      "outEdges": [
+        "1qx1xyu"
+      ],
+      "title": "Data view",
+      "modelRef": "ses.webapp.dataView",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Charts of own consumption, generation, simultaneity, dynamic prices and advice; aggregated view for administrators"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "React components, chart library",
+      "kind": "component",
+      "x": 1036,
+      "y": 310,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 24,
+        "y": 38,
+        "width": 272,
+        "height": 102
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.webapp.dataImport",
+      "parent": "ses.webapp",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1pdc6ib"
+      ],
+      "outEdges": [
+        "fwk6li"
+      ],
+      "title": "Data import",
+      "modelRef": "ses.webapp.dataImport",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "File upload form for CSV meter data with import result (administrators only)"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "HTML form",
+      "kind": "component",
+      "x": 1036,
+      "y": 710,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 23,
+        "y": 47,
+        "width": 275,
+        "height": 84
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.webapp.settings",
+      "parent": "ses.webapp",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1ixdot7"
+      ],
+      "outEdges": [
+        "1bf5l8u"
+      ],
+      "title": "Settings",
+      "modelRef": "ses.webapp.settings",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Forms for system settings (administrators only)"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "HTML form",
+      "kind": "component",
+      "x": 1036,
+      "y": 1110,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 20,
+        "y": 47,
+        "width": 279,
+        "height": 84
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.webapp.apiClient",
+      "parent": "ses.webapp",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "xd20ej",
+        "1qx1xyu",
+        "fwk6li",
+        "1bf5l8u"
+      ],
+      "outEdges": [
+        "b9xygy"
+      ],
+      "title": "API client",
+      "modelRef": "ses.webapp.apiClient",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "HTTP client for the Frontend API; adds the Bearer token to every request"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "fetch, TypeScript",
+      "kind": "component",
+      "x": 1658,
+      "y": 510,
+      "width": 323,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 47,
+        "width": 287,
+        "height": 84
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.frontendAPI",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "b9xygy"
+      ],
+      "outEdges": [],
+      "title": "Frontend API",
+      "modelRef": "ses.frontendAPI",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Single entry point for the web app: checks role and data ownership, answers queries and accepts uploads"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask",
+      "kind": "container",
+      "navigateTo": "frontendApiDetail",
+      "x": 2323,
+      "y": 510,
+      "width": 346,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 311,
+        "height": 102
+      },
+      "drifts": null
+    }
+  ],
+  "edges": [
+    {
+      "id": "15vg0vi",
+      "source": "customer",
+      "target": "ses.webapp.userInterface",
+      "label": "views own energy data and advice",
+      "points": [
+        [
+          169,
+          418
+        ],
+        [
+          257,
+          418
+        ],
+        [
+          346,
+          418
+        ],
+        [
+          434,
+          418
+        ],
+        [
+          434,
+          449
+        ],
+        [
+          434,
+          479
+        ],
+        [
+          434,
+          510
+        ]
+      ],
+      "labelBBox": {
+        "x": 246,
+        "y": 373,
+        "width": 218,
+        "height": 39
+      },
+      "parent": null,
+      "relations": [
+        "1xejct8"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "web browser, HTTPS",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "337hfp",
+      "source": "admin",
+      "target": "ses.webapp.userInterface",
+      "label": "uploads CSV, views aggregated results, \nmanages settings",
+      "points": [
+        [
+          169,
+          772
+        ],
+        [
+          257,
+          772
+        ],
+        [
+          346,
+          772
+        ],
+        [
+          434,
+          772
+        ],
+        [
+          434,
+          745
+        ],
+        [
+          434,
+          717
+        ],
+        [
+          434,
+          690
+        ]
+      ],
+      "labelBBox": {
+        "x": 228,
+        "y": 710,
+        "width": 252,
+        "height": 56
+      },
+      "parent": null,
+      "relations": [
+        "109mvyu"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "web browser, HTTPS",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1fhvjr2",
+      "source": "ses.webapp.userInterface",
+      "target": "ses.webapp.authentication",
+      "label": "checks session and role in route guard",
+      "points": [
+        [
+          704,
+          510
+        ],
+        [
+          704,
+          340
+        ],
+        [
+          704,
+          170
+        ],
+        [
+          704,
+          0
+        ],
+        [
+          813,
+          0
+        ],
+        [
+          921,
+          0
+        ],
+        [
+          1030,
+          0
+        ]
+      ],
+      "labelBBox": {
+        "x": 712,
+        "y": 57,
+        "width": 244,
+        "height": 39
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "8r2cae"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1siaqoz",
+      "source": "ses.webapp.userInterface",
+      "target": "ses.webapp.dataView",
+      "label": "mounts on route /data",
+      "points": [
+        [
+          732,
+          532
+        ],
+        [
+          841,
+          532
+        ],
+        [
+          949,
+          532
+        ],
+        [
+          1058,
+          532
+        ],
+        [
+          1058,
+          518
+        ],
+        [
+          1058,
+          504
+        ],
+        [
+          1058,
+          490
+        ]
+      ],
+      "labelBBox": {
+        "x": 825,
+        "y": 487,
+        "width": 140,
+        "height": 39
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "7ns43u"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "client-side routing",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1pdc6ib",
+      "source": "ses.webapp.userInterface",
+      "target": "ses.webapp.dataImport",
+      "label": "mounts on route /import",
+      "points": [
+        [
+          732,
+          658
+        ],
+        [
+          841,
+          658
+        ],
+        [
+          949,
+          658
+        ],
+        [
+          1058,
+          658
+        ],
+        [
+          1058,
+          675
+        ],
+        [
+          1058,
+          693
+        ],
+        [
+          1058,
+          710
+        ]
+      ],
+      "labelBBox": {
+        "x": 819,
+        "y": 613,
+        "width": 152,
+        "height": 39
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "o314mt"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "client-side routing",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1ixdot7",
+      "source": "ses.webapp.userInterface",
+      "target": "ses.webapp.settings",
+      "label": "mounts on route /settings",
+      "points": [
+        [
+          704,
+          690
+        ],
+        [
+          704,
+          860
+        ],
+        [
+          704,
+          1030
+        ],
+        [
+          704,
+          1200
+        ],
+        [
+          815,
+          1200
+        ],
+        [
+          925,
+          1200
+        ],
+        [
+          1036,
+          1200
+        ]
+      ],
+      "labelBBox": {
+        "x": 712,
+        "y": 1104,
+        "width": 161,
+        "height": 39
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "5h10vw"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "client-side routing",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "xd20ej",
+      "source": "ses.webapp.authentication",
+      "target": "ses.webapp.apiClient",
+      "label": "logs in and refreshes token",
+      "points": [
+        [
+          1361,
+          58
+        ],
+        [
+          1479,
+          58
+        ],
+        [
+          1598,
+          58
+        ],
+        [
+          1716,
+          58
+        ],
+        [
+          1716,
+          209
+        ],
+        [
+          1716,
+          359
+        ],
+        [
+          1716,
+          510
+        ]
+      ],
+      "labelBBox": {
+        "x": 1724,
+        "y": 106,
+        "width": 219,
+        "height": 39
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "5klmb8"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "POST /auth/login, POST /auth/refresh",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1qx1xyu",
+      "source": "ses.webapp.dataView",
+      "target": "ses.webapp.apiClient",
+      "label": "requests readings, simultaneity, prices \nand advice",
+      "points": [
+        [
+          1356,
+          458
+        ],
+        [
+          1464,
+          458
+        ],
+        [
+          1572,
+          458
+        ],
+        [
+          1680,
+          458
+        ],
+        [
+          1680,
+          475
+        ],
+        [
+          1680,
+          493
+        ],
+        [
+          1680,
+          510
+        ]
+      ],
+      "labelBBox": {
+        "x": 1397,
+        "y": 396,
+        "width": 242,
+        "height": 56
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "1248v6w"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "GET /readings, /simultaneity, /prices, /advice",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "fwk6li",
+      "source": "ses.webapp.dataImport",
+      "target": "ses.webapp.apiClient",
+      "label": "uploads CSV file",
+      "points": [
+        [
+          1356,
+          732
+        ],
+        [
+          1464,
+          732
+        ],
+        [
+          1572,
+          732
+        ],
+        [
+          1680,
+          732
+        ],
+        [
+          1680,
+          718
+        ],
+        [
+          1680,
+          704
+        ],
+        [
+          1680,
+          690
+        ]
+      ],
+      "labelBBox": {
+        "x": 1464,
+        "y": 687,
+        "width": 108,
+        "height": 39
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "ybgpwb"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "POST /uploads",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1bf5l8u",
+      "source": "ses.webapp.settings",
+      "target": "ses.webapp.apiClient",
+      "label": "reads and saves settings",
+      "points": [
+        [
+          1356,
+          1132
+        ],
+        [
+          1476,
+          1132
+        ],
+        [
+          1596,
+          1132
+        ],
+        [
+          1716,
+          1132
+        ],
+        [
+          1716,
+          985
+        ],
+        [
+          1716,
+          837
+        ],
+        [
+          1716,
+          690
+        ]
+      ],
+      "labelBBox": {
+        "x": 1724,
+        "y": 1046,
+        "width": 159,
+        "height": 39
+      },
+      "parent": "ses.webapp",
+      "relations": [
+        "1ovwwuq"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "GET, PUT /settings",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "b9xygy",
+      "source": "ses.webapp.apiClient",
+      "target": "ses.frontendAPI",
+      "label": "calls REST endpoints",
+      "points": [
+        [
+          1981,
+          600
+        ],
+        [
+          2095,
+          600
+        ],
+        [
+          2209,
+          600
+        ],
+        [
+          2323,
+          600
+        ]
+      ],
+      "labelBBox": {
+        "x": 2032,
+        "y": 555,
+        "width": 239,
+        "height": 39
+      },
+      "parent": null,
+      "relations": [
+        "1wdp69r"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTPS, REST/JSON and multipart, Bearer JWT",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    }
+  ],
+  "_layout": "manual"
+}

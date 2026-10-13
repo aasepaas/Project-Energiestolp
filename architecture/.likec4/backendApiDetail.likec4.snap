@@ -1,0 +1,741 @@
+{
+  "_type": "element",
+  "tags": null,
+  "links": null,
+  "viewOf": "ses.backendAPI",
+  "_stage": "layouted",
+  "sourcePath": "ses_v0.1_en.c4",
+  "description": null,
+  "title": "3.6 - Component diagram for Backend API",
+  "id": "backendApiDetail",
+  "autoLayout": {
+    "direction": "TB"
+  },
+  "notation": {
+    "nodes": [
+      {
+        "title": "Component: module inside a container",
+        "shape": "rectangle",
+        "color": "sky",
+        "kinds": [
+          "component"
+        ]
+      },
+      {
+        "title": "Container: separately deployed service (Docker)",
+        "shape": "rectangle",
+        "color": "primary",
+        "kinds": [
+          "container"
+        ]
+      },
+      {
+        "title": "Container: data store",
+        "shape": "storage",
+        "color": "secondary",
+        "kinds": [
+          "dataStore"
+        ]
+      }
+    ]
+  },
+  "hash": "Jyxw_tRqCQkUDyCKy80xvVHzR1GcGTVf-6aa05pcMhw",
+  "bounds": {
+    "x": -900,
+    "y": -130,
+    "width": 2279,
+    "height": 1268
+  },
+  "nodes": [
+    {
+      "id": "ses.processingService",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "zl68g6"
+      ],
+      "title": "Data processing service",
+      "modelRef": "ses.processingService",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Imports meter data idempotently, links meters to participants and calculates simultaneity per quarter hour"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask, pandas",
+      "kind": "container",
+      "navigateTo": "processingDetail",
+      "x": -172,
+      "y": -90,
+      "width": 343,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 307,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.trainingPipeline",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "1qh2jn6"
+      ],
+      "title": "Ingest and training pipeline",
+      "modelRef": "ses.trainingPipeline",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "After every export: ingests training data, measures the effect of advice and retrains the models"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, PyCaret, scikit-learn, XGBoost",
+      "kind": "container",
+      "navigateTo": "trainingDetail",
+      "x": 400,
+      "y": -90,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 37,
+        "width": 283,
+        "height": 103
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.forecastPipeline",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [],
+      "outEdges": [
+        "a9vbpl"
+      ],
+      "title": "Forecast pipeline",
+      "modelRef": "ses.forecastPipeline",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Every evening, after the day-ahead prices are published: forecasts generation and consumption for tomorrow and generates the top 3 advice per participant"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, scikit-learn, XGBoost, PuLP",
+      "kind": "container",
+      "navigateTo": "forecastDetail",
+      "x": 948,
+      "y": -90,
+      "width": 343,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 28,
+        "width": 308,
+        "height": 121
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.backendAPI",
+      "parent": null,
+      "level": 0,
+      "children": [
+        "ses.backendAPI.apiEndpoints",
+        "ses.backendAPI.authentication",
+        "ses.backendAPI.queryBuilder",
+        "ses.backendAPI.queryExecutor"
+      ],
+      "inEdges": [
+        "zl68g6",
+        "1qh2jn6",
+        "a9vbpl"
+      ],
+      "outEdges": [
+        "18plus0"
+      ],
+      "title": "Backend API",
+      "modelRef": "ses.backendAPI",
+      "shape": "rectangle",
+      "color": "primary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Internal API between the backend services and the database"
+      },
+      "tags": [],
+      "notation": "Container: separately deployed service (Docker)",
+      "technology": "Python, Flask",
+      "kind": "container",
+      "depth": 1,
+      "x": -208,
+      "y": 318,
+      "width": 1547,
+      "height": 780,
+      "labelBBox": {
+        "x": 6,
+        "y": 0,
+        "width": 80,
+        "height": 15
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.backendAPI.apiEndpoints",
+      "parent": "ses.backendAPI",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "zl68g6",
+        "1qh2jn6",
+        "a9vbpl"
+      ],
+      "outEdges": [
+        "5ze5mq",
+        "lg18p5"
+      ],
+      "title": "API endpoints",
+      "modelRef": "ses.backendAPI.apiEndpoints",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Internal REST routes for readings, links, simultaneity, forecasts and advice"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "Flask blueprints",
+      "kind": "component",
+      "x": 400,
+      "y": 390,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 25,
+        "y": 46,
+        "width": 270,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.backendAPI.authentication",
+      "parent": "ses.backendAPI",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "5ze5mq"
+      ],
+      "outEdges": [],
+      "title": "Authentication",
+      "modelRef": "ses.backendAPI.authentication",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Checks which service makes the request and which tables it may write"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "service token per container",
+      "kind": "component",
+      "x": 950,
+      "y": 390,
+      "width": 341,
+      "height": 180,
+      "labelBBox": {
+        "x": 18,
+        "y": 46,
+        "width": 305,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.backendAPI.queryBuilder",
+      "parent": "ses.backendAPI",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "lg18p5"
+      ],
+      "outEdges": [
+        "1jrcx70"
+      ],
+      "title": "Query builder",
+      "modelRef": "ses.backendAPI.queryBuilder",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Translates a request into a parameterised query or a batch upsert"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "SQLAlchemy Core",
+      "kind": "component",
+      "x": -160,
+      "y": 390,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 19,
+        "y": 46,
+        "width": 282,
+        "height": 85
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.backendAPI.queryExecutor",
+      "parent": "ses.backendAPI",
+      "level": 1,
+      "children": [],
+      "inEdges": [
+        "1jrcx70"
+      ],
+      "outEdges": [
+        "18plus0"
+      ],
+      "title": "Query executor",
+      "modelRef": "ses.backendAPI.queryExecutor",
+      "shape": "rectangle",
+      "color": "sky",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Runs the query with the backend role and returns the rows"
+      },
+      "tags": [],
+      "notation": "Component: module inside a container",
+      "technology": "psycopg connection pool",
+      "kind": "component",
+      "x": -160,
+      "y": 870,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 19,
+        "y": 47,
+        "width": 281,
+        "height": 84
+      },
+      "drifts": null
+    },
+    {
+      "id": "ses.database",
+      "parent": null,
+      "level": 0,
+      "children": [],
+      "inEdges": [
+        "18plus0"
+      ],
+      "outEdges": [],
+      "title": "Database",
+      "modelRef": "ses.database",
+      "shape": "storage",
+      "color": "secondary",
+      "style": {
+        "opacity": 15,
+        "size": "md"
+      },
+      "description": {
+        "txt": "Readings, links, simultaneity, forecasts, advice and accounts"
+      },
+      "tags": [],
+      "notation": "Container: data store",
+      "technology": "PostgreSQL with TimescaleDB",
+      "kind": "dataStore",
+      "navigateTo": "databaseDetail",
+      "x": -860,
+      "y": 870,
+      "width": 320,
+      "height": 180,
+      "labelBBox": {
+        "x": 26,
+        "y": 47,
+        "width": 267,
+        "height": 84
+      },
+      "drifts": null
+    }
+  ],
+  "edges": [
+    {
+      "id": "zl68g6",
+      "source": "ses.processingService",
+      "target": "ses.backendAPI.apiEndpoints",
+      "label": "reads meter links and readings, upserts \nreadings, simultaneity and import \nrecords",
+      "points": [
+        [
+          138,
+          90
+        ],
+        [
+          138,
+          99
+        ],
+        [
+          138,
+          107
+        ],
+        [
+          138,
+          116
+        ],
+        [
+          233,
+          116
+        ],
+        [
+          327,
+          116
+        ],
+        [
+          422,
+          116
+        ],
+        [
+          422,
+          207
+        ],
+        [
+          422,
+          299
+        ],
+        [
+          422,
+          390
+        ]
+      ],
+      "labelBBox": {
+        "x": 255,
+        "y": 122,
+        "width": 249,
+        "height": 72
+      },
+      "parent": null,
+      "relations": [
+        "16ijoh9"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, REST/JSON",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1qh2jn6",
+      "source": "ses.trainingPipeline",
+      "target": "ses.backendAPI.apiEndpoints",
+      "label": "reads training data and advice, writes \nmeasured effect",
+      "points": [
+        [
+          560,
+          90
+        ],
+        [
+          560,
+          190
+        ],
+        [
+          560,
+          290
+        ],
+        [
+          560,
+          390
+        ]
+      ],
+      "labelBBox": {
+        "x": 568,
+        "y": 212,
+        "width": 236,
+        "height": 56
+      },
+      "parent": null,
+      "relations": [
+        "1no1lun"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, REST/JSON",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "a9vbpl",
+      "source": "ses.forecastPipeline",
+      "target": "ses.backendAPI.apiEndpoints",
+      "label": "reads history, comfort limits and \nappliances, writes forecasts, prices and \nadvice",
+      "points": [
+        [
+          970,
+          90
+        ],
+        [
+          970,
+          99
+        ],
+        [
+          970,
+          107
+        ],
+        [
+          970,
+          116
+        ],
+        [
+          877,
+          116
+        ],
+        [
+          785,
+          116
+        ],
+        [
+          692,
+          116
+        ],
+        [
+          692,
+          207
+        ],
+        [
+          692,
+          299
+        ],
+        [
+          692,
+          390
+        ]
+      ],
+      "labelBBox": {
+        "x": 610,
+        "y": 122,
+        "width": 248,
+        "height": 72
+      },
+      "parent": null,
+      "relations": [
+        "ekl7on"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "HTTP, REST/JSON",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "5ze5mq",
+      "source": "ses.backendAPI.apiEndpoints",
+      "target": "ses.backendAPI.authentication",
+      "label": "verifies service token",
+      "points": [
+        [
+          720,
+          480
+        ],
+        [
+          797,
+          480
+        ],
+        [
+          873,
+          480
+        ],
+        [
+          950,
+          480
+        ]
+      ],
+      "labelBBox": {
+        "x": 768,
+        "y": 435,
+        "width": 135,
+        "height": 39
+      },
+      "parent": "ses.backendAPI",
+      "relations": [
+        "1p796ve"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "lg18p5",
+      "source": "ses.backendAPI.apiEndpoints",
+      "target": "ses.backendAPI.queryBuilder",
+      "label": "builds query for request",
+      "points": [
+        [
+          400,
+          480
+        ],
+        [
+          320,
+          480
+        ],
+        [
+          240,
+          480
+        ],
+        [
+          160,
+          480
+        ]
+      ],
+      "labelBBox": {
+        "x": 205,
+        "y": 435,
+        "width": 150,
+        "height": 39
+      },
+      "parent": "ses.backendAPI",
+      "relations": [
+        "11zx3nk"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "1jrcx70",
+      "source": "ses.backendAPI.queryBuilder",
+      "target": "ses.backendAPI.queryExecutor",
+      "label": "executes query",
+      "points": [
+        [
+          0,
+          570
+        ],
+        [
+          0,
+          670
+        ],
+        [
+          0,
+          770
+        ],
+        [
+          0,
+          870
+        ]
+      ],
+      "labelBBox": {
+        "x": 8,
+        "y": 700,
+        "width": 99,
+        "height": 39
+      },
+      "parent": "ses.backendAPI",
+      "relations": [
+        "1fi0l3a"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "function call",
+      "isLabelCustomized": false,
+      "drifts": null
+    },
+    {
+      "id": "18plus0",
+      "source": "ses.backendAPI.queryExecutor",
+      "target": "ses.database",
+      "label": "reads and writes readings, links, \nresults and advice",
+      "points": [
+        [
+          -160,
+          960
+        ],
+        [
+          -287,
+          960
+        ],
+        [
+          -413,
+          960
+        ],
+        [
+          -540,
+          960
+        ]
+      ],
+      "labelBBox": {
+        "x": -452,
+        "y": 898,
+        "width": 204,
+        "height": 56
+      },
+      "parent": null,
+      "relations": [
+        "12f7buz"
+      ],
+      "color": "gray",
+      "line": "dashed",
+      "head": "normal",
+      "technology": "SQL over TCP 5432, backend role",
+      "tags": [
+        "level3"
+      ],
+      "isLabelCustomized": false,
+      "drifts": null
+    }
+  ],
+  "_layout": "manual"
+}
