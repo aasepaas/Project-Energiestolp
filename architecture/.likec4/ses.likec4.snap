@@ -73,11 +73,11 @@
       }
     ]
   },
-  "hash": "hfvAimS6DAXFem2-zI2btHxX-bmtnYdv6HHPbUF02jI",
+  "hash": "Z9DGBB6F74bKvcRYuHhyzJnuWzfvR1FRYNn2tHHjfX0",
   "bounds": {
-    "x": -260,
+    "x": -270,
     "y": -130,
-    "width": 2911,
+    "width": 2553,
     "height": 1977
   },
   "nodes": [
@@ -104,7 +104,7 @@
       "tags": [],
       "notation": "Person",
       "kind": "person",
-      "x": 2274,
+      "x": 1904,
       "y": 250,
       "width": 337,
       "height": 180,
@@ -193,9 +193,9 @@
       "technology": "Docker Compose on a local server",
       "kind": "system",
       "depth": 1,
-      "x": -220,
+      "x": -230,
       "y": 178,
-      "width": 1919,
+      "width": 1943,
       "height": 1320,
       "labelBBox": {
         "x": 6,
@@ -229,7 +229,7 @@
       "notation": "External system or source, outside SES",
       "technology": "CSV export",
       "kind": "externalSystem",
-      "x": 2277,
+      "x": 1907,
       "y": -90,
       "width": 330,
       "height": 180,
@@ -268,16 +268,17 @@
       "notation": "Container: web application in the browser",
       "technology": "React, TypeScript",
       "kind": "webApp",
+      "icon": "tech:react",
       "navigateTo": "webappDetail",
-      "x": 1312,
+      "x": 1294,
       "y": 250,
-      "width": 335,
+      "width": 371,
       "height": 180,
       "labelBBox": {
-        "x": 22,
-        "y": 37,
-        "width": 292,
-        "height": 103
+        "x": 46,
+        "y": 28,
+        "width": 310,
+        "height": 121
       },
       "drifts": null
     },
@@ -309,16 +310,17 @@
       "notation": "Container: separately deployed service (Docker)",
       "technology": "Python, scikit-learn, XGBoost, PuLP",
       "kind": "container",
+      "icon": "tech:python",
       "navigateTo": "forecastDetail",
-      "x": 1308,
+      "x": 1302,
       "y": 1270,
-      "width": 343,
+      "width": 357,
       "height": 180,
       "labelBBox": {
-        "x": 18,
-        "y": 28,
-        "width": 308,
-        "height": 121
+        "x": 46,
+        "y": 19,
+        "width": 296,
+        "height": 139
       },
       "drifts": null
     },
@@ -349,15 +351,16 @@
       "notation": "Container: separately deployed service (Docker)",
       "technology": "Python, Flask",
       "kind": "container",
+      "icon": "tech:python",
       "navigateTo": "frontendApiDetail",
-      "x": 567,
+      "x": 552,
       "y": 250,
-      "width": 346,
+      "width": 375,
       "height": 180,
       "labelBBox": {
-        "x": 17,
+        "x": 46,
         "y": 37,
-        "width": 311,
+        "width": 313,
         "height": 103
       },
       "drifts": null
@@ -461,7 +464,7 @@
       "notation": "Optional, not implemented in the PoC",
       "technology": "vendor API, to be determined",
       "kind": "externalSystem",
-      "x": 2048,
+      "x": 1900,
       "y": 1627,
       "width": 343,
       "height": 180,
@@ -500,16 +503,17 @@
       "notation": "Container: separately deployed service (Docker)",
       "technology": "Python, Flask, pandas",
       "kind": "container",
+      "icon": "tech:python",
       "navigateTo": "processingDetail",
-      "x": -172,
+      "x": -176,
       "y": 930,
-      "width": 343,
+      "width": 351,
       "height": 180,
       "labelBBox": {
-        "x": 18,
-        "y": 38,
-        "width": 307,
-        "height": 102
+        "x": 46,
+        "y": 29,
+        "width": 290,
+        "height": 120
       },
       "drifts": null
     },
@@ -540,15 +544,16 @@
       "notation": "Container: separately deployed service (Docker)",
       "technology": "Python, PyCaret, scikit-learn, XGBoost",
       "kind": "container",
+      "icon": "tech:python",
       "navigateTo": "trainingDetail",
-      "x": -160,
+      "x": -182,
       "y": 1270,
-      "width": 320,
+      "width": 363,
       "height": 180,
       "labelBBox": {
-        "x": 18,
+        "x": 46,
         "y": 38,
-        "width": 283,
+        "width": 301,
         "height": 102
       },
       "drifts": null
@@ -581,15 +586,16 @@
       "notation": "Container: separately deployed service (Docker)",
       "technology": "Python, Flask",
       "kind": "container",
+      "icon": "tech:python",
       "navigateTo": "backendApiDetail",
-      "x": 564,
+      "x": 566,
       "y": 930,
-      "width": 353,
+      "width": 349,
       "height": 180,
       "labelBBox": {
-        "x": 18,
+        "x": 46,
         "y": 47,
-        "width": 318,
+        "width": 288,
         "height": 84
       },
       "drifts": null
@@ -619,15 +625,16 @@
       "notation": "Container: data store",
       "technology": "MLflow tracking server, artifacts on local volume",
       "kind": "dataStore",
-      "x": 580,
+      "icon": "tech:python",
+      "x": 568,
       "y": 1270,
-      "width": 320,
+      "width": 345,
       "height": 180,
       "labelBBox": {
-        "x": 31,
-        "y": 38,
-        "width": 258,
-        "height": 102
+        "x": 46,
+        "y": 29,
+        "width": 283,
+        "height": 120
       },
       "drifts": null
     },
@@ -656,15 +663,16 @@
       "notation": "Container: data store",
       "technology": "PostgreSQL with TimescaleDB",
       "kind": "dataStore",
+      "icon": "tech:postgresql",
       "navigateTo": "databaseDetail",
-      "x": 580,
+      "x": 575,
       "y": 590,
-      "width": 320,
+      "width": 330,
       "height": 180,
       "labelBBox": {
-        "x": 27,
+        "x": 46,
         "y": 47,
-        "width": 267,
+        "width": 268,
         "height": 84
       },
       "drifts": null
@@ -678,24 +686,24 @@
       "label": "views own energy data and advice",
       "points": [
         [
-          2274,
+          1904,
           340
         ],
         [
-          2065,
+          1824,
           340
         ],
         [
-          1856,
+          1745,
           340
         ],
         [
-          1647,
+          1665,
           340
         ]
       ],
       "labelBBox": {
-        "x": 1852,
+        "x": 1676,
         "y": 295,
         "width": 218,
         "height": 39
@@ -764,24 +772,24 @@
       "label": "requests data, uploads CSV and saves \nsettings",
       "points": [
         [
-          1312,
+          1294,
           340
         ],
         [
-          1179,
+          1172,
           340
         ],
         [
-          1046,
+          1049,
           340
         ],
         [
-          913,
+          927,
           340
         ]
       ],
       "labelBBox": {
-        "x": 990,
+        "x": 988,
         "y": 278,
         "width": 246,
         "height": 56
@@ -807,15 +815,15 @@
       "label": "forwards uploaded CSV file",
       "points": [
         [
-          567,
+          552,
           398
         ],
         [
-          378,
+          368,
           398
         ],
         [
-          189,
+          184,
           398
         ],
         [
@@ -836,7 +844,7 @@
         ]
       ],
       "labelBBox": {
-        "x": -10,
+        "x": -13,
         "y": 353,
         "width": 191,
         "height": 39
@@ -948,24 +956,24 @@
       "label": "reads meter links and readings, upserts \nreadings, simultaneity and import \nrecords",
       "points": [
         [
-          171,
+          175,
           1020
         ],
         [
-          302,
+          305,
           1020
         ],
         [
-          433,
+          436,
           1020
         ],
         [
-          564,
+          566,
           1020
         ]
       ],
       "labelBBox": {
-        "x": 243,
+        "x": 246,
         "y": 942,
         "width": 249,
         "height": 72
@@ -991,48 +999,48 @@
       "label": "reads training data and advice, writes \nmeasured effect",
       "points": [
         [
-          132,
+          146,
           1270
         ],
         [
-          132,
+          146,
           1231
         ],
         [
-          132,
+          146,
           1193
         ],
         [
-          132,
+          146,
           1154
         ],
         [
-          283,
+          293,
           1154
         ],
         [
-          435,
+          441,
           1154
         ],
         [
-          586,
+          588,
           1154
         ],
         [
-          586,
+          588,
           1139
         ],
         [
-          586,
+          588,
           1125
         ],
         [
-          586,
+          588,
           1110
         ]
       ],
       "labelBBox": {
-        "x": 241,
+        "x": 249,
         "y": 1092,
         "width": 236,
         "height": 56
@@ -1058,36 +1066,36 @@
       "label": "reads history, comfort limits and \nappliances, writes forecasts, prices and \nadvice",
       "points": [
         [
-          1330,
+          1324,
           1270
         ],
         [
-          1330,
+          1324,
           1187
         ],
         [
-          1330,
+          1324,
           1103
         ],
         [
-          1330,
+          1324,
           1020
         ],
         [
-          1192,
+          1188,
           1020
         ],
         [
-          1055,
+          1051,
           1020
         ],
         [
-          917,
+          915,
           1020
         ]
       ],
       "labelBBox": {
-        "x": 1144,
+        "x": 1139,
         "y": 942,
         "width": 248,
         "height": 72
@@ -1157,24 +1165,24 @@
       "label": "logs runs and scores, registers and \npromotes model versions",
       "points": [
         [
-          160,
+          181,
           1360
         ],
         [
-          300,
+          310,
           1360
         ],
         [
-          440,
+          439,
           1360
         ],
         [
-          580,
+          568,
           1360
         ]
       ],
       "labelBBox": {
-        "x": 259,
+        "x": 264,
         "y": 1298,
         "width": 222,
         "height": 56
@@ -1200,7 +1208,7 @@
       "label": "loads production models",
       "points": [
         [
-          1308,
+          1302,
           1360
         ],
         [
@@ -1208,16 +1216,16 @@
           1360
         ],
         [
-          1036,
+          1043,
           1360
         ],
         [
-          900,
+          913,
           1360
         ]
       ],
       "labelBBox": {
-        "x": 1026,
+        "x": 1030,
         "y": 1315,
         "width": 156,
         "height": 39
@@ -1243,27 +1251,27 @@
       "label": "fetches 48-hour weather forecast",
       "points": [
         [
-          1330,
+          1324,
           1450
         ],
         [
-          1330,
+          1324,
           1497
         ],
         [
-          1330,
+          1324,
           1545
         ],
         [
-          1330,
+          1324,
           1592
         ],
         [
-          1177,
+          1173,
           1592
         ],
         [
-          1025,
+          1023,
           1592
         ],
         [
@@ -1284,7 +1292,7 @@
         ]
       ],
       "labelBBox": {
-        "x": 1088,
+        "x": 1084,
         "y": 1548,
         "width": 209,
         "height": 38
@@ -1310,24 +1318,24 @@
       "label": "fetches day-ahead prices for tomorrow",
       "points": [
         [
-          1492,
+          1480,
           1450
         ],
         [
-          1492,
+          1480,
           1509
         ],
         [
-          1492,
+          1480,
           1568
         ],
         [
-          1492,
+          1480,
           1627
         ]
       ],
       "labelBBox": {
-        "x": 1500,
+        "x": 1488,
         "y": 1520,
         "width": 243,
         "height": 38
@@ -1353,36 +1361,36 @@
       "label": "reads capacity and state of charge \n(optional)",
       "points": [
         [
-          1651,
+          1659,
           1418
         ],
         [
-          1841,
+          1797,
           1418
         ],
         [
-          2030,
+          1934,
           1418
         ],
         [
-          2220,
+          2072,
           1418
         ],
         [
-          2220,
+          2072,
           1488
         ],
         [
-          2220,
+          2072,
           1557
         ],
         [
-          2220,
+          2072,
           1627
         ]
       ],
       "labelBBox": {
-        "x": 1940,
+        "x": 1839,
         "y": 1356,
         "width": 218,
         "height": 56
@@ -1413,20 +1421,20 @@
           0
         ],
         [
-          1858,
+          1735,
           0
         ],
         [
-          2068,
+          1821,
           0
         ],
         [
-          2277,
+          1907,
           0
         ]
       ],
       "labelBBox": {
-        "x": 1840,
+        "x": 1654,
         "y": -62,
         "width": 247,
         "height": 56

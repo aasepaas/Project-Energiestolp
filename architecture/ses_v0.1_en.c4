@@ -709,6 +709,17 @@ views {
     include *
     include gridOperator
     exclude * -> * where tag is #level1 or tag is #level3
+
+    // Icon of the main programming language, only for the containers of SES and only in this view
+    style ses.webapp {
+      icon tech:react
+    }
+    style ses.frontendAPI, ses.backendAPI, ses.processingService, ses.trainingPipeline, ses.forecastPipeline, ses.modelRegistry {
+      icon tech:python
+    }
+    style ses.database {
+      icon tech:postgresql
+    }
   }
 
   // ═══════════════ Level 3 ═══════════════
