@@ -10,16 +10,3 @@ Ontwerp kan in de terminal gestart worden met de volgende commando (vanuit de ro
 npx likec4 start
 
 hiervoor is de extension likec4 in Visual Studio Code nodig.
-
-Views:
-
-- `index`: 1 - Context
-- `ses`: 2 - Containers
-- `webappDetail`, `frontendApiDetail`, `processingDetail`, `trainingDetail`, `forecastDetail`, `backendApiDetail`, `databaseDetail`: 3.1 tot en met 3.7, componenten per container
-- `components`: 3 - Components, alle componenten in één view
-
-context niveau:
-<img width="1406" height="628" alt="index" src="https://github.com/user-attachments/assets/6afe30b4-45c3-47d1-8ec8-5931794f611b" />
-
-Component niveau:
-<img width="2047" height="1425" alt="saas" src="https://github.com/user-attachments/assets/b9c4b80e-bf55-4d4c-93d4-d4fcc3119346" />
